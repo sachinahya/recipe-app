@@ -1,0 +1,99 @@
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import cors, { CorsOptions } from 'cors';
+import express from 'express';
+import session from 'express-session';
+import path from 'path';
+import { buildSchema } from 'type-graphql';
+import { Container } from 'typedi';
+import { Connection, createConnection, useContainer } from 'typeorm';
+import authChecker from './auth/authChecker';
+import { buildContext, configurePassport } from './auth/passport';
+import { AppConfig, DbConfig } from './config';
+import logger from '@sachinahya/logger';
+import RecipeImport from './import/RecipeImport';
+import UserService from './services/UserService';
+
+const createSessionMiddleware = (app: express.Application, config: AppConfig) => {
+  const sessionOptions: session.SessionOptions = {
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {},
+  };
+
+  if (!config.isDevelopment) {
+    app.set('trust proxy', 1); // trust first proxy
+    sessionOptions.cookie = { ...sessionOptions.cookie, secure: true }; // serve secure cookies
+  }
+
+  app.use(session(sessionOptions));
+};
+
+const createApolloServer = async (app: express.Application, corsOptions: CorsOptions) => {
+  const schema = await buildSchema({
+    resolvers: [path.join(__dirname, '/resolvers/*.ts')],
+    emitSchemaFile: true,
+    container: Container,
+    authChecker,
+  });
+
+  const server = new ApolloServer({
+    schema,
+    context: ctx => buildContext(ctx),
+    formatError: err => {
+      if (err.message.startsWith('Access denied!')) return new AuthenticationError(err.message);
+      return err;
+    },
+  });
+
+  server.applyMiddleware({ app, cors: corsOptions });
+};
+
+const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
+  useContainer(Container);
+
+  return createConnection({
+    type: 'mariadb',
+    host: db.host,
+    port: db.port,
+    username: db.username,
+    password: db.password,
+    database: db.database,
+    entities: [path.join(__dirname + '/entities/**/*.ts')],
+
+    // development options
+    // logging: 'all',
+    dropSchema: db.dropSchema,
+    synchronize: db.dropSchema,
+  });
+};
+
+export default async function getShowOnRoad(config: AppConfig) {
+  logger.info(`isDev: ${config.isDevelopment}`);
+
+  logger.info('Initializing app...');
+  const app = express();
+
+  logger.info('Connecting to database...');
+  await createDatabaseConnection(config.db);
+
+  logger.info('Configuring middleware...');
+  app.use(cors(config.cors));
+  app.use('/uploads', express.static(config.uploads.dir));
+
+  createSessionMiddleware(app, config);
+  configurePassport(app, Container.get(UserService));
+
+  logger.info('Building schema...');
+  await createApolloServer(app, config.cors);
+
+  logger.info('Starting server...');
+  app.listen(config.serverPort, () => {
+    logger.info(`Open for business on port ${config.serverPort}.`);
+
+    if (config.db.dropSchema) {
+      logger.info('Importing sample data...');
+      Container.get(RecipeImport).createRecipes();
+    }
+  });
+}

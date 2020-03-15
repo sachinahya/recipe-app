@@ -1,0 +1,15 @@
+# Build output
+dist
+
+# Test coverage files
+coverage
+
+# Log files
+logs
+
+# Example imports
+samples
+
+# File uploads
+uploads
+

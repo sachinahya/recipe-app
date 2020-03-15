@@ -1,0 +1,44 @@
+import React from 'react';
+import { Table as MuiTable, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+
+interface TableProps {
+  rows: Dictionary<string | number | null | undefined>[];
+  primaryColumn?: number;
+  dense?: boolean;
+  skipRows?: number;
+}
+
+const Table: React.FC<TableProps> = ({ rows: rows2, primaryColumn = 0, dense, skipRows = 0 }) => {
+  const rows = skipRows ? rows2.filter((_, index) => index >= skipRows) : rows2;
+  const columns = Object.keys(rows[0]);
+  const primary = columns[primaryColumn];
+
+  return (
+    <MuiTable size={dense ? 'small' : undefined}>
+      <TableHead>
+        <TableRow>
+          {columns.map(column => (
+            <TableCell key={column}>{column}</TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, rowIndex) => (
+          <TableRow key={`row${rowIndex}`}>
+            {columns.map((col, colIndex) => {
+              const primaryProps = col === primary && ({ component: 'th', scope: 'row' } as const);
+              const cell = row[col];
+              return (
+                <TableCell key={cell || `col${colIndex}`} {...primaryProps}>
+                  {cell}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </MuiTable>
+  );
+};
+
+export default Table;

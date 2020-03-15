@@ -1,0 +1,8 @@
+# Build output
+dist
+
+# Test coverage files
+coverage
+
+# Service worker from create-react-app
+serviceWorker.ts
