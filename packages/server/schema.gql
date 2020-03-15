@@ -3,10 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type AuthError {
-  message: String!
-}
-
 type Category {
   id: Int!
   name: String!

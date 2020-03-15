@@ -1,4 +1,5 @@
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import logger from '@sachinahya/logger';
+import { ApolloServer, ForbiddenError, UserInputError } from 'apollo-server-express';
 import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import session from 'express-session';
@@ -9,7 +10,6 @@ import { Connection, createConnection, useContainer } from 'typeorm';
 import authChecker from './auth/authChecker';
 import { buildContext, configurePassport } from './auth/passport';
 import { AppConfig, DbConfig } from './config';
-import logger from '@sachinahya/logger';
 import RecipeImport from './import/RecipeImport';
 import UserService from './services/UserService';
 
@@ -41,7 +41,9 @@ const createApolloServer = async (app: express.Application, corsOptions: CorsOpt
     schema,
     context: ctx => buildContext(ctx),
     formatError: err => {
-      if (err.message.startsWith('Access denied!')) return new AuthenticationError(err.message);
+      if (err.message.startsWith('Access denied!')) return new ForbiddenError(err.message);
+      if (err.message === 'Argument Validation Error')
+        return new UserInputError(err.message, err.extensions?.exception.validationErrors);
       return err;
     },
   });

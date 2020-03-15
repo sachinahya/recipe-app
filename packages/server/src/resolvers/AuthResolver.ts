@@ -1,17 +1,13 @@
-import { Context } from 'apollo-server-core';
-import { Arg, Ctx, Field, Int, Mutation, ObjectType, Query } from 'type-graphql';
+import logger from '@sachinahya/logger';
+import { AuthenticationError, Context } from 'apollo-server-core';
+import { Arg, Ctx, Int, Mutation, Query } from 'type-graphql';
+import { Service } from 'typedi';
 import { AuthStrategies } from '../auth/AuthStrategies';
 import User from '../entities/User';
-import logger from '@sachinahya/logger';
 import UserService from '../services/UserService';
 import NewUserInput from './inputTypes/NewUserInput';
 
-@ObjectType()
-class AuthError {
-  @Field()
-  message: string;
-}
-
+@Service()
 export default class UserResolver {
   constructor(private userService: UserService) {}
 
@@ -42,9 +38,7 @@ export default class UserResolver {
       return user;
     }
 
-    const error = new AuthError();
-    error.message = info ? info.message : 'Unknown error';
-    throw error;
+    throw new AuthenticationError(info?.message || 'Unknown error');
   }
 
   @Mutation(returns => Int)

@@ -12,11 +12,6 @@ export type Scalars = {
   Upload: any;
 };
 
-export type AuthError = {
-  __typename?: 'AuthError';
-  message: Scalars['String'];
-};
-
 export type Category = {
   __typename?: 'Category';
   id: Scalars['Int'];

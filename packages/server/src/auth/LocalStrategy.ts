@@ -9,13 +9,17 @@ export interface AuthenticateOptions {
 
 export interface AuthenticationResult {
   user?: User;
-  info?: { message: string };
+  info?: AuthenticationInfo;
+}
+
+interface AuthenticationInfo {
+  message: string;
 }
 
 type LocalStrategyVerifyCallback = (
   email: string,
   password: string,
-  done: (err: any, user?: User | null, info?: { message: string }) => void
+  done: (err: any, user?: User | null, info?: AuthenticationInfo) => void
 ) => void;
 
 export default class LocalStrategy extends Strategy {
