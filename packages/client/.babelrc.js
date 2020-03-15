@@ -36,25 +36,23 @@ module.exports = api => ({
     'babel-plugin-dev-expression',
     api.env('development') && 'react-refresh/babel',
     'babel-plugin-transform-compress-graphql',
-    !api.env('test') &&
-      mui && [
-        'babel-plugin-import',
-        {
-          libraryName: '@material-ui/core',
-          libraryDirectory: 'esm',
-          camel2DashComponentName: false,
-        },
-        'core',
-      ],
-    !api.env('test') &&
-      mui && [
-        'babel-plugin-import',
-        {
-          libraryName: '@material-ui/icons',
-          libraryDirectory: 'esm',
-          camel2DashComponentName: false,
-        },
-        'icons',
-      ],
+    !api.env('test') && [
+      'babel-plugin-import',
+      {
+        libraryName: '@material-ui/core',
+        libraryDirectory: 'esm',
+        camel2DashComponentName: false,
+      },
+      'core',
+    ],
+    !api.env('test') && [
+      'babel-plugin-import',
+      {
+        libraryName: '@material-ui/icons',
+        libraryDirectory: 'esm',
+        camel2DashComponentName: false,
+      },
+      'icons',
+    ],
   ].filter(Boolean),
 });

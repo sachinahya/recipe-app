@@ -2,6 +2,9 @@
 packages/server/samples
 packages/server/uploads
 
+# VS Code files
+.vscode
+
 # Logs
 logs
 *.log

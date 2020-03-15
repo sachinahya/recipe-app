@@ -1,6 +1,7 @@
 const path = require('path');
 const isCI = require('is-ci');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -73,8 +74,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: require.resolve('babel-loader'),
         options: {
-          babelrc: false,
-          configFile: './babel.config.js',
+          rootMode: 'upward',
           cacheDirectory: true,
           cacheCompression: false,
           compact: false,
@@ -121,6 +121,7 @@ module.exports = {
     !isProduction && new webpack.HotModuleReplacementPlugin(),
     !isProduction && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
     new CleanWebpackPlugin(),
+    new Dotenv(),
     new WebpackBar(),
     new ForkTsCheckerWebpackPlugin({
       async: isProduction,
@@ -130,7 +131,7 @@ module.exports = {
       reportFiles: ['**', '!**/?(*.)@(test|spec).*', '!**/src/test/jest.setup.*'],
     }),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './public/index.html',
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
