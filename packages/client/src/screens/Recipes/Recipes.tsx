@@ -8,7 +8,7 @@ import Screen, { ScreenBaseProps, ScreenProgress } from 'components/Screen';
 import { useAuth } from 'features/auth';
 import { useRecipeListLazyQuery } from 'features/recipes/queries.generated';
 import React from 'react';
-import LoginScreen from 'screens/LoginScreen';
+import LoginScreen from '../AuthScreens/LoginScreen';
 import RecipeList, { RecipeListLayout } from './components/RecipeList';
 
 const Recipes: React.FC<ScreenBaseProps> = () => {

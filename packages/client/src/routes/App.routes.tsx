@@ -5,6 +5,7 @@ import { AnimatedRouter } from 'components/Router';
 import { ScrollRestorationProvider } from 'features/scrollRestoration';
 import React from 'react';
 import { Route } from 'react-router-dom';
+import RegisterScreen from 'screens/AuthScreens/RegisterScreen';
 import EditRecipe from 'screens/EditRecipe/EditRecipe';
 import NotFound from 'screens/NotFound';
 import Recipe from 'screens/Recipe/Recipe';
@@ -14,6 +15,7 @@ const AppRoutes: React.FC = () => (
   <ScrollRestorationProvider storageKey="scrollPos">
     <AnimatedRouter>
       <Route exact path="/" component={Recipes} />
+      <Route exact path="/register" component={RegisterScreen} />
       <Route exact path="/new" component={EditRecipe} />
       <Route exact path="/recipe/:id/edit" component={EditRecipe} />
       <Route exact path="/recipe/:id" component={Recipe} />
