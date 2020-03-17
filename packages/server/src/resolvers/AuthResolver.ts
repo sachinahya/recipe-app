@@ -17,8 +17,11 @@ export default class UserResolver {
   }
 
   @Mutation(returns => User)
-  async register(@Arg('newUser') newUser: NewUserInput): Promise<User> {
-    return this.userService.create(newUser);
+  async register(@Arg('newUser') newUser: NewUserInput, @Ctx() context: Context): Promise<User> {
+    const user = await this.userService.create(newUser);
+    context.login(user);
+    logger.info(`User ID is ${user.id}.`);
+    return user;
   }
 
   @Mutation(returns => User)
