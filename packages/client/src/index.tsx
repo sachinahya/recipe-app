@@ -13,7 +13,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { baseTheme } from 'styles/themes';
 import App from './App';
-import { unregister } from './serviceWorker';
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -42,8 +41,3 @@ ReactDOM.render(
   </ApolloProvider>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-unregister();
