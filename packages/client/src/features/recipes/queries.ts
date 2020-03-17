@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const RECIPE_INGREDIENT_FIELDS = gql`
+const RECIPE_INGREDIENT_FRAGMENT = gql`
   fragment IngredientFields on Ingredient {
     id
     quantity
@@ -9,14 +9,14 @@ const RECIPE_INGREDIENT_FIELDS = gql`
   }
 `;
 
-const RECIPE_STEP_FIELDS = gql`
+const RECIPE_STEP_FRAGMENT = gql`
   fragment StepFields on Step {
     id
     description
   }
 `;
 
-const RECIPE_IMAGE_FIELDS = gql`
+const RECIPE_IMAGE_FRAGMENT = gql`
   fragment ImageFields on ImageMeta {
     id
     url
@@ -24,21 +24,21 @@ const RECIPE_IMAGE_FIELDS = gql`
   }
 `;
 
-const RECIPE_CATEGORY_FIELDS = gql`
+const RECIPE_CATEGORY_FRAGMENT = gql`
   fragment CategoryFields on Category {
     id
     name
   }
 `;
 
-const RECIPE_CUISINE_FIELDS = gql`
+const RECIPE_CUISINE_FRAGMENT = gql`
   fragment CuisineFields on Cuisine {
     id
     name
   }
 `;
 
-const RECIPE_FIELDS = gql`
+const RECIPE_FRAGMENT = gql`
   fragment RecipeFields on Recipe {
     id
     title
@@ -79,7 +79,7 @@ const UPLOAD_IMAGE_MUTATION = gql`
   }
 `;
 
-const USER_CATEGORIES = gql`
+const USER_CATEGORIES_QUERY = gql`
   query UserCategories {
     userCategories {
       ...CategoryFields
@@ -87,7 +87,7 @@ const USER_CATEGORIES = gql`
   }
 `;
 
-const USER_CUISINES = gql`
+const USER_CUISINES_QUERY = gql`
   query UserCuisines {
     userCuisines {
       ...CuisineFields
@@ -95,7 +95,7 @@ const USER_CUISINES = gql`
   }
 `;
 
-const RECIPE_SINGLE = gql`
+const RECIPE_SINGLE_QUERY = gql`
   query RecipeSingle($id: Float!) {
     recipe(id: $id) {
       ...RecipeFields
@@ -103,7 +103,7 @@ const RECIPE_SINGLE = gql`
   }
 `;
 
-const RECIPE_LIST = gql`
+const RECIPE_LIST_QUERY = gql`
   query RecipeList {
     recipes {
       ...RecipeFields
