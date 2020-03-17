@@ -1,32 +1,10 @@
-import { Box, Paper, Typography } from '@material-ui/core';
-import Button from 'components/Button';
+import { Box, Typography } from '@material-ui/core';
 import Link from 'components/Link';
 import { useAuth } from 'features/auth';
-import TextField from 'features/forms/TextField';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
 import { object, string } from 'yup';
-
-const FormPaper = styled(Paper)`
-  display: flex;
-  flex-direction: column;
-  padding: ${getSpacing(4)};
-  max-width: 450px;
-  margin: ${getSpacing(6)} auto 0;
-`;
-
-const LoginField = styled(TextField).attrs({
-  fullWidth: true,
-})`
-  margin-bottom: ${getSpacing(2)};
-`;
-
-const LoginButton = styled(Button)`
-  margin: ${getSpacing(2)} 0;
-  align-self: center;
-`;
+import { FormPaper, LoginButton, LoginField } from './components';
 
 const schema = object({
   email: string()
@@ -80,7 +58,7 @@ const LoginScreen: React.FC = () => {
                 Forgot password?
               </Link>
               <br />
-              New user? <Link to="">Sign up now</Link>
+              New user? <Link to="/register">Sign up now</Link>
             </Typography>
           </Box>
         </FormPaper>

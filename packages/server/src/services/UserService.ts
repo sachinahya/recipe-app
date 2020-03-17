@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import { validateOrReject } from 'class-validator';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
@@ -34,7 +33,11 @@ export default class UserService {
 
     if (existing) throw new Error('A user with this email already exists.');
 
-    await validateOrReject(userInput);
+    // This validation will never run because TypeGraphQL is already doing the validation for us.
+    /* const errors = await validate(userInput);
+    if (errors.length) {
+      throw new UserInputError('Validation failed', errors);
+    } */
 
     const hashedPassword = await bcrypt.hash(userInput.plainTextPassword, PASSWORD_SALT_ROUNDS);
     const newUser = this.userRepository.create({
