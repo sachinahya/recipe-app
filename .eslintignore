@@ -1,8 +1,11 @@
+# Package-level node_modules
+/packages/**/node_modules/*
+
 # Build output
-dist
+/packages/**/dist/*
 
 # Test coverage files
-coverage
+/packages/**/coverage/*
 
-# Service worker from create-react-app
-packages/client/src/serviceWorker.ts
+# Sample imports
+/packages/server/samples/*

@@ -16,7 +16,6 @@ interface RegisterFormValues {
   repeatPassword: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const REGISTER_MUTATION = gql`
   mutation register($newUser: NewUserInput!) {
     register(newUser: $newUser) {

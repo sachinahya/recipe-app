@@ -2,17 +2,21 @@ root: true
 extends:
   - '@sachinahya/myconfig/typescript'
   - '@sachinahya/myconfig/typescript-type-checking'
-  - '@sachinahya/myconfig/react'
 rules:
   no-return-await: error
   sonarjs/cognitive-complexity: warn
 overrides:
-  # Queries consumed by graphql-codegen
-  - files: 'packages/client/**/?(*.)queries.ts'
+  # Client TypeScript files
+  - files: packages/client/**/*.ts?(x)
+    extends:
+      - '@sachinahya/myconfig/react'
     rules:
-      '@typescript-eslint/no-unused-vars': off
+      '@typescript-eslint/no-unused-vars':
+        - warn
+        - varsIgnorePattern: _(QUERY|MUTATION|FRAGMENT)$
+          ignoreRestSiblings: true
   # graphql-codegen output
-  - files: 'packages/client/**/?(*.)generated.ts'
+  - files: packages/client/**/?(*.)generated.ts
     rules:
       jsdoc/require-returns: off
   # Resolvers
@@ -21,3 +25,4 @@ overrides:
       '@typescript-eslint/no-unused-vars':
         - warn
         - argsIgnorePattern: ^(of|type|returns)$
+          ignoreRestSiblings: true
