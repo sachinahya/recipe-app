@@ -4,7 +4,7 @@
     "target": "es2019",
     "module": "commonjs",
     "strictPropertyInitialization": false,
-    "typeRoots": ["node_modules/@types", "src/@types"],
+    "typeRoots": ["node_modules/@types", "src/@types", "../../node_modules/@types"],
     "baseUrl": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
