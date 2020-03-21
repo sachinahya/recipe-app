@@ -1,9 +1,9 @@
-import path from 'path';
 import { CorsOptions } from 'cors';
-import {} from '@sachinahya/utils';
+import path from 'path';
 
 export interface AppConfig {
   isDevelopment: boolean;
+  isTest: boolean;
   serverPort: number;
   sessionSecret: string;
   uploads: UploadsConfig;
@@ -54,6 +54,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
 
   return {
     isDevelopment,
+    isTest: env.NODE_ENV === 'test',
     serverPort: parseInt(getEnvValue('SERVER_PORT')),
     sessionSecret: getEnvValue('SESSION_SECRET'),
     uploads: {
