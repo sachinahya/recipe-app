@@ -3,17 +3,18 @@ import User from 'entities/User';
 import UserResolver from 'resolvers/AuthResolver';
 import { ResolverContext } from 'resolvers/types';
 import UserService from 'services/UserService';
+import { user1Input } from 'test/fixtures/users';
 import { connection, createResolverContext } from '../utils';
 
 let userService: UserService;
 let authResolver: UserResolver;
 
-const email = 'me@email.com';
-const plainTextPassword = 'password';
+const email = user1Input.email;
+const plainTextPassword = user1Input.plainTextPassword;
 
 const context: ResolverContext = createResolverContext({
   id: 1,
-  email,
+  email: email,
   password: plainTextPassword,
 });
 

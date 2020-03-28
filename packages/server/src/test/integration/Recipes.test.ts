@@ -9,23 +9,24 @@ import CuisineRepository from 'repositories/CuisineRepository';
 import RecipeInput from 'resolvers/inputTypes/RecipeInput';
 import { RecipeResolver } from 'resolvers/RecipeResolver';
 import { ResolverContext } from 'resolvers/types';
+import UserDataResolver from 'resolvers/UserDataResolver';
 import FileService from 'services/FileService';
 import ImageService from 'services/ImageService';
 import RecipeService from 'services/RecipeService';
 import UserService from 'services/UserService';
 import { connection, createResolverContext } from 'test/utils';
 import config from '../../config';
+import { user1Input, user2Input } from 'test/fixtures/users';
 
-const email = 'me@email.com';
-const plainTextPassword = 'password';
-let user: User;
+let user1: User;
+let context1: ResolverContext;
+
+let user2: User;
+let context2: ResolverContext;
 
 let imageService: ImageService;
-let categoryRepository: CategoryRepository;
-let cuisineRepository: CuisineRepository;
-
 let recipeResolver: RecipeResolver;
-let context: ResolverContext;
+let userDataResolver: UserDataResolver;
 
 let cuisineId: number;
 
@@ -33,14 +34,14 @@ beforeAll(async () => {
   const db = await connection;
 
   const userService = new UserService(db.getRepository(User));
-  user = await userService.create({
-    email,
-    plainTextPassword,
-  });
+  user1 = await userService.create(user1Input);
+  user2 = await userService.create(user2Input);
+  context1 = createResolverContext(user1);
+  context2 = createResolverContext(user2);
 
   imageService = new ImageService(db.getRepository(ImageMeta), new FileService());
-  categoryRepository = db.getCustomRepository(CategoryRepository);
-  cuisineRepository = db.getCustomRepository(CuisineRepository);
+  const categoryRepository = db.getCustomRepository(CategoryRepository);
+  const cuisineRepository = db.getCustomRepository(CuisineRepository);
 
   const recipeService = new RecipeService(
     imageService,
@@ -50,7 +51,7 @@ beforeAll(async () => {
   );
 
   recipeResolver = new RecipeResolver(recipeService, imageService);
-  context = createResolverContext(user);
+  userDataResolver = new UserDataResolver(db.getRepository(User));
 });
 
 afterAll(async () => (await connection).dropDatabase());
@@ -59,14 +60,14 @@ it('creates a recipe and retrieves it', async () => {
   const newRecipe = await recipeResolver.addRecipe(
     {
       title: 'Lamb',
-      author: user,
+      author: user1,
       categories: [{ name: 'Meat' }],
       cuisines: [{ name: 'Dinner' }],
     },
-    context
+    context1
   );
 
-  const foundRecipe = await recipeResolver.recipe(newRecipe.id, context);
+  const foundRecipe = await recipeResolver.recipe(newRecipe.id, context1);
   const cuisines = await foundRecipe?.cuisines;
   cuisineId = (cuisines || [])[0].id;
 
@@ -79,39 +80,52 @@ it('creates multiple recipes', async () => {
     recipeResolver.addRecipe(
       {
         title: 'Beef',
-        author: user,
+        author: user1,
         categories: [{ name: 'Meat' }],
         cuisines: [{ id: cuisineId }],
       },
-      context
+      context1
     ),
     recipeResolver.addRecipe(
       {
         title: 'Chicken',
-        author: user,
+        author: user1,
         categories: [{ name: 'Poultry' }],
-        cuisines: [{ id: cuisineId }],
+        cuisines: [{ name: 'Italian' }],
       },
-      context
+      context2
     ),
     recipeResolver.addRecipe(
       {
         title: 'Pork',
-        author: user,
+        author: user1,
       },
-      context
+      context2
     ),
   ]);
 
-  const userRecipes = await recipeResolver.recipes(context);
-  const categories = await categoryRepository.find();
-  const cuisines = await cuisineRepository.find();
+  const userRecipes = await recipeResolver.recipes(context1);
 
   expect(newRecipes.length).toEqual(3);
-  expect(userRecipes.length).toEqual(4);
-  expect(categories.length).toEqual(2);
+  expect(userRecipes.length).toEqual(2);
+});
+
+it('retrieves the correct categories and cuisines for each user', async () => {
+  let categories = await userDataResolver.userCategories(context1);
+  let cuisines = await userDataResolver.userCuisines(context1);
+
+  expect(categories.length).toEqual(1);
   expect(cuisines.length).toEqual(1);
+  expect(categories[0].name).toEqual('Meat');
   expect(cuisines[0].name).toEqual('Dinner');
+
+  categories = await userDataResolver.userCategories(context2);
+  cuisines = await userDataResolver.userCuisines(context2);
+
+  expect(categories.length).toEqual(1);
+  expect(cuisines.length).toEqual(1);
+  expect(categories[0].name).toEqual('Poultry');
+  expect(cuisines[0].name).toEqual('Italian');
 });
 
 it('adds recipes with staged images', async () => {
@@ -121,10 +135,10 @@ it('adds recipes with staged images', async () => {
   const recipe = await recipeResolver.addRecipe(
     {
       title: 'Test',
-      author: user,
+      author: user1,
       stagedImages: [{ id: imageId, order: 1 }],
     },
-    context
+    context1
   );
 
   const recipeImages = (await recipe.images) || [];
@@ -136,7 +150,7 @@ it('adds recipes with staged images', async () => {
     filename: imageTwo,
     mimetype: 'image/jpeg',
     encoding: '',
-    createReadStream: () => createReadStream(path.join(__dirname, '../fixtures', imageTwo)),
+    createReadStream: () => createReadStream(path.join(__dirname, '../fixtures/images', imageTwo)),
   });
 
   const editedInput: RecipeInput = {
@@ -150,7 +164,7 @@ it('adds recipes with staged images', async () => {
     ],
   };
 
-  const editedRecipe = await recipeResolver.addRecipe(editedInput, context);
+  const editedRecipe = await recipeResolver.addRecipe(editedInput, context1);
 
   // Remove the uploaded image once it's been used.
   await fs.remove(path.join(config.uploads.dir, secondImageId + '.jpg'));

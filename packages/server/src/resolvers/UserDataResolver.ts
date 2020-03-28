@@ -5,7 +5,6 @@ import Category from '../entities/Category';
 import Cuisine from '../entities/Cuisine';
 import User from '../entities/User';
 import { ResolverContext } from './types';
-import { sleep } from '../helpers';
 
 @Resolver()
 export default class UserDataResolver {
@@ -17,7 +16,6 @@ export default class UserDataResolver {
     const user = await this.userRepository.findOneOrFail(context.user.id, {
       relations: ['categories'],
     });
-    await sleep(1500);
     return user.categories;
   }
 
