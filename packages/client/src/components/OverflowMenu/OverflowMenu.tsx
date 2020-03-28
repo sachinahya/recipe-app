@@ -1,8 +1,8 @@
 import { Menu } from '@material-ui/core';
 import { MenuItemProps } from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { useModalState } from '@sachinahya/hooks';
 import { HeaderAction } from 'components/Layout';
-import useModalState from 'hooks/useModalState';
 import React from 'react';
 
 type OverFlowMenuChild = React.ReactElement<MenuItemProps> | null | undefined;

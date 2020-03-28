@@ -2,7 +2,6 @@ import AddIcon from '@material-ui/icons/Add';
 import StarIcon from '@material-ui/icons/Star';
 import { NavigationLink } from 'components/Navigation';
 import { AnimatedRouter } from 'components/Router';
-import { ScrollRestorationProvider } from 'features/scrollRestoration';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RegisterScreen from 'screens/AuthScreens/RegisterScreen';
@@ -12,17 +11,15 @@ import Recipe from 'screens/Recipe/Recipe';
 import Recipes from 'screens/Recipes/Recipes';
 
 const AppRoutes: React.FC = () => (
-  <ScrollRestorationProvider storageKey="scrollPos">
-    <AnimatedRouter>
-      <Route exact path="/" component={Recipes} />
-      <Route exact path="/register" component={RegisterScreen} />
-      <Route exact path="/new" component={EditRecipe} />
-      <Route exact path="/recipe/:id/edit" component={EditRecipe} />
-      <Route exact path="/recipe/:id" component={Recipe} />
+  <AnimatedRouter>
+    <Route exact path="/" component={Recipes} />
+    <Route exact path="/register" component={RegisterScreen} />
+    <Route exact path="/new" component={EditRecipe} />
+    <Route exact path="/recipe/:id/edit" component={EditRecipe} />
+    <Route exact path="/recipe/:id" component={Recipe} />
 
-      <Route path="*" component={NotFound} />
-    </AnimatedRouter>
-  </ScrollRestorationProvider>
+    <Route path="*" component={NotFound} />
+  </AnimatedRouter>
 );
 
 export const routerLinks: NavigationLink[] = [

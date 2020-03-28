@@ -1,4 +1,4 @@
-import useCounter from 'hooks/useCounter';
+import { useCounter } from '@sachinahya/hooks';
 import React from 'react';
 
 export interface UseTabsOptions {
