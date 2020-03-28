@@ -1,9 +1,9 @@
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { TabPanel } from 'components/Tabs';
-import useCounter from 'hooks/useCounter';
+import { useCounter } from '@sachinahya/hooks';
 import { pluralize } from '@sachinahya/utils';
+import { TabPanel } from 'components/Tabs';
 import round from 'lodash/round';
 import React from 'react';
 import styled from 'styled-components';

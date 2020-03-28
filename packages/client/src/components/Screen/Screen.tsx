@@ -1,12 +1,12 @@
 import { Container as MuiContainer } from '@material-ui/core';
+import { useScrollRestoration } from '@sachinahya/hooks';
+import { ErrorBoundary } from 'components/Errors';
 import { useLayout } from 'components/Layout';
 import Clear from 'components/Layout/Clear';
-import { useScrollRestoration } from 'features/scrollRestoration';
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
-import { ErrorBoundary } from 'components/Errors';
 
 export type ScreenBaseProps<T = {}> = RouteComponentProps<T>;
 
@@ -17,17 +17,8 @@ interface ScreenProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const Screen: React.FC<ScreenProps> = ({
-  children,
-  title,
-  maxWidth,
-  padding,
-  ...rest
-}) => {
-  /* React.useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, []); */
-  const ref = useScrollRestoration();
+const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
+  const ref = useScrollRestoration('scrollPos', useLocation().key || '', useHistory().action);
   const { bottomNavVisible } = useLayout();
 
   React.useEffect(() => {

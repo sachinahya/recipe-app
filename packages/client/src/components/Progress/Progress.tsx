@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from '@material-ui/core';
 import { CircularProgressProps } from '@material-ui/core/CircularProgress';
-import useTimeout from 'hooks/useTimeout';
+import { useTimeout } from '@sachinahya/hooks';
 import React from 'react';
 import { PROGRESS_SHOW_DELAY } from './Progress.constants';
 

@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
+import { useFile } from '@sachinahya/hooks';
 import DeleteIconButton from 'components/Button/DeleteIconButton';
 import Progress from 'components/Progress';
-import useFile from 'hooks/useFile';
 import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
