@@ -31,7 +31,7 @@ const createSessionMiddleware = (app: express.Application, config: AppConfig) =>
 
 const createApolloServer = async (app: express.Application, corsOptions: CorsOptions) => {
   const schema = await buildSchema({
-    resolvers: [path.join(__dirname, '/resolvers/*.ts')],
+    resolvers: [path.join(__dirname, '/resolvers/!(*.test).ts')],
     emitSchemaFile: true,
     container: Container,
     authChecker,

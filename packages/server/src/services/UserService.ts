@@ -6,6 +6,8 @@ import { PASSWORD_SALT_ROUNDS } from '../auth/constants';
 import User from '../entities/User';
 import NewUserInput from '../resolvers/inputTypes/NewUserInput';
 
+export class DuplicateUserError extends Error {}
+
 @Service()
 export default class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
@@ -31,7 +33,7 @@ export default class UserService {
       where: { email: userInput.email },
     });
 
-    if (existing) throw new Error('A user with this email already exists.');
+    if (existing) throw new DuplicateUserError('A user with this email already exists.');
 
     // This validation will never run because TypeGraphQL is already doing the validation for us.
     /* const errors = await validate(userInput);
@@ -45,24 +47,5 @@ export default class UserService {
       password: hashedPassword,
     });
     return this.userRepository.save(newUser);
-  }
-
-  async createTestUser(): Promise<User> {
-    let user1 = await this.userRepository.findOne({
-      where: {
-        username: 'user1',
-      },
-    });
-
-    if (!user1) {
-      const newUser = this.userRepository.create({
-        email: 'user1@email.com',
-        password: 'password',
-      });
-
-      user1 = await this.userRepository.save(newUser);
-    }
-
-    return user1;
   }
 }

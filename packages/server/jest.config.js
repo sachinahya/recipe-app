@@ -2,6 +2,8 @@ const path = require('path');
 const { compilerOptions } = require('./tsconfig.json');
 
 module.exports = {
+  clearMocks: true,
+  preset: 'ts-jest',
   moduleDirectories: [
     'node_modules',
     compilerOptions.baseUrl != null && path.join(__dirname, compilerOptions.baseUrl),

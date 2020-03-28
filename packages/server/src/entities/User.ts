@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { HASHED_PASSWORD_LENGTH } from '../auth/constants';
+import config from '../config';
 import Category from './Category';
 import Cuisine from './Cuisine';
 import Recipe from './Recipe';
@@ -34,6 +35,9 @@ export default class User {
   @Column()
   email: string;
 
-  @Column('binary', { length: HASHED_PASSWORD_LENGTH })
+  // SQLite does not support binary type.
+  @Column(config.isTest ? 'varchar' : 'binary', {
+    length: HASHED_PASSWORD_LENGTH,
+  })
   password: string | Buffer;
 }
