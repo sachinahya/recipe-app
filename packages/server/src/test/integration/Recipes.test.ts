@@ -7,57 +7,66 @@ import path from 'path';
 import CategoryRepository from 'repositories/CategoryRepository';
 import CuisineRepository from 'repositories/CuisineRepository';
 import RecipeInput from 'resolvers/inputTypes/RecipeInput';
-import db from 'test/db';
-import config from '../config';
-import FileService from './FileService';
-import ImageService from './ImageService';
-import RecipeService from './RecipeService';
-import UserService from './UserService';
+import { RecipeResolver } from 'resolvers/RecipeResolver';
+import { ResolverContext } from 'resolvers/types';
+import FileService from 'services/FileService';
+import ImageService from 'services/ImageService';
+import RecipeService from 'services/RecipeService';
+import UserService from 'services/UserService';
+import { connection, createResolverContext } from 'test/utils';
+import config from '../../config';
 
 const email = 'me@email.com';
 const plainTextPassword = 'password';
 let user: User;
 
 let imageService: ImageService;
-let recipeService: RecipeService;
 let categoryRepository: CategoryRepository;
 let cuisineRepository: CuisineRepository;
+
+let recipeResolver: RecipeResolver;
+let context: ResolverContext;
 
 let cuisineId: number;
 
 beforeAll(async () => {
-  const conn = await db;
+  const db = await connection;
 
-  const userService = new UserService(conn.getRepository(User));
+  const userService = new UserService(db.getRepository(User));
   user = await userService.create({
     email,
     plainTextPassword,
   });
 
-  const fileService = new FileService();
+  imageService = new ImageService(db.getRepository(ImageMeta), new FileService());
+  categoryRepository = db.getCustomRepository(CategoryRepository);
+  cuisineRepository = db.getCustomRepository(CuisineRepository);
 
-  imageService = new ImageService(conn.getRepository(ImageMeta), fileService);
-  categoryRepository = conn.getCustomRepository(CategoryRepository);
-  cuisineRepository = conn.getCustomRepository(CuisineRepository);
-
-  recipeService = new RecipeService(
+  const recipeService = new RecipeService(
     imageService,
-    conn.getRepository(Recipe),
+    db.getRepository(Recipe),
     categoryRepository,
     cuisineRepository
   );
+
+  recipeResolver = new RecipeResolver(recipeService, imageService);
+  context = createResolverContext(user);
 });
 
-afterAll(async () => (await db).dropDatabase());
+afterAll(async () => (await connection).dropDatabase());
 
 it('creates a recipe and retrieves it', async () => {
-  const newRecipe = await recipeService.save({
-    title: 'Lamb',
-    author: user,
-    categories: [{ name: 'Meat' }],
-    cuisines: [{ name: 'Dinner' }],
-  });
-  const foundRecipe = await recipeService.getById(newRecipe.id);
+  const newRecipe = await recipeResolver.addRecipe(
+    {
+      title: 'Lamb',
+      author: user,
+      categories: [{ name: 'Meat' }],
+      cuisines: [{ name: 'Dinner' }],
+    },
+    context
+  );
+
+  const foundRecipe = await recipeResolver.recipe(newRecipe.id, context);
   const cuisines = await foundRecipe?.cuisines;
   cuisineId = (cuisines || [])[0].id;
 
@@ -66,25 +75,35 @@ it('creates a recipe and retrieves it', async () => {
 });
 
 it('creates multiple recipes', async () => {
-  const newRecipes = await recipeService.save([
-    {
-      title: 'Beef',
-      author: user,
-      categories: [{ name: 'Meat' }],
-      cuisines: [{ id: cuisineId }],
-    },
-    {
-      title: 'Chicken',
-      author: user,
-      categories: [{ name: 'Poultry' }],
-      cuisines: [{ id: cuisineId }],
-    },
-    {
-      title: 'Pork',
-      author: user,
-    },
+  const newRecipes = await Promise.all([
+    recipeResolver.addRecipe(
+      {
+        title: 'Beef',
+        author: user,
+        categories: [{ name: 'Meat' }],
+        cuisines: [{ id: cuisineId }],
+      },
+      context
+    ),
+    recipeResolver.addRecipe(
+      {
+        title: 'Chicken',
+        author: user,
+        categories: [{ name: 'Poultry' }],
+        cuisines: [{ id: cuisineId }],
+      },
+      context
+    ),
+    recipeResolver.addRecipe(
+      {
+        title: 'Pork',
+        author: user,
+      },
+      context
+    ),
   ]);
-  const userRecipes = await recipeService.getAllByAuthor(user.id);
+
+  const userRecipes = await recipeResolver.recipes(context);
   const categories = await categoryRepository.find();
   const cuisines = await cuisineRepository.find();
 
@@ -99,20 +118,25 @@ it('adds recipes with staged images', async () => {
   const imageOne = 'http://imageOne';
   const imageId = await imageService.stageImage({ url: imageOne });
 
-  const recipe = await recipeService.save({
-    title: 'Test',
-    author: user,
-    stagedImages: [{ id: imageId, order: 1 }],
-  });
+  const recipe = await recipeResolver.addRecipe(
+    {
+      title: 'Test',
+      author: user,
+      stagedImages: [{ id: imageId, order: 1 }],
+    },
+    context
+  );
 
   const recipeImages = (await recipe.images) || [];
 
   expect(recipeImages[0].url).toEqual(imageOne);
 
   const imageTwo = 'cheese.jpg';
-  const secondImageId = await imageService.stageImage({
-    stream: createReadStream(path.join(__dirname, '../test/fixtures', imageTwo)),
+  const secondImageId = await recipeResolver.stageImage({
+    filename: imageTwo,
     mimetype: 'image/jpeg',
+    encoding: '',
+    createReadStream: () => createReadStream(path.join(__dirname, '../fixtures', imageTwo)),
   });
 
   const editedInput: RecipeInput = {
@@ -126,7 +150,7 @@ it('adds recipes with staged images', async () => {
     ],
   };
 
-  const editedRecipe = await recipeService.save(editedInput);
+  const editedRecipe = await recipeResolver.addRecipe(editedInput, context);
 
   // Remove the uploaded image once it's been used.
   await fs.remove(path.join(config.uploads.dir, secondImageId + '.jpg'));

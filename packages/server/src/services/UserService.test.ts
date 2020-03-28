@@ -1,15 +1,15 @@
 import User from 'entities/User';
-import db from 'test/db';
+import { connection } from 'test/utils';
 import UserService, { DuplicateUserError } from './UserService';
 
 let userService: UserService;
 
 beforeAll(async () => {
-  userService = new UserService((await db).getRepository(User));
+  userService = new UserService((await connection).getRepository(User));
 });
 
 afterAll(async () => {
-  (await db).dropDatabase();
+  (await connection).dropDatabase();
 });
 
 const email = 'me@email.com';
