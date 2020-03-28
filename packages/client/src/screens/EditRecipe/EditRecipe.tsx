@@ -4,7 +4,6 @@ import Progress from 'components/Progress';
 import Screen from 'components/Screen';
 import { TabsProvider } from 'components/Tabs';
 import { useRecipeIdParam } from 'features/recipes/hooks';
-import { useAddRecipeMutation, useRecipeSingleLazyQuery } from 'features/recipes/queries.generated';
 import {
   convertFromFormValues,
   convertToFormValues,
@@ -12,19 +11,37 @@ import {
 } from 'features/recipes/RecipeFormValues';
 import RecipeTabs from 'features/recipes/RecipeTabs';
 import { Form, Formik } from 'formik';
+import gql from 'graphql-tag';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeForm, { RecipeFormValues } from './components/RecipeForm';
+import { useRecipeFormDataLazyQuery, useSaveRecipeMutation } from './EditRecipe.gql';
+
+const SAVE_RECIPE_MUTATION = gql`
+  mutation saveRecipe($data: RecipeInput!) {
+    addRecipe(data: $data) {
+      ...RecipeFields
+    }
+  }
+`;
+
+const RECIPE_FORM_DATA_QUERY = gql`
+  query recipeFormData($id: Float!) {
+    recipe(id: $id) {
+      ...RecipeFields
+    }
+  }
+`;
 
 const EditRecipe: React.FC = () => {
   const id = useRecipeIdParam();
   const { push } = useHistory();
 
-  const [getRecipe, { data }] = useRecipeSingleLazyQuery({
+  const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
     variables: { id },
   });
-  const [addRecipe, { loading: mutationLoading }] = useAddRecipeMutation();
+  const [addRecipe, { loading: mutationLoading }] = useSaveRecipeMutation();
   const initialData = convertToFormValues((id && data?.recipe) || undefined);
 
   React.useEffect(() => {

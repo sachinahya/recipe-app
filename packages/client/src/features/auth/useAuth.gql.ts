@@ -1,4 +1,4 @@
-import * as Types from '../graphql/types.generated';
+import * as Types from '../types.gql';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';

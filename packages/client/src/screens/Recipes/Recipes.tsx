@@ -6,17 +6,26 @@ import { Header, HeaderAction } from 'components/Layout';
 import OverflowMenu from 'components/OverflowMenu';
 import Screen, { ScreenBaseProps, ScreenProgress } from 'components/Screen';
 import { useAuth } from 'features/auth';
-import { useRecipeListLazyQuery } from 'features/recipes/queries.generated';
+import gql from 'graphql-tag';
 import React from 'react';
 import LoginScreen from '../AuthScreens/LoginScreen';
 import RecipeList, { RecipeListLayout } from './components/RecipeList';
+import { useRecipesLazyQuery } from './Recipes.gql';
+
+const RECIPES_QUERY = gql`
+  query recipes {
+    recipes {
+      ...RecipeFields
+    }
+  }
+`;
 
 const Recipes: React.FC<ScreenBaseProps> = () => {
   const [isGrid, setIsGrid] = React.useState(true);
   const { user } = useAuth();
   const loggedIn = !!user;
 
-  const [request, { data, error, refetch }] = useRecipeListLazyQuery();
+  const [request, { data, error, refetch }] = useRecipesLazyQuery();
   React.useEffect(() => {
     if (loggedIn) request();
   }, [loggedIn, request]);

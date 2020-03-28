@@ -1,14 +1,17 @@
 import { Box, Typography } from '@material-ui/core';
 import { Header } from 'components/Layout';
 import Screen from 'components/Screen';
-import { CurrentUserDocument, CurrentUserQuery } from 'features/auth/queries.generated';
 import { Form, Formik } from 'formik';
 import gql from 'graphql-tag';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { object, ref, string } from 'yup';
 import { FormPaper, LoginButton, LoginField } from './components';
-import { useRegisterMutation } from './RegisterScreen.generated';
+import {
+  CreatedUserDocument,
+  CreatedUserQuery,
+  useRegisterUserMutation,
+} from './RegisterScreen.gql';
 
 interface RegisterFormValues {
   email: string;
@@ -16,9 +19,17 @@ interface RegisterFormValues {
   repeatPassword: string;
 }
 
-const REGISTER_MUTATION = gql`
-  mutation register($newUser: NewUserInput!) {
+const REGISTER_USER_MUTATION = gql`
+  mutation registerUser($newUser: NewUserInput!) {
     register(newUser: $newUser) {
+      email
+    }
+  }
+`;
+
+const CREATED_USER_QUERY = gql`
+  query createdUser {
+    currentUser {
       email
     }
   }
@@ -37,15 +48,15 @@ const registerSchema = object<RegisterFormValues>({
 });
 
 const RegisterScreen: React.FC = () => {
-  const [register, { error, loading }] = useRegisterMutation();
+  const [register, { error, loading }] = useRegisterUserMutation();
   const { push } = useHistory();
   const handleSubmit = (values: RegisterFormValues) => {
     register({
       variables: { newUser: { email: values.email, plainTextPassword: values.password } },
       update(cache, { data }) {
         if (data) {
-          cache.writeQuery<CurrentUserQuery>({
-            query: CurrentUserDocument,
+          cache.writeQuery<CreatedUserQuery>({
+            query: CreatedUserDocument,
             data: { currentUser: data.register },
           });
         }

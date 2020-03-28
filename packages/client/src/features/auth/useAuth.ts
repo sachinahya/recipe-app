@@ -1,12 +1,13 @@
 import { ApolloError } from 'apollo-client';
-import { User } from 'features/graphql/types.generated';
+import gql from 'graphql-tag';
+import { User } from '../types.gql';
 import {
   CurrentUserDocument,
   CurrentUserQuery,
   useCurrentUserQuery,
   useLoginMutation,
   useLogoutMutation,
-} from './queries.generated';
+} from './useAuth.gql';
 
 export interface UseAuthHook {
   user: User | null;
@@ -15,6 +16,28 @@ export interface UseAuthHook {
   error?: ApolloError;
   loading: boolean;
 }
+
+const CURRENT_USER_QUERY = gql`
+  query currentUser {
+    currentUser {
+      email
+    }
+  }
+`;
+
+const LOGIN_MUTATION = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      email
+    }
+  }
+`;
+
+const LOGOUT_MUTATION = gql`
+  mutation logout {
+    logout
+  }
+`;
 
 const useAuth = (): UseAuthHook => {
   const [loginMutation, { error: loginError, loading: loginLoading }] = useLoginMutation();
