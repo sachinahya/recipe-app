@@ -1,108 +1,31 @@
-import SaveIcon from '@material-ui/icons/Save';
-import { Header, HeaderAction } from 'components/Layout';
-import Progress from 'components/Progress';
 import Screen from 'components/Screen';
 import { TabsProvider } from 'components/Tabs';
+import RecipeForm from 'features/recipes/components/RecipeForm';
 import { useRecipeIdParam } from 'features/recipes/hooks';
-import {
-  convertFromFormValues,
-  convertToFormValues,
-  schema,
-} from 'features/recipes/RecipeFormValues';
-import RecipeTabs from 'features/recipes/RecipeTabs';
-import { Form, Formik } from 'formik';
-import gql from 'graphql-tag';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-import RecipeForm, { RecipeFormValues } from './components/RecipeForm';
-import { useRecipeFormDataLazyQuery, useSaveRecipeMutation } from './EditRecipe.gql';
-
-const SAVE_RECIPE_MUTATION = gql`
-  mutation saveRecipe($data: RecipeInput!) {
-    addRecipe(data: $data) {
-      ...RecipeFields
-    }
-  }
-`;
-
-const RECIPE_FORM_DATA_QUERY = gql`
-  query recipeFormData($id: Float!) {
-    recipe(id: $id) {
-      ...RecipeFields
-    }
-  }
-`;
+import EditRecipeHeader from './components/EditRecipeHeader';
 
 const EditRecipe: React.FC = () => {
   const id = useRecipeIdParam();
   const { push } = useHistory();
 
-  const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
-    variables: { id },
-  });
-  const [addRecipe, { loading: mutationLoading }] = useSaveRecipeMutation();
-  const initialData = convertToFormValues((id && data?.recipe) || undefined);
-
-  React.useEffect(() => {
-    if (id) getRecipe();
-  }, [getRecipe, id]);
-
-  const handleSubmit = (values: any) => {
-    addRecipe({
-      variables: { data: convertFromFormValues(values) },
-    })
-      .then(({ data }) => {
-        const id = data?.addRecipe.id;
-        push(id ? `/recipes/${id}` : '/recipes');
-      })
-      .catch(console.error);
-  };
-
-  const formRef = React.useRef<HTMLFormElement | null>(null);
-  const formLoaded = (id && data?.recipe) || !id;
   const isEdit = !!id;
+  const formRef = React.useRef<HTMLFormElement | null>(null);
+  const onSave = () => formRef.current?.dispatchEvent(new Event('submit'));
 
   return (
     <TabsProvider>
-      <Header
-        variant={isEdit ? 'back' : undefined}
-        title={isEdit ? 'Edit Recipe' : 'New Recipe'}
-        tabs={<RecipeTabs />}
-        actions={
-          <HeaderAction
-            icon={<SaveIcon />}
-            disabled={mutationLoading}
-            onClick={() => formRef.current?.dispatchEvent(new Event('submit'))}
-          />
-        }
-      />
+      <EditRecipeHeader isEdit={isEdit} onSave={onSave} />
       <Screen title="Edit Recipe" maxWidth="md">
-        {formLoaded ? (
-          <Formik<RecipeFormValues>
-            initialValues={initialData}
-            validationSchema={schema}
-            onSubmit={handleSubmit}
-          >
-            {() => (
-              <StyledForm ref={formRef}>
-                <RecipeForm />
-              </StyledForm>
-            )}
-          </Formik>
-        ) : (
-          <Progress />
-        )}
+        <RecipeForm
+          id={id}
+          onSubmitted={id => push(id ? `/recipes/${id}` : '/recipes')}
+          ref={formRef}
+        />
       </Screen>
     </TabsProvider>
   );
 };
-
-const StyledForm = styled(Form)`
-  display: inherit;
-  flex-direction: inherit;
-  flex-grow: inherit;
-  overflow: inherit;
-`;
 
 export default EditRecipe;

@@ -8,7 +8,7 @@ import TextField, { TextFieldProps } from 'features/forms/TextField';
 import gql from 'graphql-tag';
 import React from 'react';
 import { FormSection } from './FormSection';
-import ImageSelector from './ImageSelector';
+import ImageSelector from '../ImageSelector/ImageSelector';
 import { useUserCategoriesQuery, useUserCuisinesQuery } from './InfoPage.gql';
 
 const USER_CATEGORIES_QUERY = gql`

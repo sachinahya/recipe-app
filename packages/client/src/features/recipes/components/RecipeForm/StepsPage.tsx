@@ -4,11 +4,11 @@ import { AddButton, DeleteIconButton } from 'components/Button';
 import { TabPanel } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import TextField from 'features/forms/TextField';
+import { RecipeFormValues } from 'features/recipes/formValues';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import { FormSection } from './FormSection';
-import { RecipeFormValues } from './RecipeForm';
 
 const StepHeading = styled(Heading).attrs({
   component: 'h2',

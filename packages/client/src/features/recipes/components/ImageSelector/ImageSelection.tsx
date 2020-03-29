@@ -5,6 +5,7 @@ import Progress from 'components/Progress';
 import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
+import { ImageSelectionOverlay } from './ImageSelectionOverlay';
 import { RecipeImageSelection, UploadStatus } from './imageSelectorReducer';
 
 interface ImageSelectionProps {
@@ -24,15 +25,15 @@ const ImageSelection: React.FC<ImageSelectionProps> = ({
 
   const overlay = selection ? (
     selection.status === UploadStatus.Staging ? (
-      <div className="overlay always-shown">
+      <ImageSelectionOverlay alwaysShown>
         <Progress />
-      </div>
+      </ImageSelectionOverlay>
     ) : selection.status === UploadStatus.Error ? (
-      <div className="overlay always-shown">Error</div>
+      <ImageSelectionOverlay alwaysShown>Error</ImageSelectionOverlay>
     ) : (
-      <div className="overlay">
+      <ImageSelectionOverlay>
         <DeleteIconButton onClick={handleDelete} />
-      </div>
+      </ImageSelectionOverlay>
     )
   ) : null;
 

@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core';
+import { RecipeFormValues } from 'features/recipes/formValues';
 import { useFormikContext } from 'formik';
 import gql from 'graphql-tag';
 import React from 'react';
@@ -8,7 +9,6 @@ import { getSpacing } from 'styles/styleSelectors';
 import ImageSelection from './ImageSelection';
 import { useUploadImageMutation } from './ImageSelector.gql';
 import imageSelectionReducer, { RecipeImageSelection, UploadStatus } from './imageSelectorReducer';
-import { RecipeFormValues } from './RecipeForm';
 
 const UPLOAD_IMAGE_MUTATION = gql`
   mutation uploadImage($file: Upload!) {
