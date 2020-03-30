@@ -1,6 +1,6 @@
 import { Box, Typography } from '@material-ui/core';
 import Link from 'components/Link';
-import { useAuth } from 'features/auth';
+import { useLogin } from 'features/auth/hooks';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { object, string } from 'yup';
@@ -14,7 +14,7 @@ const schema = object({
 });
 
 const LoginScreen: React.FC = () => {
-  const { login, error, loading } = useAuth();
+  const [login, { error, loading }] = useLogin();
 
   return (
     <Formik

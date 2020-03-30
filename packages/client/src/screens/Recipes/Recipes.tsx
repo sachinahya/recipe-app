@@ -5,7 +5,7 @@ import { ErrorMessage } from 'components/Errors';
 import { Header, HeaderAction } from 'components/Layout';
 import OverflowMenu from 'components/OverflowMenu';
 import Screen, { ScreenBaseProps, ScreenProgress } from 'components/Screen';
-import { useAuth } from 'features/auth';
+import { useCurrentUser } from 'features/auth/hooks';
 import gql from 'graphql-tag';
 import React from 'react';
 import LoginScreen from '../AuthScreens/LoginScreen';
@@ -22,7 +22,7 @@ const RECIPES_QUERY = gql`
 
 const Recipes: React.FC<ScreenBaseProps> = () => {
   const [isGrid, setIsGrid] = React.useState(true);
-  const { user } = useAuth();
+  const [user] = useCurrentUser();
   const loggedIn = !!user;
 
   const [request, { data, error, refetch }] = useRecipesLazyQuery();

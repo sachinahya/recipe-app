@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { RecipeListQuery } from 'features/recipes/queries.generated';
+import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import React from 'react';
 import RecipeCard from './RecipeCard';
 
@@ -9,7 +9,7 @@ export enum RecipeListLayout {
 }
 
 interface RecipeListProps {
-  recipes: RecipeListQuery['recipes'];
+  recipes: RecipeFieldsFragment[];
   layout?: RecipeListLayout;
 }
 

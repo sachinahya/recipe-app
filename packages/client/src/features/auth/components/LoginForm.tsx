@@ -1,12 +1,12 @@
 import { Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import TextField from '../forms/TextField';
-import { UseAuthHook } from './useAuth';
+import TextField from '../../forms/TextField';
+import { useLogin } from '../hooks';
 
-export type LoginFormProps = Pick<UseAuthHook, 'login'>;
+const LoginForm: React.FC = props => {
+  const [login, { loading }] = useLogin();
 
-const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
   return (
     <Formik
       initialValues={{
@@ -14,6 +14,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
         password: '',
       }}
       onSubmit={({ email, password }) => login(email, password)}
+      {...props}
     >
       <Form>
         <TextField fullWidth margin="dense" name="email" id="email" label="Email" type="email" />
@@ -27,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
           type="password"
         />
         <br />
-        <Button type="submit" size="small">
+        <Button type="submit" size="small" disabled={loading}>
           Login
         </Button>
       </Form>

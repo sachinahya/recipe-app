@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-client';
 import { ErrorMessage } from 'components/Errors';
-import { isAuthError } from 'features/auth';
+import { isAuthError } from 'features/auth/components/AuthBoundary';
 import React from 'react';
 import LoginScreen from './AuthScreens/LoginScreen';
 

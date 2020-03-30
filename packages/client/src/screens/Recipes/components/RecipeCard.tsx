@@ -1,5 +1,5 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { RecipeListQuery } from 'features/recipes/queries.generated';
+import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
 
 interface RecipeCardProps {
-  recipe: RecipeListQuery['recipes'][0];
+  recipe: RecipeFieldsFragment;
   variant: 'card' | 'list';
 }
 
