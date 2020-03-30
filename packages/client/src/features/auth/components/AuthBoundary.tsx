@@ -1,39 +1,15 @@
-import { ApolloError } from 'apollo-client';
 import React from 'react';
-import UnauthenticatedError from '../UnauthenticatedError';
-
-export const isAuthError = (error: ApolloError): boolean => {
-  return (
-    error instanceof UnauthenticatedError ||
-    error.graphQLErrors.some(err => err.extensions?.code === 'UNAUTHENTICATED')
-  );
-};
+import { useCurrentUser } from '../hooks';
 
 interface AuthBoundaryProps {
+  children: JSX.Element;
   fallback: JSX.Element;
 }
 
-interface AuthBoundaryState {
-  error?: ApolloError;
-}
+const AuthBoundary: React.FC<AuthBoundaryProps> = ({ children, fallback }) => {
+  const [user] = useCurrentUser();
 
-class AuthBoundary extends React.Component<AuthBoundaryProps, AuthBoundaryState> {
-  state: AuthBoundaryState = {
-    error: undefined,
-  };
-
-  componentDidCatch(error: ApolloError) {
-    if (!isAuthError(error)) throw error;
-    this.setState({ error });
-  }
-
-  render() {
-    if (this.state.error) {
-      return this.props.fallback;
-    }
-
-    return this.props.children;
-  }
-}
+  return user ? children : fallback;
+};
 
 export default AuthBoundary;

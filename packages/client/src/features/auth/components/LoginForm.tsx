@@ -1,11 +1,32 @@
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+import { useLogin } from 'features/auth/hooks';
+import TextField from 'features/forms/TextField';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import TextField from '../../forms/TextField';
-import { useLogin } from '../hooks';
+import styled from 'styled-components';
+import { getSpacing } from 'styles/styleSelectors';
+import { object, string } from 'yup';
 
-const LoginForm: React.FC = props => {
-  const [login, { loading }] = useLogin();
+const schema = object({
+  email: string()
+    .email()
+    .required(),
+  password: string().required(),
+});
+
+const LoginField = styled(TextField).attrs({
+  fullWidth: true,
+})`
+  margin-bottom: ${getSpacing(2)};
+`;
+
+const LoginButton = styled(Button)`
+  margin: ${getSpacing(2)} 0;
+  align-self: center;
+`;
+
+const LoginForm: React.FC = () => {
+  const [login, { error, loading }] = useLogin();
 
   return (
     <Formik
@@ -14,23 +35,21 @@ const LoginForm: React.FC = props => {
         password: '',
       }}
       onSubmit={({ email, password }) => login(email, password)}
-      {...props}
+      validationSchema={schema}
     >
       <Form>
-        <TextField fullWidth margin="dense" name="email" id="email" label="Email" type="email" />
-        <br />
-        <TextField
-          fullWidth
-          margin="dense"
-          name="password"
-          id="password"
-          label="Password"
-          type="password"
-        />
-        <br />
-        <Button type="submit" size="small" disabled={loading}>
+        <LoginField fullWidth name="email" id="email" label="Email" type="email" />
+        <LoginField fullWidth name="password" id="password" label="Password" type="password" />
+
+        {error && (
+          <Typography variant="body2" color="error" align="center" gutterBottom>
+            {error.message}
+          </Typography>
+        )}
+
+        <LoginButton disabled={loading} size="large" variant="contained" type="submit">
           Login
-        </Button>
+        </LoginButton>
       </Form>
     </Formik>
   );

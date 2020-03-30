@@ -12,11 +12,12 @@ import { getSpacing } from 'styles/styleSelectors';
 import RecipeIngredient from './RecipeIngredient';
 import { RecipeSingleProps } from './RecipeSingle';
 import SectionTitle from './SectionTitle';
+import { Recipe } from 'features/types.gql';
 
 interface RecipeIngredientsProps {
   index: number;
-  ingredients: RecipeSingleProps['recipe']['ingredients'];
-  recipeYield: RecipeSingleProps['recipe']['yield'];
+  ingredients: Recipe['ingredients'];
+  recipeYield: Recipe['yield'];
 }
 
 const ServingAdjustment = styled(Grid)`

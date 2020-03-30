@@ -1,31 +1,51 @@
 import { Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import ButtonRow from 'components/ButtonRow';
+import { ErrorMessage } from 'components/Errors';
 import IconLabel from 'components/IconLabel';
+import Progress from 'components/Progress';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
+import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import { desktopUp, tabletUp } from 'styles/mediaQueries';
 import { mobileOnlyPadding, screenPadding } from 'styles/snippets';
 import { getSpacing } from 'styles/styleSelectors';
-import { RecipeQuery } from '../../Recipe.gql';
 import RecipeIngredients from './RecipeIngredients';
+import { useRecipeQuery } from './RecipeSingle.gql';
 import RecipeStep from './RecipeStep';
 import SectionTitle from './SectionTitle';
 
 export interface RecipeSingleProps {
-  recipe: NonNullable<RecipeQuery['recipe']>;
+  id: number;
 }
 
-const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, recipe, ...rest }) => {
-  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
+gql`
+  query recipe($id: Float!) {
+    recipe(id: $id) {
+      ...RecipeFields
+    }
+  }
+`;
 
-  /**
-   * Try to get the first image's URL.
-   */
+const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) => {
+  const { data, loading, error } = useRecipeQuery({
+    variables: { id },
+  });
+
+  if (loading) return <Progress />;
+  if (error) return <ErrorMessage error={error} />;
+
+  if (!data || !data.recipe) {
+    return null;
+  }
+
+  const recipe = data.recipe;
+
   const recipeImage = recipe.images?.[0]?.url;
+  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
 
   return (
     <Typography component="article" {...rest}>

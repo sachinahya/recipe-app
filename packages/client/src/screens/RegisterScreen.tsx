@@ -1,18 +1,9 @@
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
+import FormPaper from 'components/FormPaper';
 import { Header } from 'components/Layout';
 import Screen from 'components/Screen';
 import RegistrationForm from 'features/auth/components/RegistrationForm';
 import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
-
-export const FormPaper = styled(Paper)`
-  display: flex;
-  flex-direction: column;
-  padding: ${getSpacing(4)};
-  max-width: 450px;
-  margin: ${getSpacing(6)} auto 0;
-`;
 
 const RegisterScreen: React.FC = () => {
   return (

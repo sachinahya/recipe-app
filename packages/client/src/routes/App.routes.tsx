@@ -4,7 +4,7 @@ import { NavigationLink } from 'components/Navigation';
 import { AnimatedRouter } from 'components/Router';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import RegisterScreen from 'screens/AuthScreens/RegisterScreen';
+import RegisterScreen from 'screens/RegisterScreen';
 import EditRecipe from 'screens/EditRecipe/EditRecipe';
 import NotFound from 'screens/NotFound';
 import Recipe from 'screens/Recipe/Recipe';
