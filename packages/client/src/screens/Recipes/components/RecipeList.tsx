@@ -13,6 +13,7 @@ export enum RecipeListLayout {
 
 interface RecipeListProps {
   layout?: RecipeListLayout;
+  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipeId: number): void;
 }
 
 gql`
@@ -23,7 +24,7 @@ gql`
   }
 `;
 
-const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid }) => {
+const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
   const { data, error, loading } = useRecipesQuery();
 
   const gridProps =
@@ -48,6 +49,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid 
             <RecipeCard
               variant={layout === RecipeListLayout.Grid ? 'card' : 'list'}
               recipe={recipe}
+              onClick={evt => onClick?.(evt, recipe.id)}
             />
           </Grid>
         ))}

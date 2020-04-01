@@ -10,8 +10,8 @@ import LoginScreen from 'screens/LoginScreen';
 import EditRecipeHeader from './components/EditRecipeHeader';
 
 const EditRecipe: React.FC = () => {
-  const id = useRecipeIdParam({ required: false });
-  const { push } = useHistory();
+  const id = useRecipeIdParam();
+  const { goBack } = useHistory();
 
   const isEdit = !!id;
   const formRef = React.useRef<HTMLFormElement | null>(null);
@@ -24,11 +24,7 @@ const EditRecipe: React.FC = () => {
       </AuthBoundary>
       <Screen title="Edit Recipe" maxWidth="md">
         <AuthBoundary fallback={<LoginScreen />}>
-          <RecipeForm
-            id={id}
-            onSubmitted={id => push(id ? `/recipes/${id}` : '/recipes')}
-            ref={formRef}
-          />
+          <RecipeForm id={id} onSubmitted={() => goBack()} ref={formRef} />
         </AuthBoundary>
       </Screen>
     </TabsProvider>

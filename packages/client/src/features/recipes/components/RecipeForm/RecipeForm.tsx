@@ -44,12 +44,13 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(
     const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
       variables: { id },
     });
-    const [addRecipe] = useSaveRecipeMutation();
-    const initialData = convertToFormValues((id && data?.recipe) || undefined);
 
     React.useEffect(() => {
       if (id) getRecipe();
     }, [getRecipe, id]);
+
+    const [addRecipe] = useSaveRecipeMutation();
+    const initialData = convertToFormValues((id && data?.recipe) || undefined);
 
     const handleSubmit = async (values: RecipeFormValues) => {
       try {
@@ -63,6 +64,7 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(
 
     return (
       <Formik<RecipeFormValues>
+        key={initialData.id}
         initialValues={initialData}
         validationSchema={schema}
         onSubmit={handleSubmit}

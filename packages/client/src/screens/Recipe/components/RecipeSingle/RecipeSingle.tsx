@@ -114,7 +114,7 @@ const RecipeMeta = styled(TabPanel)`
   ${tabletUp} {
     display: grid;
     grid-template-rows: auto auto 1fr;
-    grid-template-columns: minmax(300px, 1fr) ${getSpacing(2)} 2fr;
+    grid-template-columns: minmax(calc(300px - ${getSpacing(3)}), 1fr) ${getSpacing(5)} 2fr;
     grid-template-areas: 'image . title' 'image . description' 'image . actions';
   }
 `;
@@ -171,14 +171,9 @@ export default styled(RecipeSingle)`
   ${tabletUp} {
     display: grid;
     overflow: visible;
-    ${screenPadding.tablet}
     grid-template-rows: minmax(150px, auto);
     grid-template-columns: minmax(300px, 1fr) 2fr;
     grid-template-areas: 'meta meta' 'ingredients method';
     grid-gap: 24px 16px;
-  }
-
-  ${desktopUp} {
-    ${screenPadding.desktop}
   }
 `;

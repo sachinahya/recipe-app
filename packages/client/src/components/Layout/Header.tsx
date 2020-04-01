@@ -1,13 +1,14 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useTabsContext } from 'components/Tabs/TabsContext';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { getSpacing, getDrawerWidth } from 'styles/styleSelectors';
+import { drawerShown } from 'styles/mediaQueries';
+import { getDrawerWidth, getSpacing } from 'styles/styleSelectors';
 import Clear from './Clear';
 import { useLayout } from './LayoutContext';
-import { useTabsContext } from 'components/Tabs/TabsContext';
-import { drawerShown } from 'styles/mediaQueries';
 
 const HeaderButton = styled(IconButton).attrs({
   color: 'inherit',
@@ -35,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({
 
   ...rest
 }) => {
+  const { goBack } = useHistory();
   const { enabled } = useTabsContext();
   const { drawerPermanent, openDrawer } = useLayout();
 
@@ -44,10 +46,7 @@ const Header: React.FC<HeaderProps> = ({
         <Toolbar>
           {!drawerPermanent &&
             (variant === 'back' ? (
-              <HeaderButton
-                aria-label="Back"
-                onClick={() => window.history.back()}
-              >
+              <HeaderButton aria-label="Back" onClick={() => goBack()}>
                 <ArrowBackIcon />
               </HeaderButton>
             ) : (
@@ -56,13 +55,7 @@ const Header: React.FC<HeaderProps> = ({
               </HeaderButton>
             ))}
           {/* We need to ensure that we don't render more than one h1 at a time */}
-          <Typography
-            variant="h6"
-            component="h1"
-            color="inherit"
-            noWrap
-            style={titleStyles}
-          >
+          <Typography variant="h6" component="h1" color="inherit" noWrap style={titleStyles}>
             {title}
           </Typography>
           {actions && <HeaderActions>{actions}</HeaderActions>}

@@ -1,15 +1,16 @@
-import { Header } from 'components/Layout';
 import Screen from 'components/Screen';
 import { TabsProvider } from 'components/Tabs';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
-import RecipeTabs from 'features/recipes/components/RecipeTabs';
 import { useRecipeIdParam } from 'features/recipes/hooks';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import LoginScreen from 'screens/LoginScreen';
 import { useDeviceSize } from 'styles/hooks';
-import RecipeSingle from './components/RecipeSingle/RecipeSingle';
+import RecipeHeader from './components/RecipeHeader';
+import RecipeSingle from './components/RecipeSingle';
 
 const Recipe: React.FC = () => {
+  const { push } = useHistory();
   const id = useRecipeIdParam();
   const tablet = useDeviceSize('tablet');
 
@@ -19,18 +20,11 @@ const Recipe: React.FC = () => {
   const browserTitle = title || (error ? 'Error' : 'Loading...');
   const headerTitle = title || '';
 
-  const onEdit = () => recipe && push(recipe.id + '/edit');
  */
 
   return (
     <TabsProvider enabled={!tablet}>
-      <Header
-        title="Recipe"
-        variant="back"
-        /* actions={  <HeaderAction icon={<EditIcon />} onClick={onEdit} aria-label="Edit" />} */
-        tabs={<RecipeTabs />}
-      />
-
+      <RecipeHeader id={id} onEdit={() => push(id + '/edit')} />
       <Screen title="Recipe">
         <AuthBoundary fallback={<LoginScreen />}>
           <RecipeSingle id={id} />

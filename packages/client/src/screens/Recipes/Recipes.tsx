@@ -1,52 +1,24 @@
-import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import { Header } from 'components/Layout';
 import Screen, { ScreenBaseProps } from 'components/Screen';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
-import { useCurrentUser } from 'features/auth/hooks';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import LoginScreen from 'screens/LoginScreen';
 import RecipeList, { RecipeListLayout } from './components/RecipeList';
+import RecipesHeader from './components/RecipesHeader';
 
 const Recipes: React.FC<ScreenBaseProps> = () => {
+  const { push } = useHistory();
   const [isGrid, setIsGrid] = React.useState(true);
-  const Icon = isGrid ? ViewListIcon : ViewComfyIcon;
-  const titleAccess = `Change to ${isGrid ? 'list' : 'grid'} layout`;
-
-  const [user] = useCurrentUser();
-  const loggedIn = !!user;
-
-  /*
-  const [request, { data, error, refetch }] = useRecipesLazyQuery();
-  React.useEffect(() => {
-    if (loggedIn) request();
-  }, [loggedIn, request]); */
-
-  /* const refresh = () => refetch().catch(console.error);
-   */
 
   return (
     <>
-      <Header
-        title={loggedIn ? 'Recipes' : ''}
-        /* actions={
-          data && (
-            <>
-              <HeaderAction
-                icon={<Icon />}
-                onClick={() => setIsGrid(!isGrid)}
-                aria-label={titleAccess}
-              />
-              <OverflowMenu>
-                <MenuItem onClick={refresh}>Refresh</MenuItem>
-              </OverflowMenu>
-            </>
-          )
-        } */
-      />
-      <Screen title={'Recipe App'} padding>
+      <RecipesHeader title="Recipes" isGrid={isGrid} onLayoutChange={setIsGrid} />
+      <Screen title="Recipes" padding>
         <AuthBoundary fallback={<LoginScreen />}>
-          <RecipeList layout={RecipeListLayout['Grid']} />
+          <RecipeList
+            layout={RecipeListLayout[isGrid ? 'Grid' : 'List']}
+            onClick={(evt, recipeId) => push('/recipe/' + recipeId)}
+          />
         </AuthBoundary>
       </Screen>
     </>

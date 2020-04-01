@@ -1,6 +1,7 @@
 import { string, StringSchema, TransformFunction } from 'yup';
 
 export type FormValues<T> = {
+  // TODO: Fix this any typing.
   [K in keyof T]: Array<any> extends T[K] ? any[] : any;
 };
 

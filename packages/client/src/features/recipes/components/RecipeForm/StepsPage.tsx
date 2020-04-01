@@ -33,7 +33,12 @@ const StepsPage: React.FC = () => {
                       <StepHeading>Step {i + 1}</StepHeading>
                       <DeleteIconButton onClick={() => arrayHelpers.remove(i)} />
                     </Box>
-                    <TextField multiline rows={3} id={`step-${i}`} name={`steps[${i}].name`} />
+                    <TextField
+                      multiline
+                      rows={3}
+                      id={`step-${i}`}
+                      name={`steps[${i}].description`}
+                    />
                   </FormSection>
                 );
               })}
@@ -42,7 +47,7 @@ const StepsPage: React.FC = () => {
                 startIcon={<AddIcon />}
                 onClick={() =>
                   arrayHelpers.push({
-                    id: ((values.ingredients || []).length + 1).toString(),
+                    id: ((values.steps || []).length + 1).toString(),
                     description: '',
                   })
                 }

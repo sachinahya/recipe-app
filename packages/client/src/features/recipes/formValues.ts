@@ -6,7 +6,7 @@ import {
   toIdObject,
   trimStringValue,
 } from 'features/forms/formValues';
-import { Recipe, RecipeInput } from 'features/types.gql';
+import { Recipe, RecipeInput, NewStepInput } from 'features/types.gql';
 import { array, object } from 'yup';
 
 export type RecipeFormValues = FormValues<RecipeInput>;
@@ -46,6 +46,12 @@ export const convertFromFormValues = (values: RecipeFormValues): RecipeInput => 
           measure: trimStringValue(x.measure),
         }))
       : undefined,
+    steps: values.steps
+      ? values.steps.map<NewStepInput>(x => ({
+          id: x.id,
+          description: x.description,
+        }))
+      : undefined,
   };
 };
 
@@ -72,6 +78,10 @@ export const convertToFormValues = (values: Partial<Recipe> = {}): RecipeFormVal
       quantity: numberToString(x.quantity),
       group: x.group || '',
       measure: x.measure || '',
+    })),
+    steps: (values.steps || []).map(x => ({
+      id: x.id,
+      description: x.description,
     })),
   };
 };
