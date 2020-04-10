@@ -3,7 +3,8 @@ import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/
 import { ErrorBoundary } from 'components/Errors';
 import { Drawer, LayoutProvider, Root } from 'components/Layout';
 import { BottomNavigation, DrawerNavigation } from 'components/Navigation';
-import { useAuth, UserCard } from 'features/auth';
+import UserCard from 'features/auth/components/UserCard';
+import { useCurrentUser } from 'features/auth/hooks';
 import { ThemeSwitcherProvider, useThemeSwitcher } from 'features/ThemeSwitcher';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -19,7 +20,7 @@ const AppBootstrap: React.FC = () => {
 };
 
 export const App: React.FC = () => {
-  const { user, logout } = useAuth();
+  const [user] = useCurrentUser();
   const theme = useThemeSwitcher();
 
   return (
@@ -38,7 +39,7 @@ export const App: React.FC = () => {
                 <Drawer>
                   <Divider />
                   <DrawerNavigation links={routerLinks} />
-                  <Box p={2}>{user ? <UserCard user={user} logout={logout} /> : null}</Box>
+                  <Box p={2}>{user ? <UserCard /> : null}</Box>
                 </Drawer>
 
                 <BottomNavigation links={routerLinks} />
@@ -51,4 +52,4 @@ export const App: React.FC = () => {
   );
 };
 
-export default /* process.env.NODE_ENV === 'development' ? hot(AppBootstrap) :  */ AppBootstrap;
+export default AppBootstrap;

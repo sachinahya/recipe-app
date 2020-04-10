@@ -1,15 +1,15 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { RecipeListQuery } from 'features/recipes/queries.generated';
+import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
 
 interface RecipeCardProps {
-  recipe: RecipeListQuery['recipes'][0];
+  recipe: RecipeFieldsFragment;
   variant: 'card' | 'list';
+  onClick?(evt: React.MouseEvent<HTMLButtonElement>): void;
 }
 
 const RecipeCardActionArea = styled(CardActionArea)`
@@ -55,15 +55,14 @@ const RecipeCardDescription = styled(Typography)`
   }
 `;
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => {
   const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
-  const { push } = useHistory();
 
   const recipeImage = recipe.images?.[0]?.url;
 
   return (
     <Card>
-      <RecipeCardActionArea className={variant} onClick={() => push(`recipes/${recipe.id}`)}>
+      <RecipeCardActionArea className={variant} onClick={onClick}>
         <RecipeCardImage
           className={variant}
           image={recipeImage || onePxGif}

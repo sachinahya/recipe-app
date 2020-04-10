@@ -1,66 +1,25 @@
-import { MenuItem } from '@material-ui/core';
-import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import { ErrorMessage } from 'components/Errors';
-import { Header, HeaderAction } from 'components/Layout';
-import OverflowMenu from 'components/OverflowMenu';
-import Screen, { ScreenBaseProps, ScreenProgress } from 'components/Screen';
-import { useAuth } from 'features/auth';
-import { useRecipeListLazyQuery } from 'features/recipes/queries.generated';
+import Screen, { ScreenBaseProps } from 'components/Screen';
+import AuthBoundary from 'features/auth/components/AuthBoundary';
 import React from 'react';
-import LoginScreen from '../AuthScreens/LoginScreen';
+import { useHistory } from 'react-router-dom';
+import LoginScreen from 'screens/LoginScreen';
 import RecipeList, { RecipeListLayout } from './components/RecipeList';
+import RecipesHeader from './components/RecipesHeader';
 
 const Recipes: React.FC<ScreenBaseProps> = () => {
+  const { push } = useHistory();
   const [isGrid, setIsGrid] = React.useState(true);
-  const { user } = useAuth();
-  const loggedIn = !!user;
-
-  const [request, { data, error, refetch }] = useRecipeListLazyQuery();
-  React.useEffect(() => {
-    if (loggedIn) request();
-  }, [loggedIn, request]);
-
-  const refresh = () => refetch().catch(console.error);
-  const Icon = isGrid ? ViewListIcon : ViewComfyIcon;
-  const titleAccess = `Change to ${isGrid ? 'list' : 'grid'} layout`;
 
   return (
     <>
-      <Header
-        title={loggedIn ? 'Recipes' : ''}
-        actions={
-          data && (
-            <>
-              <HeaderAction
-                icon={<Icon />}
-                onClick={() => setIsGrid(!isGrid)}
-                aria-label={titleAccess}
-              />
-              <OverflowMenu>
-                <MenuItem onClick={refresh}>Refresh</MenuItem>
-              </OverflowMenu>
-            </>
-          )
-        }
-      />
-      <Screen title={loggedIn ? 'Recipes' : 'Recipe App'} padding>
-        {user ? (
-          <>
-            {error ? (
-              <ErrorMessage error={error} />
-            ) : data ? (
-              <RecipeList
-                recipes={data.recipes}
-                layout={RecipeListLayout[isGrid ? 'Grid' : 'List']}
-              />
-            ) : (
-              <ScreenProgress />
-            )}
-          </>
-        ) : (
-          <LoginScreen />
-        )}
+      <RecipesHeader title="Recipes" isGrid={isGrid} onLayoutChange={setIsGrid} />
+      <Screen title="Recipes" padding>
+        <AuthBoundary fallback={<LoginScreen />}>
+          <RecipeList
+            layout={RecipeListLayout[isGrid ? 'Grid' : 'List']}
+            onClick={(evt, recipeId) => push('/recipe/' + recipeId)}
+          />
+        </AuthBoundary>
       </Screen>
     </>
   );

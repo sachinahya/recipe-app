@@ -1,7 +1,10 @@
 import { Grid } from '@material-ui/core';
-import { RecipeListQuery } from 'features/recipes/queries.generated';
+import { ErrorMessage } from 'components/Errors';
+import Progress from 'components/Progress';
+import gql from 'graphql-tag';
 import React from 'react';
 import RecipeCard from './RecipeCard';
+import { useRecipesQuery } from './RecipeList.gql';
 
 export enum RecipeListLayout {
   Grid,
@@ -9,11 +12,21 @@ export enum RecipeListLayout {
 }
 
 interface RecipeListProps {
-  recipes: RecipeListQuery['recipes'];
   layout?: RecipeListLayout;
+  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipeId: number): void;
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({ recipes, layout = RecipeListLayout.Grid }) => {
+gql`
+  query recipes {
+    recipes {
+      ...RecipeFields
+    }
+  }
+`;
+
+const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
+  const { data, error, loading } = useRecipesQuery();
+
   const gridProps =
     layout === RecipeListLayout.Grid
       ? ({
@@ -25,18 +38,26 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, layout = RecipeListLay
           xs: 12,
         } as const);
 
-  return (
-    <Grid container spacing={3}>
-      {recipes.map(recipe => (
-        <Grid item {...gridProps} key={recipe.id}>
-          <RecipeCard
-            variant={layout === RecipeListLayout.Grid ? 'card' : 'list'}
-            recipe={recipe}
-          />
-        </Grid>
-      ))}
-    </Grid>
-  );
+  if (loading) return <Progress />;
+  if (error) return <ErrorMessage error={error} />;
+
+  if (data) {
+    return (
+      <Grid container spacing={3}>
+        {data.recipes.map(recipe => (
+          <Grid item {...gridProps} key={recipe.id}>
+            <RecipeCard
+              variant={layout === RecipeListLayout.Grid ? 'card' : 'list'}
+              recipe={recipe}
+              onClick={evt => onClick?.(evt, recipe.id)}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
+
+  return null;
 };
 
 export default RecipeList;

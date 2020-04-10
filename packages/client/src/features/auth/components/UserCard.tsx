@@ -1,0 +1,21 @@
+import { Box } from '@material-ui/core';
+import Button from 'components/Button';
+import NameBadge from 'components/NameBadge';
+import React from 'react';
+import { useCurrentUser, useLogout } from '../hooks';
+
+const UserCard: React.FC = props => {
+  const [user] = useCurrentUser();
+  const [logout] = useLogout();
+
+  return (
+    <div {...props}>
+      <NameBadge name={user?.email} showAvatar={user != null} />
+      <Box marginTop={1} alignSelf="flex-end">
+        {user && <Button onClick={logout}>Sign out</Button>}
+      </Box>
+    </div>
+  );
+};
+
+export default UserCard;

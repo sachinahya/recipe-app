@@ -1,17 +1,17 @@
 schema: ../server/schema.gql
-documents: src/**/!(*.generated).{gql,ts,tsx}
+documents: src/**/!(*.gql).{gql,ts,tsx}
 hooks:
   afterAllFileWrite:
     - prettier --write
 generates:
-  src/features/graphql/types.generated.ts:
+  src/features/types.gql.ts:
     plugins:
       - typescript
   src/:
     preset: near-operation-file-preset
     presetConfig:
-      extension: .generated.ts
-      baseTypesPath: features/graphql/types.generated.ts
+      extension: .gql.ts
+      baseTypesPath: features/types.gql.ts
     plugins:
       - typescript-operations
       - typescript-react-apollo

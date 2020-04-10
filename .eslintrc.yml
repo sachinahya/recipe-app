@@ -16,8 +16,9 @@ overrides:
         - varsIgnorePattern: _(QUERY|MUTATION|FRAGMENT)$
           ignoreRestSiblings: true
   # graphql-codegen output
-  - files: packages/client/**/?(*.)generated.ts
+  - files: packages/client/**/?(*.)gql.ts
     rules:
+      '@typescript-eslint/no-unused-vars': off
       jsdoc/require-returns: off
   # Resolvers
   - files: packages/server/src/?(entities|resolvers)/**/*.ts
