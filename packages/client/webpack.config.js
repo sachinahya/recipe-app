@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const isCI = require('is-ci');
 const webpack = require('webpack');
@@ -11,6 +12,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const jsRegex = /\.([jt]sx?|[cm]js)$/;
 const cssRegex = /.css$/;
@@ -137,6 +139,11 @@ module.exports = {
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+    }),
   ].filter(Boolean),
 
   devServer: {
@@ -146,6 +153,10 @@ module.exports = {
     overlay: true,
     port: 3000,
     transportMode: 'ws',
+    https: true,
+    key: fs.readFileSync('./cert/localhost.key'),
+    cert: fs.readFileSync('./cert/localhost.crt'),
+
     // quiet: true,
     /* proxy: {
       '/api': {
