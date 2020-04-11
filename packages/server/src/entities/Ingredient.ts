@@ -34,11 +34,7 @@ class IngredientBase {
 @ObjectType()
 @Entity('recipe_ingredient')
 export default class Ingredient extends IngredientBase {
-  @ManyToOne(
-    type => Recipe,
-    recipe => recipe.ingredients,
-    { primary: true }
-  )
+  @ManyToOne(type => Recipe, recipe => recipe.ingredients, { primary: true })
   recipe: Recipe;
 }
 

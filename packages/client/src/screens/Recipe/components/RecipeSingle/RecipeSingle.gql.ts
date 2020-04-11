@@ -1,10 +1,8 @@
 import * as Types from '../../../../features/types.gql';
 
-import {
-  RecipeFieldsFragmentDoc,
-  RecipeFieldsFragment,
-} from '../../../../features/recipes/fragments.gql';
+import { RecipeFieldsFragment } from '../../../../features/recipes/fragments.gql';
 import gql from 'graphql-tag';
+import { RecipeFieldsFragmentDoc } from '../../../../features/recipes/fragments.gql';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 
@@ -14,7 +12,7 @@ export type RecipeQueryVariables = {
 
 export type RecipeQuery = {
   __typename?: 'Query';
-  recipe: Types.Maybe<{ __typename?: 'Recipe' } & RecipeFieldsFragment>;
+  recipe?: Types.Maybe<{ __typename?: 'Recipe' } & RecipeFieldsFragment>;
 };
 
 export const RecipeDocument = gql`

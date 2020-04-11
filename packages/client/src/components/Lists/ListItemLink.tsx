@@ -1,9 +1,6 @@
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
 import React from 'react';
-import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from 'react-router-dom';
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 
 export interface ListItemLinkProps extends ListItemProps {
   to: RouterLinkProps['to'];

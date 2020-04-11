@@ -14,9 +14,7 @@ export interface RegisterFormValues {
 }
 
 const registerSchema = object<RegisterFormValues>({
-  email: string()
-    .email('Must enter a valid email address.')
-    .required('Email is required.'),
+  email: string().email('Must enter a valid email address.').required('Email is required.'),
   password: string()
     .min(8, ({ min }) => `Password must be a minimum of ${min} characters long.`)
     .required('Password is required.'),

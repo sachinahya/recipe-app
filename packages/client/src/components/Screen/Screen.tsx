@@ -18,7 +18,11 @@ interface ScreenProps {
 }
 
 const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
-  const ref = useScrollRestoration('scrollPos', useLocation().key || '', useHistory().action);
+  const ref = useScrollRestoration<HTMLElement>(
+    'scrollPos',
+    useLocation().key || '',
+    useHistory().action
+  );
   const { bottomNavVisible } = useLayout();
 
   React.useEffect(() => {

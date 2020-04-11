@@ -17,16 +17,9 @@ export default class Cuisine {
   @Column()
   name: string;
 
-  @ManyToOne(
-    type => User,
-    user => user.cuisines,
-    { nullable: false, primary: !config.isTest }
-  )
+  @ManyToOne(type => User, user => user.cuisines, { nullable: false, primary: !config.isTest })
   user: User;
 
-  @ManyToMany(
-    type => Recipe,
-    recipe => recipe.cuisines
-  )
+  @ManyToMany(type => Recipe, recipe => recipe.cuisines)
   recipes: Recipe[];
 }

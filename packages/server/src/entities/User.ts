@@ -13,22 +13,13 @@ export default class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(
-    type => Recipe,
-    recipe => recipe.author
-  )
+  @OneToMany(type => Recipe, recipe => recipe.author)
   recipes: Recipe[];
 
-  @OneToMany(
-    type => Category,
-    category => category.user
-  )
+  @OneToMany(type => Category, category => category.user)
   categories: Category[];
 
-  @OneToMany(
-    type => Cuisine,
-    cuisine => cuisine.user
-  )
+  @OneToMany(type => Cuisine, cuisine => cuisine.user)
   cuisines: Cuisine[];
 
   @Field()

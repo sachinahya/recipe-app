@@ -7,10 +7,7 @@ interface DeleteIconButtonProps extends IconButtonProps {
   iconProps?: SvgIconProps;
 }
 
-const DeleteIconButton: React.FC<DeleteIconButtonProps> = ({
-  iconProps,
-  ...props
-}) => {
+const DeleteIconButton: React.FC<DeleteIconButtonProps> = ({ iconProps, ...props }) => {
   return (
     <IconButton aria-label="Delete" {...props}>
       <DeleteIcon {...iconProps} />
