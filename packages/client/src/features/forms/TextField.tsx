@@ -24,9 +24,7 @@ const TextField: React.FC<TextFieldProps> = ({ name, fast, ...props }) => {
           {...props}
           {...field}
           error={Boolean(meta.touched && meta.error)}
-          helperText={
-            meta.touched && meta.error ? meta.error : props.helperText
-          }
+          helperText={meta.touched && meta.error ? meta.error : props.helperText}
         />
       )}
     </FieldComponent>

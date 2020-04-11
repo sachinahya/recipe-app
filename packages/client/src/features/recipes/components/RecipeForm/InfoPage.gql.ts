@@ -1,12 +1,8 @@
 import * as Types from '../../../types.gql';
 
-import {
-  CategoryFieldsFragmentDoc,
-  CategoryFieldsFragment,
-  CuisineFieldsFragmentDoc,
-  CuisineFieldsFragment,
-} from '../../fragments.gql';
+import { CategoryFieldsFragment, CuisineFieldsFragment } from '../../fragments.gql';
 import gql from 'graphql-tag';
+import { CategoryFieldsFragmentDoc, CuisineFieldsFragmentDoc } from '../../fragments.gql';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 

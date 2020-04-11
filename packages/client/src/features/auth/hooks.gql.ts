@@ -8,7 +8,7 @@ export type CurrentUserQueryVariables = {};
 
 export type CurrentUserQuery = {
   __typename?: 'Query';
-  currentUser: Types.Maybe<{ __typename?: 'User'; email: string }>;
+  currentUser?: Types.Maybe<{ __typename?: 'User'; email: string }>;
 };
 
 export type LoginMutationVariables = {

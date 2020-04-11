@@ -7,11 +7,7 @@ import { IDField } from '../helpers';
 @InputType('NewStepInput')
 @Entity('recipe_step')
 export default class Step {
-  @ManyToOne(
-    type => Recipe,
-    recipe => recipe.steps,
-    { primary: true }
-  )
+  @ManyToOne(type => Recipe, recipe => recipe.steps, { primary: true })
   recipe: Recipe;
 
   @IDField()

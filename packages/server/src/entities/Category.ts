@@ -20,16 +20,9 @@ export default class Category {
   @Field()
   @Column()
   name: string;
-  @ManyToOne(
-    type => User,
-    user => user.categories,
-    { nullable: false, primary: !config.isTest }
-  )
+  @ManyToOne(type => User, user => user.categories, { nullable: false, primary: !config.isTest })
   user: User;
 
-  @ManyToMany(
-    type => Recipe,
-    recipe => recipe.categories
-  )
+  @ManyToMany(type => Recipe, recipe => recipe.categories)
   recipes: Recipe[];
 }

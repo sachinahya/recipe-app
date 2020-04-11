@@ -7,11 +7,7 @@ interface NameBadgeProps {
   showAvatar?: boolean;
 }
 
-const NameBadge: React.FC<NameBadgeProps> = ({
-  name,
-  showAvatar,
-  ...props
-}) => (
+const NameBadge: React.FC<NameBadgeProps> = ({ name, showAvatar, ...props }) => (
   <ListItem component="div" disableGutters {...props}>
     {showAvatar && (
       <ListItemAvatar>

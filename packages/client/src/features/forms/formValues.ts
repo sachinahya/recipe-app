@@ -5,7 +5,7 @@ export type FormValues<T> = {
   [K in keyof T]: Array<any> extends T[K] ? any[] : any;
 };
 
-export const emptyStringToUndefined: TransformFunction<StringSchema> = function(value) {
+export const emptyStringToUndefined: TransformFunction<StringSchema> = function (value) {
   if (this.isType(value)) return value.trim() === '' ? undefined : value.trim();
   return value;
 };

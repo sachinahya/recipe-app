@@ -16,9 +16,7 @@ export const schema = object().shape<RecipeFormValues>({
   description: emptyString(),
   imageUrl: emptyString(),
   sourceUrl: emptyString(),
-  categories: array()
-    .of(emptyString())
-    .compact(),
+  categories: array().of(emptyString()).compact(),
 });
 
 export const convertFromFormValues = (values: RecipeFormValues): RecipeInput => {

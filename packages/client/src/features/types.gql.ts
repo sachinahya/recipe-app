@@ -132,6 +132,7 @@ export type Recipe = {
   author: User;
   categories: Array<Category>;
   cuisines: Array<Cuisine>;
+  /** @deprecated Only used for imported recipes. Use "images" instead. */
   imageUrl?: Maybe<Scalars['String']>;
   images?: Maybe<Array<ImageMeta>>;
   prepTime?: Maybe<Scalars['Float']>;

@@ -6,17 +6,8 @@ interface ParagraphProps {
   noGutter?: boolean;
 }
 
-const Paragraph: React.FC<ParagraphProps> = ({
-  children,
-  className,
-  noGutter,
-}) => (
-  <Typography
-    component="p"
-    variant="body2"
-    gutterBottom={!noGutter}
-    className={className}
-  >
+const Paragraph: React.FC<ParagraphProps> = ({ children, className, noGutter }) => (
+  <Typography component="p" variant="body2" gutterBottom={!noGutter} className={className}>
     {children}
   </Typography>
 );
