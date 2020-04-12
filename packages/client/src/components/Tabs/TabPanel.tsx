@@ -5,7 +5,6 @@ import { useTabsContext } from './TabsContext';
 
 interface TabPanelProps {
   index: number;
-  mobileOnlyPadding?: boolean;
 }
 
 const TabPanel: React.FC<TabPanelProps> = ({ children, index, ...props }) => {

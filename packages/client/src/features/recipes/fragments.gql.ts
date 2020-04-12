@@ -31,6 +31,7 @@ export type RecipeFieldsFragment = {
   sourceUrl?: Types.Maybe<string>;
   prepTime?: Types.Maybe<number>;
   cookTime?: Types.Maybe<number>;
+  totalTime: number;
   yield?: Types.Maybe<number>;
   images?: Types.Maybe<Array<{ __typename?: 'ImageMeta' } & ImageFieldsFragment>>;
   categories: Array<{ __typename?: 'Category' } & CategoryFieldsFragment>;
@@ -83,6 +84,7 @@ export const RecipeFieldsFragmentDoc = gql`
     }
     prepTime
     cookTime
+    totalTime
     yield
     categories {
       ...CategoryFields

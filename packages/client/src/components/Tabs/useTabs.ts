@@ -2,6 +2,7 @@ import { useCounter } from '@sachinahya/hooks';
 import React from 'react';
 
 export interface UseTabsOptions {
+  count: number;
   enabled?: boolean;
   initial?: number;
   disabledTabs?: number[];
@@ -26,16 +27,19 @@ type TabProps = React.RefAttributes<any> &
   Pick<React.HTMLAttributes<Element>, 'role' | 'tabIndex' | 'id'>;
 type TabPanelProps = React.HTMLAttributes<HTMLElement>;
 
-export const useTabs = ({
-  enabled = true,
-  initial,
-  disabledTabs = [],
-  tabId = 'tab',
-  tabPanelId = 'tabpanel',
-  tabsAreButtons = true,
-  swipeable = true,
-}: UseTabsOptions = {}): UseTabsHook => {
-  const [maxIndex, setMaxIndex] = React.useState(0);
+export const useTabs = (
+  {
+    count,
+    enabled = true,
+    initial,
+    disabledTabs = [],
+    tabId = 'tab',
+    tabPanelId = 'tabpanel',
+    tabsAreButtons = true,
+    swipeable = true,
+  }: UseTabsOptions = { count: 0 }
+): UseTabsHook => {
+  const maxIndex = count - 1;
   const [current, { set }] = useCounter({
     initial,
     min: 0,
@@ -55,13 +59,8 @@ export const useTabs = ({
   const getNextEnabledTab = (next: boolean) => {
     let newIndex = next ? current + 1 : current - 1;
 
-    if (newIndex > maxIndex) {
-      newIndex = 0;
-    }
-
-    if (newIndex < 0) {
-      newIndex = maxIndex;
-    }
+    if (newIndex > maxIndex) newIndex = 0;
+    if (newIndex < 0) newIndex = maxIndex;
 
     if (disabledTabs.length && disabledTabs.length !== maxIndex + 1) {
       while (disabledTabs.includes(newIndex)) {
@@ -86,43 +85,42 @@ export const useTabs = ({
   };
 
   const getTablistProps = (): TablistProps => {
-    return enabled
-      ? {
+    return !enabled
+      ? {}
+      : {
           role: 'tablist',
           onKeyDown: handleKeyDown,
-        }
-      : {};
+        };
   };
 
   const getTabProps = (index: number): TabProps => {
-    index > maxIndex && setMaxIndex(index);
-
-    if (!enabled) return {};
-    return Object.assign(
-      {
-        role: 'tab',
-        tabIndex: current === index ? 0 : -1,
-        id: `${tabId}-${index}`,
-        'aria-disabled': disabledTabs.includes(index),
-        'aria-selected': current === index,
-        'aria-controls': `${tabPanelId}-${index}`,
-        ref: (ref: any) => (current === index ? (focusRef.current = ref) : undefined),
-        // onClick: handleClick(index),
-      },
-      tabsAreButtons && { disabled: disabledTabs.includes(index) }
-    );
+    return !enabled
+      ? {}
+      : Object.assign(
+          {
+            role: 'tab',
+            tabIndex: current === index ? 0 : -1,
+            id: `${tabId}-${index}`,
+            'aria-disabled': disabledTabs.includes(index),
+            'aria-selected': current === index,
+            'aria-controls': `${tabPanelId}-${index}`,
+            ref: (ref: any) => (current === index ? (focusRef.current = ref) : undefined),
+            // onClick: handleClick(index),
+          },
+          tabsAreButtons && { disabled: disabledTabs.includes(index) }
+        );
   };
 
   const getTabPanelProps = (index: number): TabPanelProps => {
-    return enabled
-      ? {
+    return !enabled
+      ? {}
+      : {
           role: 'tabpanel',
           // tabIndex: 0,
           id: `${tabPanelId}-${index}`,
           'aria-labelledby': `${tabId}-${index}`,
           hidden: swipeable ? false : current !== index,
-        }
-      : {};
+        };
   };
 
   return {

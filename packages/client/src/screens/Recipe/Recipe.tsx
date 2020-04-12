@@ -23,7 +23,7 @@ const Recipe: React.FC = () => {
  */
 
   return (
-    <TabsProvider enabled={!tablet}>
+    <TabsProvider enabled={!tablet} count={3}>
       <RecipeHeader id={id} onEdit={() => push(id + '/edit')} />
       <Screen title="Recipe">
         <AuthBoundary fallback={<LoginScreen />}>

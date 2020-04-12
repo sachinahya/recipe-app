@@ -4,19 +4,20 @@ import { NavigationLink } from 'components/Navigation';
 import { AnimatedRouter } from 'components/Router';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import RegisterScreen from 'screens/RegisterScreen';
-import EditRecipe from 'screens/EditRecipe/EditRecipe';
-import NotFound from 'screens/NotFound';
-import Recipe from 'screens/Recipe/Recipe';
-import Recipes from 'screens/Recipes/Recipes';
+import EditRecipeSuspense from 'screens/EditRecipe';
+import RecipeSuspense from 'screens/Recipe';
+import RecipesSuspense from 'screens/Recipes';
+
+const NotFound = React.lazy(() => import('screens/NotFound'));
+const RegisterScreen = React.lazy(() => import('screens/RegisterScreen'));
 
 const AppRoutes: React.FC = () => (
   <AnimatedRouter>
-    <Route exact path="/" component={Recipes} />
+    <Route exact path="/" component={RecipesSuspense} />
     <Route exact path="/register" component={RegisterScreen} />
-    <Route exact path="/new" component={EditRecipe} />
-    <Route exact path="/recipe/:id/edit" component={EditRecipe} />
-    <Route exact path="/recipe/:id" component={Recipe} />
+    <Route exact path="/new" component={EditRecipeSuspense} />
+    <Route exact path="/recipe/:id/edit" component={EditRecipeSuspense} />
+    <Route exact path="/recipe/:id" component={RecipeSuspense} />
 
     <Route path="*" component={NotFound} />
   </AnimatedRouter>

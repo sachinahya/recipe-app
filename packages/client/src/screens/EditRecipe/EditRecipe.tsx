@@ -18,7 +18,7 @@ const EditRecipe: React.FC = () => {
   const onSave = () => formRef.current?.dispatchEvent(new Event('submit'));
 
   return (
-    <TabsProvider>
+    <TabsProvider count={3}>
       <AuthBoundary fallback={<Header title="" />}>
         <EditRecipeHeader isEdit={isEdit} onSave={onSave} />
       </AuthBoundary>

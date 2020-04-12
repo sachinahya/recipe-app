@@ -39,7 +39,7 @@
     "express-session": "^1.17.0",
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",
-    "graphql": "^15.0.0",
+    "graphql": "^14.6.0",
     "graphql-upload": "^10.0.0",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",

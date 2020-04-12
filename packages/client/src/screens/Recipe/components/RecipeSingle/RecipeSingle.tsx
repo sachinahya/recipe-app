@@ -6,7 +6,7 @@ import IconLabel from 'components/IconLabel';
 import Progress from 'components/Progress';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
-import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
+import { getPlaceholderBackground } from 'features/recipes/utils';
 import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
@@ -43,9 +43,7 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
   }
 
   const recipe = data.recipe;
-
   const recipeImage = recipe.images?.[0]?.url;
-  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
 
   return (
     <Typography component="article" {...rest}>
@@ -62,9 +60,9 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
           </RecipeDescription>
           <RecipeActions>
             <Typography component="p" variant="body2" color="textSecondary">
-              {totalTime ? (
+              {recipe.totalTime ? (
                 <IconLabel icon={<TimerIcon titleAccess="Total time" />}>
-                  {totalTime} minutes
+                  {recipe.totalTime} minutes
                 </IconLabel>
               ) : null}
             </Typography>

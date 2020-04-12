@@ -1,13 +1,13 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
-import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
+import { getPlaceholderBackground } from 'features/recipes/utils';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
+import { RecipesQuery } from './RecipeList.gql';
 
 interface RecipeCardProps {
-  recipe: RecipeFieldsFragment;
+  recipe: RecipesQuery['recipes'][0];
   variant: 'card' | 'list';
   onClick?(evt: React.MouseEvent<HTMLButtonElement>): void;
 }
@@ -21,7 +21,7 @@ const RecipeCardActionArea = styled(CardActionArea)`
     `}
 `;
 
-const RecipeCardImage = styled(CardMedia)`
+const RecipeCardImage = styled(CardMedia).attrs({ component: 'img', loading: 'lazy' })`
   flex: 0 0 33.33333%;
 
   ${props =>
@@ -56,8 +56,6 @@ const RecipeCardDescription = styled(Typography)`
 `;
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => {
-  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
-
   const recipeImage = recipe.images?.[0]?.url;
 
   return (
@@ -79,9 +77,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => 
           <RecipeCardDescription color="textSecondary" variant="body2" gutterBottom>
             {recipe.description}
           </RecipeCardDescription>
-          {totalTime > 0 ? (
+          {recipe.totalTime > 0 ? (
             <Typography color="textSecondary" variant="caption">
-              {totalTime} minutes
+              {recipe.totalTime} minutes
             </Typography>
           ) : null}
         </RecipeCardContent>
