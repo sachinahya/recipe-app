@@ -49,7 +49,7 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
-      "eslint --cache --fix",
+      "eslint --plugin simple-import-sort --rule 'simple-import-sort/sort: error' --cache --fix",
       "prettier --write"
     ],
     "*.json": "prettier --write",

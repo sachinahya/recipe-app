@@ -8,8 +8,7 @@
   "scripts": {
     "start": "node -r dotenv/config -r ts-node/register src/index.ts",
     "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts\"",
-    "test": "jest",
-    "lint": "eslint \"src/**/*.{js,ts,tsx}\""
+    "test": "jest"
   },
   "nodemonConfig": {
     "ext": "js,mjs,json,ts"
