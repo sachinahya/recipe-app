@@ -1,4 +1,5 @@
 import { InputType } from 'type-graphql';
+
 import Cuisine from '../../entities/Cuisine';
 import { IDField, NullableField } from '../../helpers';
 

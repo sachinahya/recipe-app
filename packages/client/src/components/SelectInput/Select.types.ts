@@ -1,5 +1,5 @@
-import React from 'react';
 import { BaseTextFieldProps } from '@material-ui/core/TextField';
+import React from 'react';
 
 export interface InputItem {
   value: string;

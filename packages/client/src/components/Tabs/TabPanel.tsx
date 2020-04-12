@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
+
 import { useTabsContext } from './TabsContext';
 
 interface TabPanelProps {

@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
+
 import { ErrorBoundaryInfo } from './ErrorBoundary.types';
 
 interface ErrorMessageProps extends ErrorBoundaryInfo {

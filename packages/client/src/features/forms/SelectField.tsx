@@ -1,6 +1,7 @@
 import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
 import { useField } from 'formik';
 import React from 'react';
+
 import { useFieldContext } from './FieldContext';
 
 export type SelectFieldProps<T> = SelectInputProps<T>;

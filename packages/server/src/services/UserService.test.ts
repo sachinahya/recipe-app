@@ -1,5 +1,6 @@
 import User from 'entities/User';
 import { connection } from 'test/utils';
+
 import UserService, { DuplicateUserError } from './UserService';
 
 let userService: UserService;

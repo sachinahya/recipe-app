@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import { ModalState } from '@sachinahya/hooks';
 import React from 'react';
+
 import Button from '../Button';
 import { DialogProps } from './Dialog.types';
 

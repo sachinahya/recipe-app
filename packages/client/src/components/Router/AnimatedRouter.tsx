@@ -4,6 +4,7 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import { drawerShown } from 'styles/mediaQueries';
 import { getDrawerWidth } from 'styles/styleSelectors';
+
 import styles from './Router.module.css';
 
 const getProps = (pathLength: number, isPush: boolean) =>

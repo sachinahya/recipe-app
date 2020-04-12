@@ -1,5 +1,6 @@
 import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
 import config from '../config';
 import { IDField } from '../helpers';
 import Recipe from './Recipe';

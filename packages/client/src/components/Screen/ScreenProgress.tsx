@@ -1,5 +1,5 @@
-import React from 'react';
 import Progress from 'components/Progress';
+import React from 'react';
 import styled from 'styled-components';
 
 const ScreenProgress: React.FC = ({ children, ...rest }) => {

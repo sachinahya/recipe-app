@@ -2,6 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { animated, useSpring } from 'react-spring';
+
 import Progress from './Progress';
 
 const useStyles = makeStyles<

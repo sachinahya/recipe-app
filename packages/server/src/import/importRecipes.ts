@@ -1,15 +1,16 @@
+import logger from '@sachinahya/logger';
 import { readFile } from 'fs';
 import glob from 'glob';
 import { promisify } from 'util';
+import { v4 as uuid } from 'uuid';
+
 import Category from '../entities/Category';
 import Cuisine from '../entities/Cuisine';
+import ImageMeta from '../entities/ImageMeta';
 import Ingredient from '../entities/Ingredient';
 import Recipe from '../entities/Recipe';
 import Step from '../entities/Step';
 import User from '../entities/User';
-import logger from '@sachinahya/logger';
-import ImageMeta from '../entities/ImageMeta';
-import { v4 as uuid } from 'uuid';
 
 const globPromise = promisify(glob);
 const readFilePromise = promisify(readFile);

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { drawerShown } from 'styles/mediaQueries';
 import { getDrawerWidth, getSpacing } from 'styles/styleSelectors';
+
 import Clear from './Clear';
 import { useLayout } from './LayoutContext';
 

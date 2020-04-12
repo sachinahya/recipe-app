@@ -1,10 +1,11 @@
-import { Inject, Service } from 'typedi';
 import logger from '@sachinahya/logger';
+import { Inject, Service } from 'typedi';
+
 import { createTimer } from '../helpers/performance';
+import NewUserInput from '../resolvers/inputTypes/NewUserInput';
 import RecipeService from '../services/RecipeService';
 import UserService from '../services/UserService';
 import { importRecipes } from './importRecipes';
-import NewUserInput from '../resolvers/inputTypes/NewUserInput';
 
 @Service()
 export default class RecipeImport {

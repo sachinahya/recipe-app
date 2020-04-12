@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { IDField, Lazy, NullableColumn, NullableField } from '../helpers';
 import Category from './Category';
 import Cuisine from './Cuisine';

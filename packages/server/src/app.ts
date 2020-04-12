@@ -7,6 +7,7 @@ import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
 import { Connection, createConnection, useContainer } from 'typeorm';
+
 import authChecker from './auth/authChecker';
 import { buildContext, configurePassport } from './auth/passport';
 import { AppConfig, DbConfig } from './config';

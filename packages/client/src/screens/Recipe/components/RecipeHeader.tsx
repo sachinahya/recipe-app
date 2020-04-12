@@ -2,6 +2,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Header, HeaderAction } from 'components/Layout';
 import RecipeTabs from 'features/recipes/components/RecipeTabs';
 import React from 'react';
+
 import { useRecipeQuery } from './RecipeSingle/RecipeSingle.gql';
 
 interface RecipeHeaderProps {

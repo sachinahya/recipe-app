@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 import { object, ref, string } from 'yup';
+
 import { useRegistration } from '../hooks';
 
 export interface RegisterFormValues {

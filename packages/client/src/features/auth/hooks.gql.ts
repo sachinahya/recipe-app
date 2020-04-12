@@ -1,8 +1,8 @@
-import * as Types from '../types.gql';
-
-import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+import * as Types from '../types.gql';
 
 export type CurrentUserQueryVariables = {};
 
