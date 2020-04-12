@@ -141,6 +141,7 @@ export type Recipe = {
   sourceUrl?: Maybe<Scalars['String']>;
   ingredients: Array<Ingredient>;
   steps: Array<Step>;
+  totalTime: Scalars['Float'];
 };
 
 export type RecipeInput = {

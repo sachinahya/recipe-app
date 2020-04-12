@@ -51,7 +51,7 @@ const InfoPage: React.FC = () => {
   const { data: cuisines, loading: cuisinesLoading } = useUserCuisinesQuery();
 
   return (
-    <TabPanel mobileOnlyPadding index={0}>
+    <TabPanel index={0}>
       <FormSection>
         <TextField name="title" id="title" label="Title" />
       </FormSection>

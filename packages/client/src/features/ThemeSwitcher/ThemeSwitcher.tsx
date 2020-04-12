@@ -1,11 +1,10 @@
-import createMuiTheme, { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { makeContextConsumerHook } from '@sachinahya/utils';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import { baseTheme, darkTheme } from 'styles/themes';
 
-const ThemeSwitcherContext = React.createContext<Theme | undefined>(undefined);
-
-export const ThemeSwitcherProvider: React.FC = ({ children }) => {
+const ThemeSwitcher: React.FC = ({ children }) => {
   // const isDark = useMediaQuery('(prefers-color-scheme: dark)');
   const isDark = false;
 
@@ -13,7 +12,13 @@ export const ThemeSwitcherProvider: React.FC = ({ children }) => {
     return createMuiTheme(isDark ? darkTheme : baseTheme);
   }, [isDark]);
 
-  return <ThemeSwitcherContext.Provider value={theme}>{children}</ThemeSwitcherContext.Provider>;
+  return (
+    <StylesProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      </ThemeProvider>
+    </StylesProvider>
+  );
 };
 
-export const useThemeSwitcher = makeContextConsumerHook(ThemeSwitcherContext);
+export default ThemeSwitcher;

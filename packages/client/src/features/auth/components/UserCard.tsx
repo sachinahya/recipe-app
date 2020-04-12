@@ -8,13 +8,15 @@ const UserCard: React.FC = props => {
   const [user] = useCurrentUser();
   const [logout] = useLogout();
 
+  if (!user) return null;
+
   return (
-    <div {...props}>
+    <Box p={2} {...props}>
       <NameBadge name={user?.email} showAvatar={user != null} />
       <Box marginTop={1} alignSelf="flex-end">
         {user && <Button onClick={logout}>Sign out</Button>}
       </Box>
-    </div>
+    </Box>
   );
 };
 

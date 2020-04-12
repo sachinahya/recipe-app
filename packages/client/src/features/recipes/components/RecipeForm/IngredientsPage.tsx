@@ -11,7 +11,7 @@ const IngredientsPage: React.FC = () => {
   const { values } = useFormikContext<RecipeFormValues>();
 
   return (
-    <TabPanel mobileOnlyPadding index={1}>
+    <TabPanel index={1}>
       <FormSection>
         <FieldArray name="ingredients">
           {arrayHelpers => (

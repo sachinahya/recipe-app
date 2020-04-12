@@ -97,7 +97,7 @@ const extractNumericData = (str: string | undefined): number | undefined => {
 
 const parseRecipe = async (match: string, defaultUserId: User): Promise<Recipe> => {
   const data = await readFilePromise(match, 'utf-8');
-  const [, json] = /<script.*>(.*)<\/script>/.exec(data) || [];
+  const [, json] = /<script type="application\/ld\+json">(.*)<\/script>/s.exec(data) || [];
   if (!json) throw new Error('Cannot locate recipe data for ' + match);
   const recipe = JSON.parse(json);
 

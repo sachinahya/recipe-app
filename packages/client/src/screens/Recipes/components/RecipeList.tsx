@@ -19,7 +19,16 @@ interface RecipeListProps {
 gql`
   query recipes {
     recipes {
-      ...RecipeFields
+      id
+      title
+      description
+      totalTime
+      images {
+        url
+      }
+      categories {
+        name
+      }
     }
   }
 `;

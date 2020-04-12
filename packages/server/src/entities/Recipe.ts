@@ -90,4 +90,9 @@ export default class Recipe {
   @Field(returns => [Step])
   @OneToMany(type => Step, step => step.recipe, { cascade: true, lazy: true })
   steps: Lazy<Step[]>;
+
+  @Field()
+  get totalTime(): number {
+    return (this.prepTime || 0) + (this.cookTime || 0);
+  }
 }

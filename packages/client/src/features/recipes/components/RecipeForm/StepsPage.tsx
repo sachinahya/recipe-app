@@ -21,7 +21,7 @@ const StepsPage: React.FC = () => {
   const { values } = useFormikContext<RecipeFormValues>();
 
   return (
-    <TabPanel mobileOnlyPadding index={2}>
+    <TabPanel index={2}>
       <FieldArray name="steps">
         {arrayHelpers => (
           <>

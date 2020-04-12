@@ -107,6 +107,7 @@ type Recipe {
   sourceUrl: String
   ingredients: [Ingredient!]!
   steps: [Step!]!
+  totalTime: Float!
 }
 
 input RecipeInput {
