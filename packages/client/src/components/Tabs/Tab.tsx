@@ -1,5 +1,6 @@
 import MuiTab, { TabProps as MuiTabProps } from '@material-ui/core/Tab';
 import React from 'react';
+
 import { useTabsContext } from './TabsContext';
 
 interface TabProps extends MuiTabProps {

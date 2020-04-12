@@ -1,5 +1,6 @@
 import { ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import React from 'react';
+
 import UserAvatar from '../UserAvatar';
 
 interface NameBadgeProps {

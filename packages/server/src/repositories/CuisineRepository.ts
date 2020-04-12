@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { EntityRepository } from 'typeorm';
+
 import Cuisine from '../entities/Cuisine';
 import CustomRepositoryBase from './CustomRepositoryBase';
 

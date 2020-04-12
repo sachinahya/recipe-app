@@ -1,4 +1,5 @@
 import { InputType } from 'type-graphql';
+
 import Category from '../../entities/Category';
 import { IDField, NullableField } from '../../helpers';
 

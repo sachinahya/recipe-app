@@ -3,6 +3,7 @@ import { ErrorMessage } from 'components/Errors';
 import Progress from 'components/Progress';
 import gql from 'graphql-tag';
 import React from 'react';
+
 import RecipeCard from './RecipeCard';
 import { useRecipesQuery } from './RecipeList.gql';
 

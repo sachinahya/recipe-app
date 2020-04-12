@@ -1,5 +1,6 @@
 import { ModalState } from '@sachinahya/hooks';
 import React from 'react';
+
 import BaseDialog from './BaseDialog';
 import { DialogProps } from './Dialog.types';
 

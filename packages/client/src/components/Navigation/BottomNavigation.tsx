@@ -3,6 +3,7 @@ import { useLayout } from 'components/Layout';
 import React from 'react';
 import styled from 'styled-components';
 import { desktopUp } from 'styles/mediaQueries';
+
 import { NavigationProps } from './Navigation.types';
 import useNavigation from './useNavigation';
 

@@ -4,6 +4,7 @@ import UserResolver from 'resolvers/AuthResolver';
 import { ResolverContext } from 'resolvers/types';
 import UserService from 'services/UserService';
 import { user1Input } from 'test/fixtures/users';
+
 import { connection, createResolverContext } from '../utils';
 
 let userService: UserService;

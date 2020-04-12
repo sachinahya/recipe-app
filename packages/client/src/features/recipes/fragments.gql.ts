@@ -1,6 +1,6 @@
-import * as Types from '../types.gql';
-
 import gql from 'graphql-tag';
+
+import * as Types from '../types.gql';
 
 export type IngredientFieldsFragment = {
   __typename?: 'Ingredient';

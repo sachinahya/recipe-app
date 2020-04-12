@@ -4,6 +4,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
+
 import { RecipesQuery } from './RecipeList.gql';
 
 interface RecipeCardProps {

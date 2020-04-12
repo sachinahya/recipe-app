@@ -4,6 +4,7 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import { Header, HeaderAction } from 'components/Layout';
 import OverflowMenu from 'components/OverflowMenu';
 import React from 'react';
+
 import { useRecipesQuery } from './RecipeList.gql';
 
 interface RecipesHeaderProps {

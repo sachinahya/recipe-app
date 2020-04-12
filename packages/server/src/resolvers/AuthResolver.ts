@@ -2,6 +2,7 @@ import logger from '@sachinahya/logger';
 import { AuthenticationError, Context } from 'apollo-server-core';
 import { Arg, Ctx, Int, Mutation, Query } from 'type-graphql';
 import { Service } from 'typedi';
+
 import { AuthStrategies } from '../auth/AuthStrategies';
 import User from '../entities/User';
 import UserService from '../services/UserService';

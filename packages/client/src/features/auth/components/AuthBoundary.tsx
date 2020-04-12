@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useCurrentUser } from '../hooks';
 
 interface AuthBoundaryProps {

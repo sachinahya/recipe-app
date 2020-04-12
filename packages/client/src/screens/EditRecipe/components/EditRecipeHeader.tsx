@@ -1,7 +1,7 @@
-import React from 'react';
+import SaveIcon from '@material-ui/icons/Save';
 import { Header, HeaderAction } from 'components/Layout';
 import RecipeTabs from 'features/recipes/components/RecipeTabs';
-import SaveIcon from '@material-ui/icons/Save';
+import React from 'react';
 
 interface EditRecipeHeaderProps {
   isEdit?: boolean;

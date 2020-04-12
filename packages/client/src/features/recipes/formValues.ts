@@ -6,7 +6,7 @@ import {
   toIdObject,
   trimStringValue,
 } from 'features/forms/formValues';
-import { Recipe, RecipeInput, NewStepInput } from 'features/types.gql';
+import { NewStepInput,Recipe, RecipeInput } from 'features/types.gql';
 import { array, object } from 'yup';
 
 export type RecipeFormValues = FormValues<RecipeInput>;

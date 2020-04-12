@@ -1,5 +1,7 @@
 import 'apollo-server-core';
+
 import express from 'express';
+
 import { AuthStrategies } from '../../auth/AuthStrategies';
 import { AuthenticateOptions, AuthenticationResult } from '../../auth/LocalStrategy';
 import User from '../../entities/User';

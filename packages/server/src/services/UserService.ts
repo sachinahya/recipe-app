@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+
 import { PASSWORD_SALT_ROUNDS } from '../auth/constants';
 import User from '../entities/User';
 import NewUserInput from '../resolvers/inputTypes/NewUserInput';

@@ -1,8 +1,8 @@
-import path from 'path';
-import { createConnection } from 'typeorm';
 import { AuthenticateOptions, AuthenticationResult } from 'auth/LocalStrategy';
 import User from 'entities/User';
+import path from 'path';
 import { ResolverContext } from 'resolvers/types';
+import { createConnection } from 'typeorm';
 
 export const connection = createConnection({
   type: 'sqlite',

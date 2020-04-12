@@ -5,6 +5,7 @@ import Progress from 'components/Progress';
 import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
+
 import { ImageSelectionOverlay } from './ImageSelectionOverlay';
 import { RecipeImageSelection, UploadStatus } from './imageSelectorReducer';
 

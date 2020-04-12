@@ -1,10 +1,10 @@
-import * as Types from '../../../../features/types.gql';
-
-import { RecipeFieldsFragment } from '../../../../features/recipes/fragments.gql';
-import gql from 'graphql-tag';
-import { RecipeFieldsFragmentDoc } from '../../../../features/recipes/fragments.gql';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+import { RecipeFieldsFragment } from '../../../../features/recipes/fragments.gql';
+import { RecipeFieldsFragmentDoc } from '../../../../features/recipes/fragments.gql';
+import * as Types from '../../../../features/types.gql';
 
 export type RecipeQueryVariables = {
   id: Types.Scalars['Float'];

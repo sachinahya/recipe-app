@@ -1,5 +1,6 @@
 import { makeContextConsumerHook } from '@sachinahya/utils';
 import React from 'react';
+
 import useTabs, { UseTabsHook, UseTabsOptions } from './useTabs';
 
 const TabsContext = React.createContext<UseTabsHook>({

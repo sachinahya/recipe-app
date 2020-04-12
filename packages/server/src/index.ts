@@ -1,7 +1,9 @@
 import 'reflect-metadata';
+
+import logger from '@sachinahya/logger';
+
 import getShowOnRoad from './app';
 import config from './config';
-import logger from '@sachinahya/logger';
 
 getShowOnRoad(config).catch(err => {
   logger.error(err);

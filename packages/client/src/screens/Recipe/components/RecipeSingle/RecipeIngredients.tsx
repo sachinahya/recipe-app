@@ -10,6 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { mobileOnlyPadding } from 'styles/snippets';
 import { getSpacing } from 'styles/styleSelectors';
+
 import RecipeIngredient from './RecipeIngredient';
 import SectionTitle from './SectionTitle';
 

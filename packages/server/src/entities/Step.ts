@@ -1,7 +1,8 @@
 import { Field, InputType, ObjectType } from 'type-graphql';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import Recipe from './Recipe';
+
 import { IDField } from '../helpers';
+import Recipe from './Recipe';
 
 @ObjectType()
 @InputType('NewStepInput')

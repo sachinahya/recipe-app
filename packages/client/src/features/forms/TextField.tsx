@@ -2,6 +2,7 @@ import { TextField as MuiTextField } from '@material-ui/core';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { FastField, Field } from 'formik';
 import React from 'react';
+
 import { useFieldContext } from './FieldContext';
 
 export type TextFieldProps = MuiTextFieldProps & {

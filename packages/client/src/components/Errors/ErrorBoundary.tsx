@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ErrorBoundaryInfo } from './ErrorBoundary.types';
 import ErrorMessage from './ErrorMessage';
 

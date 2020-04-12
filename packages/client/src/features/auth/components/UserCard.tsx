@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core';
 import Button from 'components/Button';
 import NameBadge from 'components/NameBadge';
 import React from 'react';
+
 import { useCurrentUser, useLogout } from '../hooks';
 
 const UserCard: React.FC = props => {
