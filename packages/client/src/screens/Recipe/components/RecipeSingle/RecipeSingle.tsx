@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import ButtonRow from 'components/ButtonRow';
 import { ErrorMessage } from 'components/Errors';
@@ -37,7 +37,12 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
   });
 
   if (loading) return <Progress />;
-  if (error) return <ErrorMessage error={error} />;
+  if (error)
+    return (
+      <Box p={3}>
+        <ErrorMessage error={error} />
+      </Box>
+    );
 
   if (!data || !data.recipe) {
     return null;
