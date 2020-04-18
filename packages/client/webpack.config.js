@@ -18,6 +18,8 @@ const jsRegex = /\.([jt]sx?|[cm]js)$/;
 const cssRegex = /.css$/;
 const svgRegex = /\.svg$/;
 
+const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
+
 const isProduction = (NODE_ENV => {
   if (!NODE_ENV) {
     throw new Error('NODE_ENV environment variable is required but was not provided.');
@@ -102,7 +104,7 @@ module.exports = {
             },
           },
         ],
-        sideEffects: true,
+        sideEffects: false,
       },
     ],
   },
@@ -120,8 +122,8 @@ module.exports = {
         reportFilename: 'bundle-report.html',
         openAnalyzer: false,
       }),
-    !isProduction && new webpack.HotModuleReplacementPlugin(),
-    !isProduction && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
+    isDevServer && new webpack.HotModuleReplacementPlugin(),
+    isDevServer && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
     new CleanWebpackPlugin(),
     new Dotenv(),
     new WebpackBar(),
@@ -139,7 +141,7 @@ module.exports = {
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
-    isProduction &&
+    !isDevServer &&
       new WorkboxPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: true,

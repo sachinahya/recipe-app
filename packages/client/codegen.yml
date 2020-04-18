@@ -3,6 +3,7 @@ documents: src/**/!(*.gql).{gql,ts,tsx}
 hooks:
   afterAllFileWrite:
     - prettier --write
+    - 'eslint --plugin simple-import-sort --rule "simple-import-sort/sort: error" --cache --fix'
 generates:
   src/features/types.gql.ts:
     plugins:

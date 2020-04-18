@@ -12,7 +12,8 @@
     "start:app": "webpack-dev-server",
     "build:clean": "rm -rf dist/*",
     "build:generate": "graphql-codegen",
-    "build:app": "webpack"
+    "build:app": "webpack",
+    "build-sw": "NODE_ENV=development webpack && serve dist -s --ssl-cert cert/localhost.crt --ssl-key cert/localhost.key"
   },
   "browserslist": {
     "production": [
@@ -47,6 +48,7 @@
     "@types/styled-components": "^5.0.1",
     "@types/yup": "^0.26.35",
     "apollo-cache-inmemory": "^1.6.5",
+    "apollo-cache-persist": "^0.1.1",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.14",
     "apollo-link-error": "^1.1.13",
