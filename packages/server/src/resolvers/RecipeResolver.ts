@@ -1,6 +1,4 @@
-import { GraphQLUpload } from 'apollo-server-core';
-import { GraphQLScalarType } from 'graphql';
-import { FileUpload } from 'graphql-upload';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import {
   Arg,
   Authorized,
@@ -41,9 +39,9 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   }
 
   @Mutation(returns => String)
-  stageImage(
-    @Arg('file', type => GraphQLUpload as GraphQLScalarType)
-    file: FileUpload
+  async stageImage(
+    @Arg('file', type => GraphQLUpload)
+    file: Promise<FileUpload>
   ): Promise<string> {
     /**
      * This will accept a file as an argument and return something that identifies this file once it
@@ -51,7 +49,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
      * saved to the database.
      * https://github.com/MichalLytek/type-graphql/issues/37
      */
-    const { mimetype, createReadStream } = file;
+    const { mimetype, createReadStream } = await file;
     return this.imageService.stageImage({
       mimetype,
       stream: createReadStream(),

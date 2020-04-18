@@ -3,6 +3,7 @@ import { ApolloServer, ForbiddenError, UserInputError } from 'apollo-server-expr
 import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import session from 'express-session';
+import { graphqlUploadExpress } from 'graphql-upload';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
@@ -40,6 +41,7 @@ const createApolloServer = async (app: express.Application, corsOptions: CorsOpt
   const server = new ApolloServer({
     schema,
     context: ctx => buildContext(ctx),
+    uploads: false,
     formatError: err => {
       if (err.message.startsWith('Access denied!')) return new ForbiddenError(err.message);
       if (err.message === 'Argument Validation Error')
@@ -81,6 +83,7 @@ export default async function getShowOnRoad(config: AppConfig) {
 
   logger.info('Configuring middleware...');
   app.use(cors(config.cors));
+  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
   app.use('/uploads', express.static(config.uploads.dir));
 
   createSessionMiddleware(app, config);
