@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { useCurrentUser } from '../hooks';
+import { useCurrentUser, UseCurrentUserHookStatus, UseCurrentUserOptions } from '../hooks';
 
-interface AuthBoundaryProps {
+interface AuthBoundaryProps extends UseCurrentUserOptions {
   children: JSX.Element;
-  fallback: JSX.Element;
+  fallback: JSX.Element | null | ((status: UseCurrentUserHookStatus) => JSX.Element | null);
 }
 
-const AuthBoundary: React.FC<AuthBoundaryProps> = ({ children, fallback }) => {
-  const [user] = useCurrentUser();
+const AuthBoundary: React.FC<AuthBoundaryProps> = ({ children, fallback, ...hookOptions }) => {
+  const [user, status] = useCurrentUser(hookOptions);
 
-  return user ? children : fallback;
+  if (user) return children;
+  return typeof fallback === 'function' ? fallback(status) : fallback;
 };
 
 export default AuthBoundary;

@@ -1,35 +1,30 @@
-import Screen from 'components/Screen';
+import Screen, { ScreenProgress } from 'components/Screen';
 import { TabsProvider } from 'components/Tabs';
-import AuthBoundary from 'features/auth/components/AuthBoundary';
 import { useRecipeIdParam } from 'features/recipes/hooks';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import LoginScreen from 'screens/LoginScreen';
+import { useHistory, useLocation } from 'react-router-dom';
+import { TitleLocationState } from 'routes/types';
 import { useDeviceSize } from 'styles/hooks';
 
 import RecipeHeader from './components/RecipeHeader';
-import RecipeSingle from './components/RecipeSingle';
+
+const RecipeSingle = React.lazy(() => import('./components/RecipeSingle'));
 
 const Recipe: React.FC = () => {
   const { push } = useHistory();
+  const { state } = useLocation<TitleLocationState>();
   const id = useRecipeIdParam();
   const tablet = useDeviceSize('tablet');
 
-  /*
-  const recipe = data?.recipe;
-  const title: string | undefined = recipe?.title || location.state?.recipeTitle;
-  const browserTitle = title || (error ? 'Error' : 'Loading...');
-  const headerTitle = title || '';
-
- */
+  const title = state?.title || 'Recipe';
 
   return (
     <TabsProvider enabled={!tablet} count={3}>
-      <RecipeHeader id={id} onEdit={() => push(id + '/edit')} />
-      <Screen title="Recipe">
-        <AuthBoundary fallback={<LoginScreen />}>
+      <RecipeHeader id={id} defaultTitle={title} onEdit={() => push(id + '/edit')} />
+      <Screen title={title}>
+        <React.Suspense fallback={<ScreenProgress />}>
           <RecipeSingle id={id} />
-        </AuthBoundary>
+        </React.Suspense>
       </Screen>
     </TabsProvider>
   );

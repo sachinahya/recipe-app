@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, useHistory, useLocation } from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
-import { drawerShown } from 'styles/mediaQueries';
 import { getDrawerWidth } from 'styles/styleSelectors';
 
 import styles from './Router.module.css';
@@ -40,9 +39,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  ${drawerShown} {
+  /* drawerShown {
     padding-left: ${getDrawerWidth};
-  }
+  } */
 `;
 
 const AnimatedRouter: React.FC = ({ children }) => {

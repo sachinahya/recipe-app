@@ -1,7 +1,5 @@
 import { makeContextConsumerHook } from '@sachinahya/utils';
-import useNavigation from 'components/Navigation/useNavigation';
 import React from 'react';
-import { useDeviceSize } from 'styles/hooks';
 
 export interface LayoutState {
   drawerOpen: boolean;
@@ -19,13 +17,14 @@ const LayoutContext = React.createContext<LayoutContextType | undefined>(undefin
 export const useLayout = makeContextConsumerHook(LayoutContext);
 
 export const LayoutProvider: React.FC = ({ children }) => {
-  const isDesktop = useDeviceSize('desktop');
+  // const isDesktop = useDeviceSize('desktop');
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const { pathLength } = useNavigation();
-  const showBottomNav = pathLength <= 1;
+  // const { pathLength } = useNavigation();
+  // const showBottomNav = pathLength <= 1;
 
-  const bottomNavVisible = showBottomNav && !isDesktop;
-  const drawerPermanent = isDesktop;
+  // const bottomNavVisible = showBottomNav && !isDesktop;
+  const bottomNavVisible = false;
+  const drawerPermanent = false;
   const openDrawer = () => setDrawerOpen(true);
   const closeDrawer = () => setDrawerOpen(false);
 

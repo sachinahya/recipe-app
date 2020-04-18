@@ -30,10 +30,18 @@ gql`
   }
 `;
 
-type UseCurrentUserHook = [User | null, MutationStatus<CurrentUserQueryResult>];
+export interface UseCurrentUserOptions {
+  skipCache?: boolean;
+}
 
-export const useCurrentUser = (): UseCurrentUserHook => {
-  const { data, loading, error } = useCurrentUserQuery();
+export type UseCurrentUserHookStatus = MutationStatus<CurrentUserQueryResult>;
+
+type UseCurrentUserHook = [User | null, UseCurrentUserHookStatus];
+
+export const useCurrentUser = ({ skipCache }: UseCurrentUserOptions = {}): UseCurrentUserHook => {
+  const { data, loading, error } = useCurrentUserQuery({
+    fetchPolicy: skipCache ? 'network-only' : undefined,
+  });
   const user: User | null = data?.currentUser || null;
 
   return [user, { loading, error }];
