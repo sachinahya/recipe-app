@@ -126,6 +126,12 @@ module.exports = {
     isDevServer && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
     new CleanWebpackPlugin(),
     new Dotenv(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        WEBPACK_DEV_SERVER: JSON.stringify(process.env.WEBPACK_DEV_SERVER),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
     new WebpackBar(),
     new ForkTsCheckerWebpackPlugin({
       async: isProduction,
