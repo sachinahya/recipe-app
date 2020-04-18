@@ -6,12 +6,11 @@ import RecipeForm from 'features/recipes/components/RecipeForm';
 import { useRecipeIdParam } from 'features/recipes/hooks';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import LoginScreen from 'screens/LoginScreen';
 
 import EditRecipeHeader from './components/EditRecipeHeader';
 
 const EditRecipe: React.FC = () => {
-  const id = useRecipeIdParam();
+  const id = useRecipeIdParam({ required: false });
   const { goBack } = useHistory();
 
   const isEdit = !!id;
@@ -24,9 +23,7 @@ const EditRecipe: React.FC = () => {
         <EditRecipeHeader isEdit={isEdit} onSave={onSave} />
       </AuthBoundary>
       <Screen title="Edit Recipe" maxWidth="md">
-        <AuthBoundary fallback={<LoginScreen />}>
-          <RecipeForm id={id} onSubmitted={() => goBack()} ref={formRef} />
-        </AuthBoundary>
+        <RecipeForm id={id} ref={formRef} onSubmitted={() => goBack()} />
       </Screen>
     </TabsProvider>
   );

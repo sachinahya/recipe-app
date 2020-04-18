@@ -1,16 +1,17 @@
-import { CssBaseline, Divider } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { ErrorBoundary } from 'components/Errors';
-import { Drawer, LayoutProvider, Root } from 'components/Layout';
+import { LayoutProvider, Root } from 'components/Layout';
+import AuthBoundary from 'features/auth/components/AuthBoundary';
 import ThemeSwitcher from 'features/ThemeSwitcher';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { routerLinks } from 'routes/App.routes';
+import LoginScreen from 'screens/LoginScreen';
 
-const ApolloClient2 = React.lazy(() => import('ApolloClientProvider'));
+const ApolloClientProvider = React.lazy(() => import('ApolloClientProvider'));
 const AppRoutes = React.lazy(() => import('routes/App.routes'));
-const UserCard = React.lazy(() => import('features/auth/components/UserCard'));
+/* const UserCard = React.lazy(() => import('features/auth/components/UserCard'));
 const BottomNavigation = React.lazy(() => import('components/Navigation/BottomNavigation'));
-const DrawerNavigation = React.lazy(() => import('components/Navigation/DrawerNavigation'));
+const DrawerNavigation = React.lazy(() => import('components/Navigation/DrawerNavigation')); */
 
 export const App: React.FC = () => {
   return (
@@ -20,24 +21,31 @@ export const App: React.FC = () => {
         <LayoutProvider>
           <Root>
             <React.Suspense fallback={null}>
-              <ApolloClient2>
+              <ApolloClientProvider>
                 {/* Renders as a <div /> for focus management */}
                 <ErrorBoundary>
-                  <AppRoutes />
+                  <AuthBoundary
+                    fallback={({ loading }) => (loading ? null : <LoginScreen />)}
+                    skipCache
+                  >
+                    <AppRoutes />
+                  </AuthBoundary>
                 </ErrorBoundary>
 
-                <React.Suspense fallback={<div>Loading</div>}>
+                {/* <React.Suspense fallback={null}>
                   <Drawer>
                     <Divider />
                     <DrawerNavigation links={routerLinks} />
                     <UserCard />
                   </Drawer>
-                </React.Suspense>
+                </React.Suspense> */}
 
-                <React.Suspense fallback={<div>Loading</div>}>
-                  {<BottomNavigation links={routerLinks} />}
-                </React.Suspense>
-              </ApolloClient2>
+                {/* <AuthBoundary fallback={null}>
+                  <React.Suspense fallback={null}>
+                    {<BottomNavigation links={routerLinks} />}
+                  </React.Suspense>
+                </AuthBoundary> */}
+              </ApolloClientProvider>
             </React.Suspense>
           </Root>
         </LayoutProvider>

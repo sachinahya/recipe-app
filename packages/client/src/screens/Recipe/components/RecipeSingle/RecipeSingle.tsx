@@ -4,6 +4,7 @@ import ButtonRow from 'components/ButtonRow';
 import { ErrorMessage } from 'components/Errors';
 import IconLabel from 'components/IconLabel';
 import Progress from 'components/Progress';
+import { ScreenProgress } from 'components/Screen';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import { getPlaceholderBackground } from 'features/recipes/utils';
@@ -36,7 +37,7 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
     variables: { id },
   });
 
-  if (loading) return <Progress />;
+  if (loading) return <ScreenProgress />;
   if (error)
     return (
       <Box p={3}>

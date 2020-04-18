@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 
 import RecipeCard from './RecipeCard';
-import { useRecipesQuery } from './RecipeList.gql';
+import { RecipesQuery, useRecipesQuery } from './RecipeList.gql';
 
 export enum RecipeListLayout {
   Grid,
@@ -14,7 +14,7 @@ export enum RecipeListLayout {
 
 interface RecipeListProps {
   layout?: RecipeListLayout;
-  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipeId: number): void;
+  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipe: RecipesQuery['recipes'][0]): void;
 }
 
 gql`
@@ -59,7 +59,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid,
             <RecipeCard
               variant={layout === RecipeListLayout.Grid ? 'card' : 'list'}
               recipe={recipe}
-              onClick={evt => onClick?.(evt, recipe.id)}
+              onClick={evt => onClick?.(evt, recipe)}
             />
           </Grid>
         ))}
