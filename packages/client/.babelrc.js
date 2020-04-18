@@ -34,7 +34,7 @@ module.exports = api => ({
     ],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     'babel-plugin-dev-expression',
-    api.env('development') && 'react-refresh/babel',
+    process.env.WEBPACK_DEV_SERVER === 'true' && 'react-refresh/babel',
     'babel-plugin-transform-compress-graphql',
     !api.env('test') && [
       'babel-plugin-import',
