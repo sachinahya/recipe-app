@@ -3,7 +3,6 @@ import TimerIcon from '@material-ui/icons/Timer';
 import ButtonRow from 'components/ButtonRow';
 import { ErrorMessage } from 'components/Errors';
 import IconLabel from 'components/IconLabel';
-import Progress from 'components/Progress';
 import { ScreenProgress } from 'components/Screen';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';

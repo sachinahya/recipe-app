@@ -1,15 +1,17 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, Typography } from '@material-ui/core';
 import { getPlaceholderBackground } from 'features/recipes/utils';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
 
+import RecipeCardImage from './RecipeCardImage';
 import { RecipesQuery } from './RecipeList.gql';
+
+export type RecipeCardVariant = 'card' | 'list';
 
 interface RecipeCardProps {
   recipe: RecipesQuery['recipes'][0];
-  variant: 'card' | 'list';
+  variant: RecipeCardVariant;
   onClick?(evt: React.MouseEvent<HTMLButtonElement>): void;
 }
 
@@ -19,20 +21,6 @@ const RecipeCardActionArea = styled(CardActionArea)`
     css`
       display: flex;
       align-items: stretch;
-    `}
-`;
-
-const RecipeCardImage = styled(CardMedia).attrs({ component: 'img', loading: 'lazy' })`
-  flex: 0 0 33.33333%;
-
-  ${props =>
-    props.className?.includes('card') &&
-    css`
-      height: 150px;
-
-      ${tabletUp} {
-        height: 200px;
-      }
     `}
 `;
 
@@ -63,7 +51,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => 
     <Card>
       <RecipeCardActionArea className={variant} onClick={onClick}>
         <RecipeCardImage
-          className={variant}
+          variant={variant}
           image={recipeImage || onePxGif}
           title={recipe.title}
           style={{ backgroundColor: getPlaceholderBackground(recipe.title) }}
