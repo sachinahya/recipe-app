@@ -1,16 +1,12 @@
-import SelectInput, {
-  SelectInputProps,
-} from 'components/SelectInput/SelectInput';
+import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
 import { useField } from 'formik';
 import React from 'react';
+
 import { useFieldContext } from './FieldContext';
 
 export type SelectFieldProps<T> = SelectInputProps<T>;
 
-const SelectField = <T extends any>({
-  name,
-  ...props
-}: SelectFieldProps<T>) => {
+const SelectField = <T extends any>({ name, ...props }: SelectFieldProps<T>) => {
   if (!name) {
     throw new Error('Name is a required prop for SelectField.');
   }

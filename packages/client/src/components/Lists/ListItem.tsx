@@ -1,11 +1,5 @@
-import {
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from '@material-ui/core';
-import MuiListItem, {
-  ListItemProps as MuiListItemProps,
-} from '@material-ui/core/ListItem';
+import { ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import MuiListItem, { ListItemProps as MuiListItemProps } from '@material-ui/core/ListItem';
 import React from 'react';
 
 interface ListItemProps extends MuiListItemProps {
@@ -27,9 +21,7 @@ const ListItem: React.FC<ListItemProps> = ({
     <MuiListItem {...(listItemProps as any)}>
       {icon && <ListItemIcon>{icon}</ListItemIcon>}
       <ListItemText primary={primary} secondary={secondary} />
-      {secondaryAction && (
-        <ListItemSecondaryAction>{secondaryAction}</ListItemSecondaryAction>
-      )}
+      {secondaryAction && <ListItemSecondaryAction>{secondaryAction}</ListItemSecondaryAction>}
     </MuiListItem>
   );
 };

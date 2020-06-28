@@ -1,14 +1,17 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
-import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
+import { Card, CardActionArea, CardContent, Typography } from '@material-ui/core';
+import { getPlaceholderBackground } from 'features/recipes/utils';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { tabletUp } from 'styles/mediaQueries';
 import { onePxGif } from 'styles/utils';
 
+import RecipeCardImage from './RecipeCardImage';
+import { RecipesQuery } from './RecipeList.gql';
+
+export type RecipeCardVariant = 'card' | 'list';
+
 interface RecipeCardProps {
-  recipe: RecipeFieldsFragment;
-  variant: 'card' | 'list';
+  recipe: RecipesQuery['recipes'][0];
+  variant: RecipeCardVariant;
   onClick?(evt: React.MouseEvent<HTMLButtonElement>): void;
 }
 
@@ -18,20 +21,6 @@ const RecipeCardActionArea = styled(CardActionArea)`
     css`
       display: flex;
       align-items: stretch;
-    `}
-`;
-
-const RecipeCardImage = styled(CardMedia)`
-  flex: 0 0 33.33333%;
-
-  ${props =>
-    props.className?.includes('card') &&
-    css`
-      height: 150px;
-
-      ${tabletUp} {
-        height: 200px;
-      }
     `}
 `;
 
@@ -56,15 +45,13 @@ const RecipeCardDescription = styled(Typography)`
 `;
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => {
-  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
-
   const recipeImage = recipe.images?.[0]?.url;
 
   return (
     <Card>
       <RecipeCardActionArea className={variant} onClick={onClick}>
         <RecipeCardImage
-          className={variant}
+          variant={variant}
           image={recipeImage || onePxGif}
           title={recipe.title}
           style={{ backgroundColor: getPlaceholderBackground(recipe.title) }}
@@ -79,9 +66,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => 
           <RecipeCardDescription color="textSecondary" variant="body2" gutterBottom>
             {recipe.description}
           </RecipeCardDescription>
-          {totalTime > 0 ? (
+          {recipe.totalTime > 0 ? (
             <Typography color="textSecondary" variant="caption">
-              {totalTime} minutes
+              {recipe.totalTime} minutes
             </Typography>
           ) : null}
         </RecipeCardContent>

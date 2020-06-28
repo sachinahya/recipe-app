@@ -49,6 +49,7 @@ const RECIPE_FRAGMENT = gql`
     }
     prepTime
     cookTime
+    totalTime
     yield
     categories {
       ...CategoryFields

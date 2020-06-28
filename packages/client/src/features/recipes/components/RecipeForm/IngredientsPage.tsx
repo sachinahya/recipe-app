@@ -4,6 +4,7 @@ import { TabPanel } from 'components/Tabs';
 import { RecipeFormValues } from 'features/recipes/formValues';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
+
 import { FormSection } from './FormSection';
 import IngredientRow from './IngredientRow';
 
@@ -11,7 +12,7 @@ const IngredientsPage: React.FC = () => {
   const { values } = useFormikContext<RecipeFormValues>();
 
   return (
-    <TabPanel mobileOnlyPadding index={1}>
+    <TabPanel index={1}>
       <FormSection>
         <FieldArray name="ingredients">
           {arrayHelpers => (

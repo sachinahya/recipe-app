@@ -2,6 +2,7 @@ import { TextField as MuiTextField } from '@material-ui/core';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { FastField, Field } from 'formik';
 import React from 'react';
+
 import { useFieldContext } from './FieldContext';
 
 export type TextFieldProps = MuiTextFieldProps & {
@@ -24,9 +25,7 @@ const TextField: React.FC<TextFieldProps> = ({ name, fast, ...props }) => {
           {...props}
           {...field}
           error={Boolean(meta.touched && meta.error)}
-          helperText={
-            meta.touched && meta.error ? meta.error : props.helperText
-          }
+          helperText={meta.touched && meta.error ? meta.error : props.helperText}
         />
       )}
     </FieldComponent>

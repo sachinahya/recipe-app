@@ -1,5 +1,5 @@
+import { Table as MuiTable, TableBody,TableCell, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
-import { Table as MuiTable, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 
 interface TableProps {
   rows: Dictionary<string | number | null | undefined>[];

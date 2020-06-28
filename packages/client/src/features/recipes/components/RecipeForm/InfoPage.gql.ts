@@ -1,14 +1,10 @@
-import * as Types from '../../../types.gql';
-
-import {
-  CategoryFieldsFragmentDoc,
-  CategoryFieldsFragment,
-  CuisineFieldsFragmentDoc,
-  CuisineFieldsFragment,
-} from '../../fragments.gql';
-import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+import * as Types from '../../../types.gql';
+import { CategoryFieldsFragment, CuisineFieldsFragment } from '../../fragments.gql';
+import { CategoryFieldsFragmentDoc, CuisineFieldsFragmentDoc } from '../../fragments.gql';
 
 export type UserCategoriesQueryVariables = {};
 

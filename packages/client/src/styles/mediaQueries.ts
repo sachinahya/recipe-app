@@ -1,4 +1,5 @@
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+
 import { StyleSelector } from './styleSelectors';
 
 const makeMediaQueryCombinator = (separator: string) => (

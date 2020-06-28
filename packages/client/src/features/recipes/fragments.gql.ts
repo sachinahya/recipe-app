@@ -1,12 +1,12 @@
-import * as Types from '../types.gql';
-
 import gql from 'graphql-tag';
+
+import * as Types from '../types.gql';
 
 export type IngredientFieldsFragment = {
   __typename?: 'Ingredient';
   id: number;
   quantity: number;
-  measure: Types.Maybe<string>;
+  measure?: Types.Maybe<string>;
   item: string;
 };
 
@@ -16,7 +16,7 @@ export type ImageFieldsFragment = {
   __typename?: 'ImageMeta';
   id: string;
   url: string;
-  order: Types.Maybe<number>;
+  order?: Types.Maybe<number>;
 };
 
 export type CategoryFieldsFragment = { __typename?: 'Category'; id: number; name: string };
@@ -27,12 +27,13 @@ export type RecipeFieldsFragment = {
   __typename?: 'Recipe';
   id: number;
   title: string;
-  description: Types.Maybe<string>;
-  sourceUrl: Types.Maybe<string>;
-  prepTime: Types.Maybe<number>;
-  cookTime: Types.Maybe<number>;
-  yield: Types.Maybe<number>;
-  images: Types.Maybe<Array<{ __typename?: 'ImageMeta' } & ImageFieldsFragment>>;
+  description?: Types.Maybe<string>;
+  sourceUrl?: Types.Maybe<string>;
+  prepTime?: Types.Maybe<number>;
+  cookTime?: Types.Maybe<number>;
+  totalTime: number;
+  yield?: Types.Maybe<number>;
+  images?: Types.Maybe<Array<{ __typename?: 'ImageMeta' } & ImageFieldsFragment>>;
   categories: Array<{ __typename?: 'Category' } & CategoryFieldsFragment>;
   cuisines: Array<{ __typename?: 'Cuisine' } & CuisineFieldsFragment>;
   ingredients: Array<{ __typename?: 'Ingredient' } & IngredientFieldsFragment>;
@@ -83,6 +84,7 @@ export const RecipeFieldsFragmentDoc = gql`
     }
     prepTime
     cookTime
+    totalTime
     yield
     categories {
       ...CategoryFields

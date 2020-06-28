@@ -7,7 +7,7 @@ const FormPaper = styled(Paper)`
   flex-direction: column;
   padding: ${getSpacing(4)};
   max-width: 450px;
-  margin: ${getSpacing(6)} auto 0;
+  margin: ${getSpacing(6)} auto;
 `;
 
 export default FormPaper;

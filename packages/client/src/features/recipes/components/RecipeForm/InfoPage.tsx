@@ -7,8 +7,9 @@ import SelectField from 'features/forms/SelectField';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
 import gql from 'graphql-tag';
 import React from 'react';
-import { FormSection } from './FormSection';
+
 import ImageSelector from '../ImageSelector/ImageSelector';
+import { FormSection } from './FormSection';
 import { useUserCategoriesQuery, useUserCuisinesQuery } from './InfoPage.gql';
 
 const USER_CATEGORIES_QUERY = gql`
@@ -51,7 +52,7 @@ const InfoPage: React.FC = () => {
   const { data: cuisines, loading: cuisinesLoading } = useUserCuisinesQuery();
 
   return (
-    <TabPanel mobileOnlyPadding index={0}>
+    <TabPanel index={0}>
       <FormSection>
         <TextField name="title" id="title" label="Title" />
       </FormSection>

@@ -1,18 +1,19 @@
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import ButtonRow from 'components/ButtonRow';
 import { ErrorMessage } from 'components/Errors';
 import IconLabel from 'components/IconLabel';
-import Progress from 'components/Progress';
+import { ScreenProgress } from 'components/Screen';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
-import { getPlaceholderBackground, getTotalTime } from 'features/recipes/utils';
+import { getPlaceholderBackground } from 'features/recipes/utils';
 import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
-import { desktopUp, tabletUp } from 'styles/mediaQueries';
-import { mobileOnlyPadding, screenPadding } from 'styles/snippets';
+import { tabletUp } from 'styles/mediaQueries';
+import { mobileOnlyPadding } from 'styles/snippets';
 import { getSpacing } from 'styles/styleSelectors';
+
 import RecipeIngredients from './RecipeIngredients';
 import { useRecipeQuery } from './RecipeSingle.gql';
 import RecipeStep from './RecipeStep';
@@ -35,17 +36,20 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
     variables: { id },
   });
 
-  if (loading) return <Progress />;
-  if (error) return <ErrorMessage error={error} />;
+  if (loading) return <ScreenProgress />;
+  if (error)
+    return (
+      <Box p={3}>
+        <ErrorMessage error={error} />
+      </Box>
+    );
 
   if (!data || !data.recipe) {
     return null;
   }
 
   const recipe = data.recipe;
-
   const recipeImage = recipe.images?.[0]?.url;
-  const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime);
 
   return (
     <Typography component="article" {...rest}>
@@ -62,9 +66,9 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
           </RecipeDescription>
           <RecipeActions>
             <Typography component="p" variant="body2" color="textSecondary">
-              {totalTime ? (
+              {recipe.totalTime ? (
                 <IconLabel icon={<TimerIcon titleAccess="Total time" />}>
-                  {totalTime} minutes
+                  {recipe.totalTime} minutes
                 </IconLabel>
               ) : null}
             </Typography>

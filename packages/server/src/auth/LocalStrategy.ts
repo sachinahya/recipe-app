@@ -1,5 +1,6 @@
 import express from 'express';
 import { Strategy } from 'passport-strategy';
+
 import User from '../entities/User';
 
 export interface AuthenticateOptions {

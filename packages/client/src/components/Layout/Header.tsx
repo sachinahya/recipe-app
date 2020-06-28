@@ -1,21 +1,11 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { useTabsContext } from 'components/Tabs/TabsContext';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { drawerShown } from 'styles/mediaQueries';
-import { getDrawerWidth, getSpacing } from 'styles/styleSelectors';
-import Clear from './Clear';
-import { useLayout } from './LayoutContext';
+import { getSpacing } from 'styles/styleSelectors';
 
-const HeaderButton = styled(IconButton).attrs({
-  color: 'inherit',
-  edge: 'start',
-})`
-  margin-right: ${getSpacing(1)};
-`;
+import Clear from './Clear';
+import HeaderButton from './HeaderButton';
 
 const titleStyles = { flexGrow: 1 };
 
@@ -24,36 +14,16 @@ export interface HeaderProps {
   variant?: 'back';
   actions?: React.ReactElement | null | undefined;
   tabs?: React.ReactNode;
-  // position?: 'absolute' | 'fixed' | 'relative';
 }
 
-const Header: React.FC<HeaderProps> = ({
-  children,
-  title,
-  variant,
-  actions,
-  tabs,
-
-  ...rest
-}) => {
-  const { goBack } = useHistory();
+const Header: React.FC<HeaderProps> = ({ children, title, variant, actions, tabs, ...rest }) => {
   const { enabled } = useTabsContext();
-  const { drawerPermanent, openDrawer } = useLayout();
 
   return (
     <>
       <AppBar {...rest} position="fixed">
         <Toolbar>
-          {!drawerPermanent &&
-            (variant === 'back' ? (
-              <HeaderButton aria-label="Back" onClick={() => goBack()}>
-                <ArrowBackIcon />
-              </HeaderButton>
-            ) : (
-              <HeaderButton aria-label="Open drawer" onClick={openDrawer}>
-                <MenuIcon />
-              </HeaderButton>
-            ))}
+          <HeaderButton variant={variant} />
           {/* We need to ensure that we don't render more than one h1 at a time */}
           <Typography variant="h6" component="h1" color="inherit" noWrap style={titleStyles}>
             {title}
@@ -71,9 +41,4 @@ const HeaderActions = styled.div`
   margin-right: ${getSpacing(-1.5)};
 `;
 
-export default styled(Header)`
-  ${drawerShown} {
-    width: calc(100% - ${getDrawerWidth});
-  }
-`;
-// export default withLayout(styled(Header)``);
+export default Header;

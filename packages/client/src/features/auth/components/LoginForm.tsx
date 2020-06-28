@@ -8,9 +8,7 @@ import { getSpacing } from 'styles/styleSelectors';
 import { object, string } from 'yup';
 
 const schema = object({
-  email: string()
-    .email()
-    .required(),
+  email: string().email().required(),
   password: string().required(),
 });
 

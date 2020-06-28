@@ -1,22 +1,18 @@
 import { BottomNavigation as MuiBottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import { useLayout } from 'components/Layout';
 import React from 'react';
-import { animated, useSpring } from 'react-spring';
 import styled from 'styled-components';
 import { desktopUp } from 'styles/mediaQueries';
+
 import { NavigationProps } from './Navigation.types';
 import useNavigation from './useNavigation';
-import { useLayout } from 'components/Layout';
 
 const BottomNavigation: React.FC<NavigationProps> = ({ links, ...rest }) => {
   const { currentRoot, navigate } = useNavigation();
   const { bottomNavVisible } = useLayout();
 
-  const props = useSpring({
-    transform: bottomNavVisible ? 'translateY(0%)' : 'translateY(100%)',
-  });
-
   return (
-    <animated.nav style={props} {...rest}>
+    <nav style={{ display: bottomNavVisible ? undefined : 'none' }} {...rest}>
       <MuiBottomNavigation
         showLabels={true}
         value={currentRoot}
@@ -27,7 +23,7 @@ const BottomNavigation: React.FC<NavigationProps> = ({ links, ...rest }) => {
             <BottomNavigationAction key={text} value={to} label={text} icon={Icon && <Icon />} />
           ))}
       </MuiBottomNavigation>
-    </animated.nav>
+    </nav>
   );
 };
 

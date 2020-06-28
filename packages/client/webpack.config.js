@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const isCI = require('is-ci');
 const webpack = require('webpack');
@@ -11,10 +12,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const jsRegex = /\.([jt]sx?|[cm]js)$/;
 const cssRegex = /.css$/;
 const svgRegex = /\.svg$/;
+
+const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
 
 const isProduction = (NODE_ENV => {
   if (!NODE_ENV) {
@@ -100,7 +104,7 @@ module.exports = {
             },
           },
         ],
-        sideEffects: true,
+        sideEffects: false,
       },
     ],
   },
@@ -118,10 +122,16 @@ module.exports = {
         reportFilename: 'bundle-report.html',
         openAnalyzer: false,
       }),
-    !isProduction && new webpack.HotModuleReplacementPlugin(),
-    !isProduction && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
+    isDevServer && new webpack.HotModuleReplacementPlugin(),
+    isDevServer && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
     new CleanWebpackPlugin(),
     new Dotenv(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        WEBPACK_DEV_SERVER: JSON.stringify(process.env.WEBPACK_DEV_SERVER),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
     new WebpackBar(),
     new ForkTsCheckerWebpackPlugin({
       async: isProduction,
@@ -137,6 +147,12 @@ module.exports = {
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
+    !isDevServer &&
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+      }),
   ].filter(Boolean),
 
   devServer: {
@@ -146,6 +162,10 @@ module.exports = {
     overlay: true,
     port: 3000,
     transportMode: 'ws',
+    https: true,
+    key: fs.readFileSync('./cert/localhost.key'),
+    cert: fs.readFileSync('./cert/localhost.crt'),
+
     // quiet: true,
     /* proxy: {
       '/api': {

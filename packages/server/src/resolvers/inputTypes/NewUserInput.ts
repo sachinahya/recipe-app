@@ -1,5 +1,6 @@
 import { IsEmail, Length } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
+
 import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '../../auth/constants';
 import User from '../../entities/User';
 import { IDField } from '../../helpers';

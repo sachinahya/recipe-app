@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 import { object, ref, string } from 'yup';
+
 import { useRegistration } from '../hooks';
 
 export interface RegisterFormValues {
@@ -14,9 +15,7 @@ export interface RegisterFormValues {
 }
 
 const registerSchema = object<RegisterFormValues>({
-  email: string()
-    .email('Must enter a valid email address.')
-    .required('Email is required.'),
+  email: string().email('Must enter a valid email address.').required('Email is required.'),
   password: string()
     .min(8, ({ min }) => `Password must be a minimum of ${min} characters long.`)
     .required('Password is required.'),

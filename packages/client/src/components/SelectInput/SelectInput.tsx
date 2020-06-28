@@ -3,6 +3,7 @@ import { ensureArray, invariant } from '@sachinahya/utils';
 import React from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
+
 import { InputItem, SelectBaseProps } from './Select.types';
 
 export type SelectInputProps<T> = SelectBaseProps<T>;

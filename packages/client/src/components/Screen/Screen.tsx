@@ -18,7 +18,11 @@ interface ScreenProps {
 }
 
 const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
-  const ref = useScrollRestoration('scrollPos', useLocation().key || '', useHistory().action);
+  const ref = useScrollRestoration<HTMLElement>(
+    'scrollPos',
+    useLocation().key || '',
+    useHistory().action
+  );
   const { bottomNavVisible } = useLayout();
 
   React.useEffect(() => {
@@ -27,13 +31,18 @@ const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...
 
   return (
     <>
-      <MuiContainer component="main" maxWidth={maxWidth} ref={ref} {...rest}>
-        <ErrorBoundary>{children}</ErrorBoundary>
-      </MuiContainer>
+      <main ref={ref} {...rest}>
+        <Container maxWidth={maxWidth}>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </Container>
+      </main>
       <Clear footer={bottomNavVisible} />
     </>
   );
 };
+const Container = styled(MuiContainer)`
+  padding: 0;
+`;
 
 export default styled(Screen)`
   padding: 0;

@@ -1,5 +1,6 @@
-import authChecker from './authChecker';
 import User from 'entities/User';
+
+import authChecker from './authChecker';
 
 const fakeArgs = {
   context: {

@@ -4,16 +4,21 @@ import { Form, Formik } from 'formik';
 import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
+
 import { FieldContextProvider } from '../../../forms/FieldContext';
 import { convertFromFormValues, convertToFormValues, schema } from '../../formValues';
 import InfoPage from './InfoPage';
 import IngredientsPage from './IngredientsPage';
-import { useRecipeFormDataLazyQuery, useSaveRecipeMutation } from './RecipeForm.gql';
+import {
+  SaveRecipeMutation,
+  useRecipeFormDataLazyQuery,
+  useSaveRecipeMutation,
+} from './RecipeForm.gql';
 import StepsPage from './StepsPage';
 
 interface RecipeFormProps extends React.RefAttributes<HTMLFormElement> {
   id: number;
-  onSubmitted?(recipeId?: number): void;
+  onSubmitted?(recipe?: SaveRecipeMutation['addRecipe']): void;
 }
 
 const SAVE_RECIPE_MUTATION = gql`
@@ -56,7 +61,7 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(
       try {
         const variables = { data: convertFromFormValues(values) };
         const { data } = await addRecipe({ variables });
-        onSubmitted?.(data?.addRecipe.id);
+        onSubmitted?.(data?.addRecipe);
       } catch (err) {
         console.error(err);
       }

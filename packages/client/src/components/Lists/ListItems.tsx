@@ -27,16 +27,9 @@ const ListItems = <T extends {}>({
 }: ListItemsProps<T>): React.ReactElement | null => {
   if (virtualized) {
     if (height == null || itemSize == null)
-      throw new Error(
-        'Must specify height and itemSize props for virtualized lists.'
-      );
+      throw new Error('Must specify height and itemSize props for virtualized lists.');
     return (
-      <FixedSizeList
-        height={height}
-        itemCount={items.length}
-        itemSize={itemSize}
-        width={width}
-      >
+      <FixedSizeList height={height} itemCount={items.length} itemSize={itemSize} width={width}>
         {({ style, index }) => children({ item: items[index], index, style })}
       </FixedSizeList>
     );

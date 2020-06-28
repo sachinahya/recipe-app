@@ -1,5 +1,6 @@
 import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
 import { HASHED_PASSWORD_LENGTH } from '../auth/constants';
 import config from '../config';
 import Category from './Category';
@@ -13,22 +14,13 @@ export default class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(
-    type => Recipe,
-    recipe => recipe.author
-  )
+  @OneToMany(type => Recipe, recipe => recipe.author)
   recipes: Recipe[];
 
-  @OneToMany(
-    type => Category,
-    category => category.user
-  )
+  @OneToMany(type => Category, category => category.user)
   categories: Category[];
 
-  @OneToMany(
-    type => Cuisine,
-    cuisine => cuisine.user
-  )
+  @OneToMany(type => Cuisine, cuisine => cuisine.user)
   cuisines: Cuisine[];
 
   @Field()

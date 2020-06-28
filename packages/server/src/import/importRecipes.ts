@@ -1,15 +1,16 @@
+import logger from '@sachinahya/logger';
 import { readFile } from 'fs';
 import glob from 'glob';
 import { promisify } from 'util';
+import { v4 as uuid } from 'uuid';
+
 import Category from '../entities/Category';
 import Cuisine from '../entities/Cuisine';
+import ImageMeta from '../entities/ImageMeta';
 import Ingredient from '../entities/Ingredient';
 import Recipe from '../entities/Recipe';
 import Step from '../entities/Step';
 import User from '../entities/User';
-import logger from '@sachinahya/logger';
-import ImageMeta from '../entities/ImageMeta';
-import { v4 as uuid } from 'uuid';
 
 const globPromise = promisify(glob);
 const readFilePromise = promisify(readFile);
@@ -97,7 +98,7 @@ const extractNumericData = (str: string | undefined): number | undefined => {
 
 const parseRecipe = async (match: string, defaultUserId: User): Promise<Recipe> => {
   const data = await readFilePromise(match, 'utf-8');
-  const [, json] = /<script.*>(.*)<\/script>/.exec(data) || [];
+  const [, json] = /<script type="application\/ld\+json">(.*)<\/script>/s.exec(data) || [];
   if (!json) throw new Error('Cannot locate recipe data for ' + match);
   const recipe = JSON.parse(json);
 

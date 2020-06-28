@@ -6,7 +6,7 @@ import {
   toIdObject,
   trimStringValue,
 } from 'features/forms/formValues';
-import { Recipe, RecipeInput, NewStepInput } from 'features/types.gql';
+import { NewStepInput,Recipe, RecipeInput } from 'features/types.gql';
 import { array, object } from 'yup';
 
 export type RecipeFormValues = FormValues<RecipeInput>;
@@ -16,9 +16,7 @@ export const schema = object().shape<RecipeFormValues>({
   description: emptyString(),
   imageUrl: emptyString(),
   sourceUrl: emptyString(),
-  categories: array()
-    .of(emptyString())
-    .compact(),
+  categories: array().of(emptyString()).compact(),
 });
 
 export const convertFromFormValues = (values: RecipeFormValues): RecipeInput => {

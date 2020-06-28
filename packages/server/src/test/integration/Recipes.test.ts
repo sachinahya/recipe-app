@@ -14,9 +14,10 @@ import FileService from 'services/FileService';
 import ImageService from 'services/ImageService';
 import RecipeService from 'services/RecipeService';
 import UserService from 'services/UserService';
-import { connection, createResolverContext } from 'test/utils';
-import config from '../../config';
 import { user1Input, user2Input } from 'test/fixtures/users';
+import { connection, createResolverContext } from 'test/utils';
+
+import config from '../../config';
 
 let user1: User;
 let context1: ResolverContext;

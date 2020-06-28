@@ -1,55 +1,57 @@
-import { Box, CssBaseline, Divider } from '@material-ui/core';
-import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
+import { CssBaseline } from '@material-ui/core';
 import { ErrorBoundary } from 'components/Errors';
-import { Drawer, LayoutProvider, Root } from 'components/Layout';
-import { BottomNavigation, DrawerNavigation } from 'components/Navigation';
-import UserCard from 'features/auth/components/UserCard';
-import { useCurrentUser } from 'features/auth/hooks';
-import { ThemeSwitcherProvider, useThemeSwitcher } from 'features/ThemeSwitcher';
+import { LayoutProvider, Root } from 'components/Layout';
+import AuthBoundary from 'features/auth/components/AuthBoundary';
+import ThemeSwitcher from 'features/ThemeSwitcher';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppRoutes, { routerLinks } from 'routes/App.routes';
-import { ThemeProvider } from 'styled-components';
+import LoginScreen from 'screens/LoginScreen';
 
-const AppBootstrap: React.FC = () => {
-  return (
-    <ThemeSwitcherProvider>
-      <App />
-    </ThemeSwitcherProvider>
-  );
-};
+const ApolloClientProvider = React.lazy(() => import('ApolloClientProvider'));
+const AppRoutes = React.lazy(() => import('routes/App.routes'));
+/* const UserCard = React.lazy(() => import('features/auth/components/UserCard'));
+const BottomNavigation = React.lazy(() => import('components/Navigation/BottomNavigation'));
+const DrawerNavigation = React.lazy(() => import('components/Navigation/DrawerNavigation')); */
 
 export const App: React.FC = () => {
-  const [user] = useCurrentUser();
-  const theme = useThemeSwitcher();
-
   return (
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <MuiThemeProvider theme={theme}>
-          <Router>
-            <CssBaseline />
-            <LayoutProvider>
-              <Root>
+    <ThemeSwitcher>
+      <Router>
+        <CssBaseline />
+        <LayoutProvider>
+          <Root>
+            <React.Suspense fallback={null}>
+              <ApolloClientProvider>
                 {/* Renders as a <div /> for focus management */}
                 <ErrorBoundary>
-                  <AppRoutes />
+                  <AuthBoundary
+                    fallback={({ loading }) => (loading ? null : <LoginScreen />)}
+                    skipCache
+                  >
+                    <AppRoutes />
+                  </AuthBoundary>
                 </ErrorBoundary>
 
-                <Drawer>
-                  <Divider />
-                  <DrawerNavigation links={routerLinks} />
-                  <Box p={2}>{user ? <UserCard /> : null}</Box>
-                </Drawer>
+                {/* <React.Suspense fallback={null}>
+                  <Drawer>
+                    <Divider />
+                    <DrawerNavigation links={routerLinks} />
+                    <UserCard />
+                  </Drawer>
+                </React.Suspense> */}
 
-                <BottomNavigation links={routerLinks} />
-              </Root>
-            </LayoutProvider>
-          </Router>
-        </MuiThemeProvider>
-      </ThemeProvider>
-    </StylesProvider>
+                {/* <AuthBoundary fallback={null}>
+                  <React.Suspense fallback={null}>
+                    {<BottomNavigation links={routerLinks} />}
+                  </React.Suspense>
+                </AuthBoundary> */}
+              </ApolloClientProvider>
+            </React.Suspense>
+          </Root>
+        </LayoutProvider>
+      </Router>
+    </ThemeSwitcher>
   );
 };
 
-export default AppBootstrap;
+export default App;

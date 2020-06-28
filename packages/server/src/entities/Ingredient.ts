@@ -1,7 +1,8 @@
 import { Field, InputType, ObjectType } from 'type-graphql';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+
+import { IDField,NullableColumn, NullableField } from '../helpers';
 import Recipe from './Recipe';
-import { NullableField, NullableColumn, IDField } from '../helpers';
 
 @ObjectType()
 @InputType('NewIngredientInput')
@@ -34,11 +35,7 @@ class IngredientBase {
 @ObjectType()
 @Entity('recipe_ingredient')
 export default class Ingredient extends IngredientBase {
-  @ManyToOne(
-    type => Recipe,
-    recipe => recipe.ingredients,
-    { primary: true }
-  )
+  @ManyToOne(type => Recipe, recipe => recipe.ingredients, { primary: true })
   recipe: Recipe;
 }
 

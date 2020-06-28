@@ -1,5 +1,6 @@
 import { css } from 'styled-components';
-import { desktopUp, tabletUp, mobileDown } from './mediaQueries';
+
+import { desktopUp, mobileDown,tabletUp } from './mediaQueries';
 import { getSpacing } from './styleSelectors';
 
 export const screenPadding = {

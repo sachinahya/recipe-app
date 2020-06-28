@@ -1,5 +1,6 @@
 import MuiTabs, { TabsProps as MuiTabsProps } from '@material-ui/core/Tabs';
 import React from 'react';
+
 import { useTabsContext } from './TabsContext';
 
 type TabsProps = Omit<MuiTabsProps, 'value'>;

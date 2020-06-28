@@ -73,7 +73,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
       username: getEnvValue('DB_USERNAME'),
       password: getEnvValue('DB_PASSWORD'),
       database: getEnvValue('DB_DATABASE'),
-      dropSchema: isDevelopment && getEnvValue('DB_DROP_SCHEMA') === 'true',
+      dropSchema: isDevelopment && getEnvValue('DB_DROP_SCHEMA', false) === 'true',
     },
   };
 })(process.env);

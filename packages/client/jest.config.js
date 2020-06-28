@@ -8,5 +8,5 @@ module.exports = {
   ].filter(Boolean),
   setupFilesAfterEnv: [path.join(__dirname, 'src/test/jest.setup.ts')],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['node_modules/(?!(@sachinahya/utils)/)'],
+  transformIgnorePatterns: ['node_modules/(?!(@sachinahya/.*)/)'],
 };

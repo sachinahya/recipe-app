@@ -1,6 +1,7 @@
-import NameBadge from './NameBadge';
 import * as React from 'react';
 import { render } from 'test/utils';
+
+import NameBadge from './NameBadge';
 
 it('displays a name', () => {
   const { getByText } = render(<NameBadge name="Bilbo Baggins" />);

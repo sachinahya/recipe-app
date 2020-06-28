@@ -1,6 +1,7 @@
 import { Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+
 import Category from '../entities/Category';
 import Cuisine from '../entities/Cuisine';
 import User from '../entities/User';

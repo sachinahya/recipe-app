@@ -5,11 +5,7 @@ interface HeaderActionProps extends IconButtonProps {
   icon?: React.ReactElement;
 }
 
-const HeaderAction: React.FC<HeaderActionProps> = ({
-  children,
-  icon = children,
-  ...props
-}) => {
+const HeaderAction: React.FC<HeaderActionProps> = ({ children, icon = children, ...props }) => {
   return (
     <IconButton color="inherit" {...props}>
       {icon}

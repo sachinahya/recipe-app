@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { IDField, Lazy, NullableColumn, NullableField } from '../helpers';
 import Category from './Category';
 import Cuisine from './Cuisine';
@@ -43,29 +44,17 @@ export default class Recipe {
   modifiedDate: Date;
 
   @Field(type => User)
-  @ManyToOne(
-    type => User,
-    user => user.recipes,
-    { lazy: true, nullable: false }
-  )
+  @ManyToOne(type => User, user => user.recipes, { lazy: true, nullable: false })
   @JoinColumn({ name: 'user_id' })
   author: Lazy<User>;
 
   @Field(type => [Category])
-  @ManyToMany(
-    type => Category,
-    category => category.recipes,
-    { lazy: true }
-  )
+  @ManyToMany(type => Category, category => category.recipes, { lazy: true })
   @JoinTable()
   categories: Lazy<Category[]>;
 
   @Field(type => [Cuisine])
-  @ManyToMany(
-    type => Cuisine,
-    cuisine => cuisine.recipes,
-    { lazy: true }
-  )
+  @ManyToMany(type => Cuisine, cuisine => cuisine.recipes, { lazy: true })
   @JoinTable()
   cuisines: Lazy<Cuisine[]>;
 
@@ -76,11 +65,7 @@ export default class Recipe {
   imageUrl?: string;
 
   @NullableField(type => [ImageMeta])
-  @OneToMany(
-    type => ImageMeta,
-    image => image.recipe,
-    { cascade: true, lazy: true }
-  )
+  @OneToMany(type => ImageMeta, image => image.recipe, { cascade: true, lazy: true })
   images?: Lazy<ImageMeta[]>;
 
   @NullableField()
@@ -100,18 +85,15 @@ export default class Recipe {
   sourceUrl?: string;
 
   @Field(type => [Ingredient])
-  @OneToMany(
-    type => Ingredient,
-    ingredient => ingredient.recipe,
-    { cascade: true, lazy: true }
-  )
+  @OneToMany(type => Ingredient, ingredient => ingredient.recipe, { cascade: true, lazy: true })
   ingredients: Lazy<Ingredient[]>;
 
   @Field(returns => [Step])
-  @OneToMany(
-    type => Step,
-    step => step.recipe,
-    { cascade: true, lazy: true }
-  )
+  @OneToMany(type => Step, step => step.recipe, { cascade: true, lazy: true })
   steps: Lazy<Step[]>;
+
+  @Field()
+  get totalTime(): number {
+    return (this.prepTime || 0) + (this.cookTime || 0);
+  }
 }

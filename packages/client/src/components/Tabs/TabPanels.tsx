@@ -1,6 +1,7 @@
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
+
 import { useTabsContext } from './TabsContext';
 
 const TabPanels: React.FC = ({ children }) => {

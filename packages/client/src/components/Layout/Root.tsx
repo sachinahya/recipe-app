@@ -7,6 +7,7 @@ const Root = styled.div`
   right: 0;
   bottom: 0;
   display: flex;
+  flex-flow: column;
 `;
 
 export default Root;

@@ -8,6 +8,7 @@ import { RecipeFormValues } from 'features/recipes/formValues';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
+
 import { FormSection } from './FormSection';
 
 const StepHeading = styled(Heading).attrs({
@@ -21,7 +22,7 @@ const StepsPage: React.FC = () => {
   const { values } = useFormikContext<RecipeFormValues>();
 
   return (
-    <TabPanel mobileOnlyPadding index={2}>
+    <TabPanel index={2}>
       <FieldArray name="steps">
         {arrayHelpers => (
           <>

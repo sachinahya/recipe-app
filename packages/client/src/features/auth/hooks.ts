@@ -1,13 +1,17 @@
 import { MutationResult } from '@apollo/react-common';
+import { MutationUpdaterFn } from 'apollo-client';
 import { User } from 'features/types.gql';
 import gql from 'graphql-tag';
+
 import { RegisterFormValues } from './components/RegistrationForm';
 import {
   CurrentUserDocument,
   CurrentUserQuery,
   CurrentUserQueryResult,
+  LoginMutation,
   LoginMutationResult,
   LogoutMutationResult,
+  RegisterUserMutation,
   RegisterUserMutationResult,
   useCurrentUserQuery,
   useLoginMutation,
@@ -26,10 +30,18 @@ gql`
   }
 `;
 
-type UseCurrentUserHook = [User | null, MutationStatus<CurrentUserQueryResult>];
+export interface UseCurrentUserOptions {
+  skipCache?: boolean;
+}
 
-export const useCurrentUser = (): UseCurrentUserHook => {
-  const { data, loading, error } = useCurrentUserQuery();
+export type UseCurrentUserHookStatus = MutationStatus<CurrentUserQueryResult>;
+
+type UseCurrentUserHook = [User | null, UseCurrentUserHookStatus];
+
+export const useCurrentUser = ({ skipCache }: UseCurrentUserOptions = {}): UseCurrentUserHook => {
+  const { data, loading, error } = useCurrentUserQuery({
+    fetchPolicy: skipCache ? 'network-only' : undefined,
+  });
   const user: User | null = data?.currentUser || null;
 
   return [user, { loading, error }];
@@ -57,6 +69,15 @@ type UseLoginHook = [
   MutationStatus<LoginMutationResult>
 ];
 
+const loginUpdater: MutationUpdaterFn<LoginMutation> = (cache, { data }) => {
+  if (data) {
+    cache.writeQuery<CurrentUserQuery>({
+      query: CurrentUserDocument,
+      data: { currentUser: data.login },
+    });
+  }
+};
+
 export const useLogin = (): UseLoginHook => {
   const [loginMutation, { loading, error }] = useLoginMutation();
 
@@ -64,14 +85,7 @@ export const useLogin = (): UseLoginHook => {
     try {
       await loginMutation({
         variables: { email, password },
-        update(cache, { data }) {
-          if (data) {
-            cache.writeQuery<CurrentUserQuery>({
-              query: CurrentUserDocument,
-              data: { currentUser: data.login },
-            });
-          }
-        },
+        update: loginUpdater,
       });
     } catch (err) {
       console.error(err);
@@ -116,6 +130,15 @@ type UseRegistrationHook = [
   MutationStatus<RegisterUserMutationResult>
 ];
 
+const registrationUpdater: MutationUpdaterFn<RegisterUserMutation> = (cache, { data }) => {
+  if (data) {
+    cache.writeQuery<CurrentUserQuery>({
+      query: CurrentUserDocument,
+      data: { currentUser: data.register },
+    });
+  }
+};
+
 export const useRegistration = (): UseRegistrationHook => {
   const [registerMutation, { error, loading }] = useRegisterUserMutation();
 
@@ -128,14 +151,7 @@ export const useRegistration = (): UseRegistrationHook => {
             plainTextPassword: values.password,
           },
         },
-        update(cache, { data }) {
-          if (data) {
-            cache.writeQuery<CurrentUserQuery>({
-              query: CurrentUserDocument,
-              data: { currentUser: data.register },
-            });
-          }
-        },
+        update: registrationUpdater,
       });
     } catch (err) {
       console.error(err);

@@ -4,15 +4,15 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import { useCounter } from '@sachinahya/hooks';
 import { pluralize } from '@sachinahya/utils';
 import { TabPanel } from 'components/Tabs';
+import { Recipe } from 'features/types.gql';
 import round from 'lodash/round';
 import React from 'react';
 import styled from 'styled-components';
 import { mobileOnlyPadding } from 'styles/snippets';
 import { getSpacing } from 'styles/styleSelectors';
+
 import RecipeIngredient from './RecipeIngredient';
-import { RecipeSingleProps } from './RecipeSingle';
 import SectionTitle from './SectionTitle';
-import { Recipe } from 'features/types.gql';
 
 interface RecipeIngredientsProps {
   index: number;
