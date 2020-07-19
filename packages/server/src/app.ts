@@ -57,7 +57,7 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
   useContainer(Container);
 
   return createConnection({
-    type: 'mariadb',
+    type: 'postgres',
     host: db.host,
     port: db.port,
     username: db.username,

@@ -6,6 +6,14 @@ import Category from './Category';
 import Cuisine from './Cuisine';
 import Recipe from './Recipe';
 
+// SQLite does not support binary type.
+const PasswordColumn = () =>
+  config.isTest
+    ? Column('varchar', {
+        length: HASHED_PASSWORD_LENGTH,
+      })
+    : Column('bytea');
+
 @ObjectType()
 @Entity()
 @Unique(['email'])
@@ -35,9 +43,6 @@ export default class User {
   @Column()
   email: string;
 
-  // SQLite does not support binary type.
-  @Column(config.isTest ? 'varchar' : 'binary', {
-    length: HASHED_PASSWORD_LENGTH,
-  })
+  @PasswordColumn()
   password: string | Buffer;
 }

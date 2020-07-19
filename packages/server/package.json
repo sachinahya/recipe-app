@@ -6,7 +6,7 @@
   "author": "",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config -r ts-node/register src/index.ts",
+    "start": "node -r dotenv/config -r ts-node/register src/index.ts dotenv_config_path=../../.env",
     "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts\"",
     "test": "jest",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\""
@@ -42,10 +42,10 @@
     "glob": "^7.1.6",
     "graphql": "^14.6.0",
     "graphql-upload": "^10.0.0",
-    "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
+    "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.6",
     "typedi": "^0.8.0",
