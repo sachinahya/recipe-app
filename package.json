@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "start:server": "NODE_ENV=production yarn workspace @sachinahya/recipe-app-server start",
     "dev": "NODE_ENV=development wsrun dev",
     "test": "NODE_ENV=test jest",
     "lint": "eslint \"packages/*/src/**/*.{js,ts,tsx}\""
