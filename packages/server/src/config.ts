@@ -9,6 +9,7 @@ export interface AppConfig {
   uploads: UploadsConfig;
   db: DbConfig;
   cors: CorsOptions;
+  auth: AuthConfig;
 }
 
 export interface DbConfig {
@@ -28,6 +29,12 @@ export interface CorsConfig {
 export interface UploadsConfig {
   dir: string;
   url: string;
+}
+
+export interface AuthConfig {
+  redirectUrl: string;
+  googleClientId: string;
+  googleClientSecret: string;
 }
 
 function getEnvValue(key: string, validation?: true | RegExp): string;
@@ -74,6 +81,11 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
       password: getEnvValue('DB_PASSWORD'),
       database: getEnvValue('DB_DATABASE'),
       dropSchema: isDevelopment && getEnvValue('DB_DROP_SCHEMA', false) === 'true',
+    },
+    auth: {
+      googleClientId: getEnvValue('GOOGLE_CLIENT_ID'),
+      googleClientSecret: getEnvValue('GOOGLE_CLIENT_SECRET'),
+      redirectUrl: getEnvValue('REDIRECT_URL'),
     },
   };
 })(process.env);

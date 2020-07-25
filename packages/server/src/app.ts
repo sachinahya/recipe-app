@@ -13,7 +13,6 @@ import authChecker from './auth/authChecker';
 import { buildContext, configurePassport } from './auth/passport';
 import { AppConfig, DbConfig } from './config';
 import RecipeImport from './import/RecipeImport';
-import UserService from './services/UserService';
 
 const createSessionMiddleware = (app: express.Application, config: AppConfig) => {
   const sessionOptions: session.SessionOptions = {
@@ -88,7 +87,7 @@ export default async function getShowOnRoad(config: AppConfig) {
   app.use('/uploads', express.static(config.uploads.dir));
 
   createSessionMiddleware(app, config);
-  configurePassport(app, Container.get(UserService));
+  configurePassport(app);
 
   logger.info('Building schema...');
   await createApolloServer(app, config.cors);

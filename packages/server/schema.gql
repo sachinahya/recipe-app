@@ -47,6 +47,7 @@ type IngredientBase {
 type Mutation {
   register(newUser: NewUserInput!): User!
   login(password: String!, email: String!): User!
+  loginGoogle: User!
   logout: Int!
   addRecipe(data: RecipeInput!): Recipe!
   stageImage(file: Upload!): String!

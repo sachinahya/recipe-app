@@ -57,6 +57,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   register: User;
   login: User;
+  loginGoogle: User;
   logout: Scalars['Int'];
   addRecipe: Recipe;
   stageImage: Scalars['String'];

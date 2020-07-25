@@ -1,9 +1,10 @@
 import 'apollo-server-core';
 
 import express from 'express';
+import { AuthenticateOptionsGoogle } from 'passport-google-oauth20';
 
-import { AuthStrategies } from '../../auth/AuthStrategies';
 import { AuthenticateOptions, AuthenticationResult } from '../../auth/LocalStrategy';
+import { AuthStrategies } from '../../auth/strategies';
 import User from '../../entities/User';
 
 declare module 'apollo-server-core' {
@@ -13,9 +14,13 @@ declare module 'apollo-server-core' {
     logout: express.Request['logout'];
 
     authenticate(
-      strategy: AuthStrategies.local,
+      strategy: AuthStrategies.Local,
       options: AuthenticateOptions
     ): Promise<AuthenticationResult>;
-    authenticate(strategy: AuthStrategies, options: any): Promise<AuthenticationResult>;
+
+    authenticate(
+      strategy: AuthStrategies.Google,
+      options: AuthenticateOptionsGoogle
+    ): Promise<AuthenticationResult>;
   };
 }

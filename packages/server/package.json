@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node -r dotenv/config -r ts-node/register src/index.ts dotenv_config_path=../../.env",
-    "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts\"",
+    "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts dotenv_config_path=../../.env\"",
     "test": "jest"
   },
   "nodemonConfig": {
@@ -26,6 +26,7 @@
     "@types/graphql-upload": "^8.0.3",
     "@types/node": "^13.11.1",
     "@types/passport": "^1.0.3",
+    "@types/passport-google-oauth20": "^2.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/passport-strategy": "^0.2.35",
     "@types/uuid": "^7.0.2",
@@ -42,6 +43,7 @@
     "graphql": "^14.6.0",
     "graphql-upload": "^10.0.0",
     "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
     "pg": "^8.2.1",
