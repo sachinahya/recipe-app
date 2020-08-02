@@ -60,11 +60,19 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
 
   return createConnection({
     type: 'postgres',
-    host: db.host,
+    url: db.url,
+    ...(!db.url && {
+      host: db.host,
+      port: db.port,
+      username: db.username,
+      password: db.password,
+      database: db.database,
+    }),
+    /* host: db.host,
     port: db.port,
     username: db.username,
     password: db.password,
-    database: db.database,
+    database: db.database, */
     entities: [path.join(__dirname + '/entities/**/*.{js,ts}')],
 
     // development options

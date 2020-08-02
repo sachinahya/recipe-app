@@ -15,6 +15,7 @@ export interface AppConfig {
 }
 
 export interface DbConfig {
+  url?: string;
   host: string;
   port: number;
   username: string;
@@ -79,6 +80,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
         .map(x => x.trim()),
     },
     db: {
+      url: process.env.DATABASE_URL || undefined,
       host: getEnvValue('DB_HOST'),
       port: parseInt(getEnvValue('DB_PORT')),
       username: getEnvValue('DB_USERNAME'),
