@@ -1,9 +1,15 @@
 {
   "private": true,
   "name": "@sachinahya/recipe-app",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**"
+    ]
+  },
   "scripts": {
     "start:server": "NODE_ENV=production RA_SERVE_CLIENT=true yarn workspace @sachinahya/recipe-app-client build && yarn workspace @sachinahya/recipe-app-server start",
     "dev": "NODE_ENV=development wsrun dev",

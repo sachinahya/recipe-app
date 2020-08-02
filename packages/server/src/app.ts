@@ -32,7 +32,7 @@ const createSessionMiddleware = (app: express.Application, config: AppConfig) =>
 
 const createApolloServer = async (app: express.Application, corsOptions: CorsOptions) => {
   const schema = await buildSchema({
-    resolvers: [path.join(__dirname, '/resolvers/!(*.test).ts')],
+    resolvers: [path.join(__dirname, '/resolvers/!(*.test).{js,ts}')],
     emitSchemaFile: true,
     container: Container,
     authChecker,
@@ -63,7 +63,7 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
     username: db.username,
     password: db.password,
     database: db.database,
-    entities: [path.join(__dirname + '/entities/**/*.ts')],
+    entities: [path.join(__dirname + '/entities/**/*.{js,ts}')],
 
     // development options
     // logging: 'all',

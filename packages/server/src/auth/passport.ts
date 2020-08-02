@@ -1,11 +1,11 @@
 import logger from '@sachinahya/logger';
-import { Context } from 'apollo-server-core';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 import express from 'express';
 import passport from 'passport';
 import Container from 'typedi';
 
 import User from '../entities/User';
+import { Context } from '../resolvers/types';
 import UserService from '../services/UserService';
 import authRoutes from './auth.routes';
 import { AuthenticationResult } from './LocalStrategy';

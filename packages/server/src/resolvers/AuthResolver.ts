@@ -1,5 +1,5 @@
 import logger from '@sachinahya/logger';
-import { AuthenticationError, Context } from 'apollo-server-core';
+import { AuthenticationError } from 'apollo-server-core';
 import { Arg, Ctx, Int, Mutation, Query } from 'type-graphql';
 import { Service } from 'typedi';
 
@@ -7,6 +7,7 @@ import { AuthStrategies } from '../auth/strategies';
 import User from '../entities/User';
 import UserService from '../services/UserService';
 import NewUserInput from './inputTypes/NewUserInput';
+import { Context } from './types';
 
 @Service()
 export default class UserResolver {
