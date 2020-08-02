@@ -6,14 +6,14 @@ import * as Types from '../../../types.gql';
 import { CategoryFieldsFragment, CuisineFieldsFragment } from '../../fragments.gql';
 import { CategoryFieldsFragmentDoc, CuisineFieldsFragmentDoc } from '../../fragments.gql';
 
-export type UserCategoriesQueryVariables = {};
+export type UserCategoriesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type UserCategoriesQuery = {
   __typename?: 'Query';
   userCategories: Array<{ __typename?: 'Category' } & CategoryFieldsFragment>;
 };
 
-export type UserCuisinesQueryVariables = {};
+export type UserCuisinesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type UserCuisinesQuery = {
   __typename?: 'Query';

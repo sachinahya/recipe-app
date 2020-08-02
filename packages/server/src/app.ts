@@ -13,7 +13,6 @@ import authChecker from './auth/authChecker';
 import { buildContext, configurePassport } from './auth/passport';
 import { AppConfig, DbConfig } from './config';
 import RecipeImport from './import/RecipeImport';
-import UserService from './services/UserService';
 
 const createSessionMiddleware = (app: express.Application, config: AppConfig) => {
   const sessionOptions: session.SessionOptions = {
@@ -33,7 +32,7 @@ const createSessionMiddleware = (app: express.Application, config: AppConfig) =>
 
 const createApolloServer = async (app: express.Application, corsOptions: CorsOptions) => {
   const schema = await buildSchema({
-    resolvers: [path.join(__dirname, '/resolvers/!(*.test).ts')],
+    resolvers: [path.join(__dirname, '/resolvers/!(*.test).{js,ts}')],
     emitSchemaFile: true,
     container: Container,
     authChecker,
@@ -51,7 +50,7 @@ const createApolloServer = async (app: express.Application, corsOptions: CorsOpt
     },
   });
 
-  server.applyMiddleware({ app, cors: corsOptions });
+  server.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 };
 
 const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
@@ -64,7 +63,7 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
     username: db.username,
     password: db.password,
     database: db.database,
-    entities: [path.join(__dirname + '/entities/**/*.ts')],
+    entities: [path.join(__dirname + '/entities/**/*.{js,ts}')],
 
     // development options
     // logging: 'all',
@@ -87,11 +86,18 @@ export default async function getShowOnRoad(config: AppConfig) {
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
   app.use('/uploads', express.static(config.uploads.dir));
 
+  logger.info('Configuring auth...');
   createSessionMiddleware(app, config);
-  configurePassport(app, Container.get(UserService));
+  configurePassport(app);
 
   logger.info('Building schema...');
   await createApolloServer(app, config.cors);
+
+  if (config.serveClient) {
+    const clientPath = path.join(__dirname, '../../client/dist');
+    logger.info(`Serving client from ${clientPath}...`);
+    app.use('/', express.static(clientPath));
+  }
 
   logger.info('Starting server...');
   app.listen(config.serverPort, () => {

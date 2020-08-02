@@ -6,9 +6,11 @@ export interface AppConfig {
   isTest: boolean;
   serverPort: number;
   sessionSecret: string;
+  serveClient: boolean;
   uploads: UploadsConfig;
   db: DbConfig;
   cors: CorsOptions;
+  auth: AuthConfig;
 }
 
 export interface DbConfig {
@@ -28,6 +30,12 @@ export interface CorsConfig {
 export interface UploadsConfig {
   dir: string;
   url: string;
+}
+
+export interface AuthConfig {
+  redirectUrl: string;
+  googleClientId: string;
+  googleClientSecret: string;
 }
 
 function getEnvValue(key: string, validation?: true | RegExp): string;
@@ -57,6 +65,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
     isTest: env.NODE_ENV === 'test',
     serverPort: parseInt(getEnvValue('SERVER_PORT')),
     sessionSecret: getEnvValue('SESSION_SECRET'),
+    serveClient: getEnvValue('SERVE_CLIENT', false) === 'true',
     uploads: {
       dir: path.join(process.cwd(), getEnvValue('UPLOAD_DIR')),
       url: new URL(getEnvValue('UPLOAD_URI')).href,
@@ -74,6 +83,11 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
       password: getEnvValue('DB_PASSWORD'),
       database: getEnvValue('DB_DATABASE'),
       dropSchema: isDevelopment && getEnvValue('DB_DROP_SCHEMA', false) === 'true',
+    },
+    auth: {
+      googleClientId: getEnvValue('GOOGLE_CLIENT_ID'),
+      googleClientSecret: getEnvValue('GOOGLE_CLIENT_SECRET'),
+      redirectUrl: getEnvValue('GOOGLE_REDIRECT_URL'),
     },
   };
 })(process.env);

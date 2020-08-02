@@ -19,36 +19,37 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type ImageMeta {
-  id: String!
-  url: String!
   creationDate: DateTime!
+  id: String!
   modifiedDate: DateTime!
   order: Int
+  url: String!
 }
 
 type Ingredient {
+  group: String
   id: Int!
-  quantity: Float!
   item: String!
   measure: String
-  group: String
   notes: String
+  quantity: Float!
 }
 
 type IngredientBase {
+  group: String
   id: Int!
-  quantity: Float!
   item: String!
   measure: String
-  group: String
   notes: String
+  quantity: Float!
 }
 
 type Mutation {
-  register(newUser: NewUserInput!): User!
-  login(password: String!, email: String!): User!
-  logout: Int!
   addRecipe(data: RecipeInput!): Recipe!
+  login(email: String!, password: String!): User!
+  loginGoogle: User!
+  logout: Int!
+  register(newUser: NewUserInput!): User!
   stageImage(file: Upload!): String!
 }
 
@@ -63,22 +64,22 @@ input NewCuisineInput {
 }
 
 input NewIngredientInput {
+  group: String
   id: Int!
-  quantity: Float!
   item: String!
   measure: String
-  group: String
   notes: String
+  quantity: Float!
 }
 
 input NewStepInput {
-  id: Int!
   description: String!
+  id: Int!
 }
 
 input NewUserInput {
-  id: Int
   email: String!
+  id: Int
   plainTextPassword: String!
 }
 
@@ -91,39 +92,39 @@ type Query {
 }
 
 type Recipe {
-  id: Int!
-  title: String!
-  description: String
-  creationDate: DateTime!
-  modifiedDate: DateTime!
   author: User!
   categories: [Category!]!
-  cuisines: [Cuisine!]!
-  imageUrl: String @deprecated(reason: "Only used for imported recipes. Use \"images\" instead.")
-  images: [ImageMeta!]
-  prepTime: Float
   cookTime: Float
-  yield: Float
-  sourceUrl: String
+  creationDate: DateTime!
+  cuisines: [Cuisine!]!
+  description: String
+  id: Int!
+  images: [ImageMeta!]
+  imageUrl: String @deprecated(reason: "Only used for imported recipes. Use \"images\" instead.")
   ingredients: [Ingredient!]!
+  modifiedDate: DateTime!
+  prepTime: Float
+  sourceUrl: String
   steps: [Step!]!
+  title: String!
   totalTime: Float!
+  yield: Float
 }
 
 input RecipeInput {
-  id: Int
-  title: String!
-  description: String
   categories: [NewCategoryInput!]
-  cuisines: [NewCuisineInput!]
-  imageUrl: String
-  stagedImages: [StagedImage!]
-  prepTime: Int
   cookTime: Int
-  yield: Int
+  cuisines: [NewCuisineInput!]
+  description: String
+  id: Int
+  imageUrl: String
   ingredients: [NewIngredientInput!]
-  steps: [NewStepInput!]
+  prepTime: Int
   sourceUrl: String
+  stagedImages: [StagedImage!]
+  steps: [NewStepInput!]
+  title: String!
+  yield: Int
 }
 
 input StagedImage {
@@ -132,8 +133,8 @@ input StagedImage {
 }
 
 type Step {
-  id: Int!
   description: String!
+  id: Int!
 }
 
 """The `Upload` scalar type represents a file upload."""

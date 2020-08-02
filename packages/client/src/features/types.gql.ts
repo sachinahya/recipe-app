@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -26,53 +27,54 @@ export type Cuisine = {
 
 export type ImageMeta = {
   __typename?: 'ImageMeta';
-  id: Scalars['String'];
-  url: Scalars['String'];
   creationDate: Scalars['DateTime'];
+  id: Scalars['String'];
   modifiedDate: Scalars['DateTime'];
   order?: Maybe<Scalars['Int']>;
+  url: Scalars['String'];
 };
 
 export type Ingredient = {
   __typename?: 'Ingredient';
+  group?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  quantity: Scalars['Float'];
   item: Scalars['String'];
   measure?: Maybe<Scalars['String']>;
-  group?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  quantity: Scalars['Float'];
 };
 
 export type IngredientBase = {
   __typename?: 'IngredientBase';
+  group?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  quantity: Scalars['Float'];
   item: Scalars['String'];
   measure?: Maybe<Scalars['String']>;
-  group?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  quantity: Scalars['Float'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  register: User;
-  login: User;
-  logout: Scalars['Int'];
   addRecipe: Recipe;
+  login: User;
+  loginGoogle: User;
+  logout: Scalars['Int'];
+  register: User;
   stageImage: Scalars['String'];
-};
-
-export type MutationRegisterArgs = {
-  newUser: NewUserInput;
-};
-
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  email: Scalars['String'];
 };
 
 export type MutationAddRecipeArgs = {
   data: RecipeInput;
+};
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type MutationRegisterArgs = {
+  newUser: NewUserInput;
 };
 
 export type MutationStageImageArgs = {
@@ -90,22 +92,22 @@ export type NewCuisineInput = {
 };
 
 export type NewIngredientInput = {
+  group?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  quantity: Scalars['Float'];
   item: Scalars['String'];
   measure?: Maybe<Scalars['String']>;
-  group?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  quantity: Scalars['Float'];
 };
 
 export type NewStepInput = {
-  id: Scalars['Int'];
   description: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type NewUserInput = {
-  id?: Maybe<Scalars['Int']>;
   email: Scalars['String'];
+  id?: Maybe<Scalars['Int']>;
   plainTextPassword: Scalars['String'];
 };
 
@@ -124,40 +126,40 @@ export type QueryRecipeArgs = {
 
 export type Recipe = {
   __typename?: 'Recipe';
-  id: Scalars['Int'];
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  creationDate: Scalars['DateTime'];
-  modifiedDate: Scalars['DateTime'];
   author: User;
   categories: Array<Category>;
+  cookTime?: Maybe<Scalars['Float']>;
+  creationDate: Scalars['DateTime'];
   cuisines: Array<Cuisine>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  images?: Maybe<Array<ImageMeta>>;
   /** @deprecated Only used for imported recipes. Use "images" instead. */
   imageUrl?: Maybe<Scalars['String']>;
-  images?: Maybe<Array<ImageMeta>>;
-  prepTime?: Maybe<Scalars['Float']>;
-  cookTime?: Maybe<Scalars['Float']>;
-  yield?: Maybe<Scalars['Float']>;
-  sourceUrl?: Maybe<Scalars['String']>;
   ingredients: Array<Ingredient>;
+  modifiedDate: Scalars['DateTime'];
+  prepTime?: Maybe<Scalars['Float']>;
+  sourceUrl?: Maybe<Scalars['String']>;
   steps: Array<Step>;
+  title: Scalars['String'];
   totalTime: Scalars['Float'];
+  yield?: Maybe<Scalars['Float']>;
 };
 
 export type RecipeInput = {
-  id?: Maybe<Scalars['Int']>;
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
   categories?: Maybe<Array<NewCategoryInput>>;
-  cuisines?: Maybe<Array<NewCuisineInput>>;
-  imageUrl?: Maybe<Scalars['String']>;
-  stagedImages?: Maybe<Array<StagedImage>>;
-  prepTime?: Maybe<Scalars['Int']>;
   cookTime?: Maybe<Scalars['Int']>;
-  yield?: Maybe<Scalars['Int']>;
+  cuisines?: Maybe<Array<NewCuisineInput>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  imageUrl?: Maybe<Scalars['String']>;
   ingredients?: Maybe<Array<NewIngredientInput>>;
-  steps?: Maybe<Array<NewStepInput>>;
+  prepTime?: Maybe<Scalars['Int']>;
   sourceUrl?: Maybe<Scalars['String']>;
+  stagedImages?: Maybe<Array<StagedImage>>;
+  steps?: Maybe<Array<NewStepInput>>;
+  title: Scalars['String'];
+  yield?: Maybe<Scalars['Int']>;
 };
 
 export type StagedImage = {
@@ -167,8 +169,8 @@ export type StagedImage = {
 
 export type Step = {
   __typename?: 'Step';
-  id: Scalars['Int'];
   description: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type User = {

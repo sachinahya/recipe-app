@@ -22,7 +22,14 @@ export default class UserService {
   }
 
   async validatePassword(user: User, password: string): Promise<boolean> {
-    return bcrypt.compare(password, user.password.toString());
+    return user.password == null ? false : bcrypt.compare(password, user.password.toString());
+  }
+
+  async registerGoogleUser(googleId: string, email: string) {
+    const user = (await this.getByEmail(email)) || this.userRepository.create({ email });
+    user.googleId = googleId;
+
+    return this.userRepository.save(user);
   }
 
   async create(userInput: NewUserInput): Promise<User> {

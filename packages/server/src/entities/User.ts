@@ -3,6 +3,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeo
 
 import { HASHED_PASSWORD_LENGTH } from '../auth/constants';
 import config from '../config';
+import { NullableColumn } from '../helpers';
 import Category from './Category';
 import Cuisine from './Cuisine';
 import Recipe from './Recipe';
@@ -11,9 +12,12 @@ import Recipe from './Recipe';
 const PasswordColumn = () =>
   config.isTest
     ? Column('varchar', {
+        nullable: true,
         length: HASHED_PASSWORD_LENGTH,
       })
-    : Column('bytea');
+    : Column('bytea', {
+        nullable: true,
+      });
 
 @ObjectType()
 @Entity()
@@ -37,4 +41,7 @@ export default class User {
 
   @PasswordColumn()
   password: string | Buffer;
+
+  @NullableColumn()
+  googleId?: string;
 }

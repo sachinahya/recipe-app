@@ -1,12 +1,13 @@
 import logger from '@sachinahya/logger';
-import { AuthenticationError, Context } from 'apollo-server-core';
+import { AuthenticationError } from 'apollo-server-core';
 import { Arg, Ctx, Int, Mutation, Query } from 'type-graphql';
 import { Service } from 'typedi';
 
-import { AuthStrategies } from '../auth/AuthStrategies';
+import { AuthStrategies } from '../auth/strategies';
 import User from '../entities/User';
 import UserService from '../services/UserService';
 import NewUserInput from './inputTypes/NewUserInput';
+import { Context } from './types';
 
 @Service()
 export default class UserResolver {
@@ -31,9 +32,24 @@ export default class UserResolver {
     @Arg('password') password: string,
     @Ctx() context: Context
   ): Promise<User> {
-    const { user, info } = await context.authenticate(AuthStrategies.local, {
+    const { user, info } = await context.authenticate(AuthStrategies.Local, {
       email,
       password,
+    });
+
+    if (user) {
+      context.login(user);
+      logger.info(`User ID is ${user.id}.`);
+      return user;
+    }
+
+    throw new AuthenticationError(info?.message || 'Unknown error');
+  }
+
+  @Mutation(returns => User)
+  async loginGoogle(@Ctx() context: Context): Promise<User> {
+    const { user, info } = await context.authenticate(AuthStrategies.Google, {
+      scope: ['openid', 'profile', 'email'],
     });
 
     if (user) {

@@ -147,12 +147,15 @@ it('adds recipes with staged images', async () => {
   expect(recipeImages[0].url).toEqual(imageOne);
 
   const imageTwo = 'cheese.jpg';
-  const secondImageId = await recipeResolver.stageImage({
-    filename: imageTwo,
-    mimetype: 'image/jpeg',
-    encoding: '',
-    createReadStream: () => createReadStream(path.join(__dirname, '../fixtures/images', imageTwo)),
-  });
+  const secondImageId = await recipeResolver.stageImage(
+    Promise.resolve({
+      filename: imageTwo,
+      mimetype: 'image/jpeg',
+      encoding: '',
+      createReadStream: () =>
+        createReadStream(path.join(__dirname, '../fixtures/images', imageTwo)),
+    })
+  );
 
   const editedInput: RecipeInput = {
     id: recipe.id,

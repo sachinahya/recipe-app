@@ -18,7 +18,8 @@ const SelectField = <T extends any>({ name, ...props }: SelectFieldProps<T>) => 
       {...contextProps}
       {...props}
       {...field}
-      onChange={evt => {
+      // TODO: Figure out what happened to this typing.
+      onChange={(evt: any) => {
         console.log(evt.target.value);
         field.onChange(evt);
       }}

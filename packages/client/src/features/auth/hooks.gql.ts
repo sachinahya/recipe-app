@@ -4,30 +4,30 @@ import gql from 'graphql-tag';
 
 import * as Types from '../types.gql';
 
-export type CurrentUserQueryVariables = {};
+export type CurrentUserQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type CurrentUserQuery = {
   __typename?: 'Query';
   currentUser?: Types.Maybe<{ __typename?: 'User'; email: string }>;
 };
 
-export type LoginMutationVariables = {
+export type LoginMutationVariables = Types.Exact<{
   email: Types.Scalars['String'];
   password: Types.Scalars['String'];
-};
+}>;
 
 export type LoginMutation = {
   __typename?: 'Mutation';
   login: { __typename?: 'User'; email: string };
 };
 
-export type LogoutMutationVariables = {};
+export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
 
 export type LogoutMutation = { __typename?: 'Mutation'; logout: number };
 
-export type RegisterUserMutationVariables = {
+export type RegisterUserMutationVariables = Types.Exact<{
   newUser: Types.NewUserInput;
-};
+}>;
 
 export type RegisterUserMutation = {
   __typename?: 'Mutation';

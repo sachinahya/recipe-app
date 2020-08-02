@@ -1,7 +1,7 @@
 import { LayoutContextType } from 'components/Layout';
-import { css,DefaultTheme, StyledProps } from 'styled-components';
+import { css, DefaultTheme, StyledProps } from 'styled-components';
 
-export type StyleSelector = ({ theme }: StyledProps<{}>) => string;
+export type StyleSelector = ({ theme }: StyledProps<Record<string, unknown>>) => string;
 
 const defaultDrawerWidth = 240;
 
