@@ -4,6 +4,7 @@ packages/client/cert
 # Server files
 packages/server/samples
 packages/server/uploads
+packages/server/ormconfig.*
 
 # VS Code files
 .vscode
