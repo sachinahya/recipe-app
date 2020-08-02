@@ -4,6 +4,7 @@ import path from 'path';
 export interface AppConfig {
   isDevelopment: boolean;
   isTest: boolean;
+  useHttps: boolean;
   serverPort: number;
   sessionSecret: string;
   serveClient: boolean;
@@ -63,6 +64,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
   return {
     isDevelopment,
     isTest: env.NODE_ENV === 'test',
+    useHttps: getEnvValue('SERVER_HTTPS', false) === 'true',
     serverPort: parseInt(getEnvValue('SERVER_PORT')),
     sessionSecret: getEnvValue('SESSION_SECRET'),
     serveClient: getEnvValue('SERVE_CLIENT', false) === 'true',
