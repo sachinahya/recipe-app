@@ -93,6 +93,12 @@ export default async function getShowOnRoad(config: AppConfig) {
   logger.info('Building schema...');
   await createApolloServer(app, config.cors);
 
+  if (config.serveClient) {
+    const clientPath = path.join(__dirname, '../../client/dist');
+    logger.info(`Serving client from ${clientPath}...`);
+    app.use('/', express.static(clientPath));
+  }
+
   logger.info('Starting server...');
   app.listen(config.serverPort, () => {
     logger.info(`Open for business on port ${config.serverPort}.`);

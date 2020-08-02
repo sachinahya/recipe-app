@@ -6,7 +6,7 @@
   "author": "",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config -r ts-node/register src/index.ts dotenv_config_path=../../.env",
+    "start": "tsc && node -r dotenv/config dist/index.js dotenv_config_path=../../.env",
     "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts dotenv_config_path=../../.env\"",
     "test": "jest"
   },

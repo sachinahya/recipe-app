@@ -125,7 +125,7 @@ module.exports = {
     isDevServer && new webpack.HotModuleReplacementPlugin(),
     isDevServer && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
     new CleanWebpackPlugin(),
-    new Dotenv(),
+    new Dotenv({ path: '../../.env' }),
     new webpack.DefinePlugin({
       'process.env': {
         WEBPACK_DEV_SERVER: JSON.stringify(process.env.WEBPACK_DEV_SERVER),
