@@ -6,9 +6,9 @@ import { RecipeFieldsFragment } from '../../../../features/recipes/fragments.gql
 import { RecipeFieldsFragmentDoc } from '../../../../features/recipes/fragments.gql';
 import * as Types from '../../../../features/types.gql';
 
-export type RecipeQueryVariables = {
+export type RecipeQueryVariables = Types.Exact<{
   id: Types.Scalars['Float'];
-};
+}>;
 
 export type RecipeQuery = {
   __typename?: 'Query';

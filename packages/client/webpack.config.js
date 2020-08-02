@@ -110,12 +110,13 @@ module.exports = {
   },
 
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: './public',
-        ignore: ['index.html'],
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './public/**/!(index.html)',
+        },
+      ],
+    }),
     isProduction &&
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
@@ -123,7 +124,7 @@ module.exports = {
         openAnalyzer: false,
       }),
     isDevServer && new webpack.HotModuleReplacementPlugin(),
-    isDevServer && new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
+    isDevServer && new ReactRefreshWebpackPlugin(),
     new CleanWebpackPlugin(),
     new Dotenv({ path: '../../.env' }),
     new webpack.DefinePlugin({
@@ -133,13 +134,7 @@ module.exports = {
       },
     }),
     new WebpackBar(),
-    new ForkTsCheckerWebpackPlugin({
-      async: isProduction,
-      silent: true,
-      useTypescriptIncrementalApi: true,
-      measureCompilationTime: false,
-      reportFiles: ['**', '!**/?(*.)@(test|spec).*', '!**/src/test/jest.setup.*'],
-    }),
+    new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),

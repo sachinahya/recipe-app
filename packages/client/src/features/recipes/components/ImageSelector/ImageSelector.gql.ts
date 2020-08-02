@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 
 import * as Types from '../../../types.gql';
 
-export type UploadImageMutationVariables = {
+export type UploadImageMutationVariables = Types.Exact<{
   file: Types.Scalars['Upload'];
-};
+}>;
 
 export type UploadImageMutation = { __typename?: 'Mutation'; stageImage: string };
 

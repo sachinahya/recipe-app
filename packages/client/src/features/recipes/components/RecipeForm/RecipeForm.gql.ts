@@ -6,18 +6,18 @@ import * as Types from '../../../types.gql';
 import { RecipeFieldsFragment } from '../../fragments.gql';
 import { RecipeFieldsFragmentDoc } from '../../fragments.gql';
 
-export type SaveRecipeMutationVariables = {
+export type SaveRecipeMutationVariables = Types.Exact<{
   data: Types.RecipeInput;
-};
+}>;
 
 export type SaveRecipeMutation = {
   __typename?: 'Mutation';
   addRecipe: { __typename?: 'Recipe' } & RecipeFieldsFragment;
 };
 
-export type RecipeFormDataQueryVariables = {
+export type RecipeFormDataQueryVariables = Types.Exact<{
   id: Types.Scalars['Float'];
-};
+}>;
 
 export type RecipeFormDataQuery = {
   __typename?: 'Query';

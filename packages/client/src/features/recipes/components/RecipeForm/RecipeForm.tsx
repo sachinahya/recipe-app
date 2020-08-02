@@ -55,7 +55,8 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(
     }, [getRecipe, id]);
 
     const [addRecipe] = useSaveRecipeMutation();
-    const initialData = convertToFormValues((id && data?.recipe) || undefined);
+    // TODO: Figure out what happened to this typing.
+    const initialData = convertToFormValues((id && (data?.recipe as any)) || undefined);
 
     const handleSubmit = async (values: RecipeFormValues) => {
       try {

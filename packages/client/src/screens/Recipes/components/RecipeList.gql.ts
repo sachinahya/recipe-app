@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 import * as Types from '../../../features/types.gql';
 
-export type RecipesQueryVariables = {};
+export type RecipesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type RecipesQuery = {
   __typename?: 'Query';
