@@ -1,9 +1,8 @@
 import { Box, Typography } from '@material-ui/core';
 import FormPaper from 'components/FormPaper';
 import { Header } from 'components/Layout';
-import Link from 'components/Link';
 import Screen from 'components/Screen';
-import LoginForm from 'features/auth/components/LoginForm';
+import GoogleSignInButton from 'features/auth/components/GoogleSignInButton';
 import React from 'react';
 
 const LoginScreen: React.FC = () => {
@@ -18,24 +17,9 @@ const LoginScreen: React.FC = () => {
               Sign in to see your recipes
             </Typography>
           </Box>
-
-          <LoginForm />
-
-          <Box mt={2} textAlign="center">
-            <Typography variant="body2">
-              <Link
-                to=""
-                onClick={(evt: any) => {
-                  evt.preventDefault();
-                  console.log('Hello');
-                }}
-              >
-                Forgot password?
-              </Link>
-              <br />
-              New user? <Link to="/register">Sign up now</Link>
-            </Typography>
-          </Box>
+          <GoogleSignInButton
+            href={`${process.env.RA_CLIENT_GOOGLE_OAUTH_URI}?returnUrl=${window.location.href}`}
+          />
         </FormPaper>
       </Screen>
     </>
