@@ -7,6 +7,7 @@ import Container from 'typedi';
 
 import User from '../entities/User';
 import UserService from '../services/UserService';
+import authRoutes from './auth.routes';
 import { AuthenticationResult } from './LocalStrategy';
 import strategies, { AuthStrategies } from './strategies';
 
@@ -27,6 +28,7 @@ export const configurePassport = (app: express.Application) => {
 
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use('/auth', authRoutes);
 };
 
 export const buildContext = ({ req, res }: ExpressContext): Context => {

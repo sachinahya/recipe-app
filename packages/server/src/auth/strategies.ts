@@ -46,7 +46,10 @@ const strategies: { [K in AuthStrategies]: Strategy } = {
       if (!email) return done(undefined, undefined, { message: 'Email not found in profile.' });
 
       const userService = Container.get(UserService);
-      userService.registerGoogleUser(profile.id, email).then(user => done(undefined, user));
+      userService
+        .registerGoogleUser(profile.id, email)
+        .then(user => done(undefined, user))
+        .catch(err => done(err));
     }
   ),
 };

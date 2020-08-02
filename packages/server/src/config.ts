@@ -85,7 +85,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
     auth: {
       googleClientId: getEnvValue('GOOGLE_CLIENT_ID'),
       googleClientSecret: getEnvValue('GOOGLE_CLIENT_SECRET'),
-      redirectUrl: getEnvValue('REDIRECT_URL'),
+      redirectUrl: getEnvValue('GOOGLE_REDIRECT_URL'),
     },
   };
 })(process.env);

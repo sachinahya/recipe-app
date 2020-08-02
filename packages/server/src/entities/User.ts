@@ -12,9 +12,12 @@ import Recipe from './Recipe';
 const PasswordColumn = () =>
   config.isTest
     ? Column('varchar', {
+        nullable: true,
         length: HASHED_PASSWORD_LENGTH,
       })
-    : Column('bytea');
+    : Column('bytea', {
+        nullable: true,
+      });
 
 @ObjectType()
 @Entity()

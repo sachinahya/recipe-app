@@ -50,7 +50,7 @@ const createApolloServer = async (app: express.Application, corsOptions: CorsOpt
     },
   });
 
-  server.applyMiddleware({ app, cors: corsOptions });
+  server.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 };
 
 const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
@@ -86,6 +86,7 @@ export default async function getShowOnRoad(config: AppConfig) {
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
   app.use('/uploads', express.static(config.uploads.dir));
 
+  logger.info('Configuring auth...');
   createSessionMiddleware(app, config);
   configurePassport(app);
 
