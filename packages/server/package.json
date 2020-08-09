@@ -6,11 +6,11 @@
   "author": "",
   "private": true,
   "scripts": {
-    "start": "tsc --build tsconfig.prod.json && node -r dotenv/config dist/index.js dotenv_config_path=../../.env",
-    "migration:generate": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:generate dotenv_config_path=../../.env",
-    "migration:run": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:run dotenv_config_path=../../.env",
+    "build": "tsc --build tsconfig.prod.json",
+    "start": "node -r dotenv/config dist/index.js dotenv_config_path=../../.env",
     "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts dotenv_config_path=../../.env\"",
-    "test": "jest"
+    "migration:generate": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:generate dotenv_config_path=../../.env",
+    "migration:run": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:run dotenv_config_path=../../.env"
   },
   "nodemonConfig": {
     "ext": "js,mjs,json,ts"

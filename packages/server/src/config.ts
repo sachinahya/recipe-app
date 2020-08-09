@@ -66,7 +66,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
     isDevelopment,
     isTest: env.NODE_ENV === 'test',
     useHttps: getEnvValue('SERVER_HTTPS', false) === 'true',
-    serverPort: parseInt(getEnvValue('SERVER_PORT')),
+    serverPort: parseInt(env.PORT || getEnvValue('SERVER_PORT')),
     sessionSecret: getEnvValue('SESSION_SECRET'),
     serveClient: getEnvValue('SERVE_CLIENT', false) === 'true',
     uploads: {
