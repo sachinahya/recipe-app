@@ -1,0 +1,20 @@
+schema: ../server/schema.gql
+documents: src/**/!(*.gql).{gql,ts,tsx}
+generates:
+  src/features/types.gql.ts:
+    plugins:
+      - typescript
+  src/:
+    preset: near-operation-file-preset
+    presetConfig:
+      extension: .gql.ts
+      baseTypesPath: features/types.gql.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      preResolveTypes: true
+      withComponent: false
+      withHOC: false
+      withHooks: true
+  # documentMode: documentNode
