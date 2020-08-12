@@ -1,12 +1,12 @@
+require('dotenv').config({ path: '../../.env' });
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 
-const cssRegex = /.css$/;
+// const cssRegex = /.css$/;
 const jsRegex = /\.([jt]sx?|[cm]js)$/;
 const svgRegex = /\.svg$/;
 
@@ -50,6 +50,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'RA_CLIENT_GRAPHQL_URI',
+      'RA_CLIENT_GOOGLE_OAUTH_URI',
+      'RA_CLIENT_GRAPHQL_CREDENTIALS',
+    ]),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -58,13 +64,6 @@ module.exports = {
       ],
     }),
     new CleanWebpackPlugin(),
-    new Dotenv({ path: '../../.env' }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        WEBPACK_DEV_SERVER: JSON.stringify(process.env.WEBPACK_DEV_SERVER),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
