@@ -4,6 +4,7 @@ import path from 'path';
 export interface AppConfig {
   isDevelopment: boolean;
   isTest: boolean;
+  useHttps: boolean;
   serverPort: number;
   sessionSecret: string;
   serveClient: boolean;
@@ -14,11 +15,7 @@ export interface AppConfig {
 }
 
 export interface DbConfig {
-  host: string;
-  port: number;
-  username: string;
-  password: string;
-  database: string;
+  url?: string;
   dropSchema: boolean;
 }
 
@@ -41,7 +38,6 @@ export interface AuthConfig {
 function getEnvValue(key: string, validation?: true | RegExp): string;
 function getEnvValue(key: string, validation: false): string | undefined;
 function getEnvValue(key: string, validation: boolean | RegExp = true): string | undefined {
-  key = 'RA_' + key;
   const value = process.env[key];
 
   if (!validation) return value;
@@ -63,31 +59,28 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
   return {
     isDevelopment,
     isTest: env.NODE_ENV === 'test',
-    serverPort: parseInt(getEnvValue('SERVER_PORT')),
-    sessionSecret: getEnvValue('SESSION_SECRET'),
-    serveClient: getEnvValue('SERVE_CLIENT', false) === 'true',
+    useHttps: getEnvValue('RA_SERVER_HTTPS', false) === 'true',
+    serverPort: parseInt(getEnvValue('PORT', false) || '4000'),
+    sessionSecret: getEnvValue('RA_SESSION_SECRET'),
+    serveClient: getEnvValue('RA_SERVE_CLIENT', false) === 'true',
     uploads: {
-      dir: path.join(process.cwd(), getEnvValue('UPLOAD_DIR')),
-      url: new URL(getEnvValue('UPLOAD_URI')).href,
+      dir: path.join(process.cwd(), getEnvValue('RA_UPLOAD_DIR')),
+      url: new URL(getEnvValue('RA_UPLOAD_URI')).href,
     },
     cors: {
-      credentials: getEnvValue('CORS_CREDENTIALS') === 'true',
-      origin: getEnvValue('CORS_ORIGINS', false)
+      credentials: getEnvValue('RA_CORS_CREDENTIALS', false) === 'true',
+      origin: getEnvValue('RA_CORS_ORIGINS', false)
         ?.split(',')
         .map(x => x.trim()),
     },
     db: {
-      host: getEnvValue('DB_HOST'),
-      port: parseInt(getEnvValue('DB_PORT')),
-      username: getEnvValue('DB_USERNAME'),
-      password: getEnvValue('DB_PASSWORD'),
-      database: getEnvValue('DB_DATABASE'),
-      dropSchema: isDevelopment && getEnvValue('DB_DROP_SCHEMA', false) === 'true',
+      url: process.env.DATABASE_URL || undefined,
+      dropSchema: isDevelopment && getEnvValue('RA_DB_DROP_SCHEMA', false) === 'true',
     },
     auth: {
-      googleClientId: getEnvValue('GOOGLE_CLIENT_ID'),
-      googleClientSecret: getEnvValue('GOOGLE_CLIENT_SECRET'),
-      redirectUrl: getEnvValue('GOOGLE_REDIRECT_URL'),
+      googleClientId: getEnvValue('RA_GOOGLE_CLIENT_ID'),
+      googleClientSecret: getEnvValue('RA_GOOGLE_CLIENT_SECRET'),
+      redirectUrl: getEnvValue('RA_GOOGLE_REDIRECT_URL'),
     },
   };
 })(process.env);

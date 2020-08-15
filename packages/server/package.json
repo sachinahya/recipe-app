@@ -6,9 +6,11 @@
   "author": "",
   "private": true,
   "scripts": {
-    "start": "tsc && node -r dotenv/config dist/index.js dotenv_config_path=../../.env",
+    "build": "tsc --build tsconfig.prod.json",
+    "start": "node -r dotenv/config dist/index.js dotenv_config_path=../../.env",
     "dev": "nodemon --watch src --exec \"node -r dotenv/config -r ts-node/register --inspect src/index.ts dotenv_config_path=../../.env\"",
-    "test": "jest"
+    "migration:generate": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:generate dotenv_config_path=../../.env",
+    "migration:run": "node -r ts-node/register -r dotenv/config ../../node_modules/typeorm/cli.js migration:run dotenv_config_path=../../.env"
   },
   "nodemonConfig": {
     "ext": "js,mjs,json,ts"
@@ -47,6 +49,7 @@
     "passport-strategy": "^1.0.0",
     "pg": "^8.3.0",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^8.10.2",
     "type-graphql": "^1.0.0-rc.3",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.25",

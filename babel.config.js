@@ -21,7 +21,12 @@ module.exports = api => {
               exclude: ['transform-typeof-symbol'],
             },
       ],
-      '@babel/preset-typescript',
+      [
+        '@babel/preset-typescript',
+        {
+          onlyRemoveTypeImports: true,
+        },
+      ],
     ],
   };
 };

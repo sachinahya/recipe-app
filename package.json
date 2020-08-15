@@ -11,8 +11,10 @@
     ]
   },
   "scripts": {
-    "start:server": "NODE_ENV=production RA_SERVE_CLIENT=true yarn workspace @sachinahya/recipe-app-client build && yarn workspace @sachinahya/recipe-app-server start",
+    "build": "NODE_ENV=production wsrun build",
+    "start": "NODE_ENV=production RA_SERVE_CLIENT=true yarn workspace @sachinahya/recipe-app-server start",
     "dev": "NODE_ENV=development wsrun dev",
+    "migrate:db": "yarn workspace @sachinahya/recipe-app-server migration:run",
     "test": "NODE_ENV=test jest",
     "lint": "eslint --plugin simple-import-sort --rule 'simple-import-sort/sort: error' \"**/*.{js,ts,tsx}\"",
     "prettier": "prettier \"**/*.{js,ts,tsx,json}\" \"**/*.?(s)css\" \"**/*.md\" -l"
@@ -20,7 +22,6 @@
   "devDependencies": {
     "@babel/core": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
-    "@babel/preset-typescript": "^7.10.4",
     "@sachinahya/eslint-config-myconfig": "^0.2.1",
     "@testing-library/dom": "^7.21.7",
     "@testing-library/user-event": "^12.1.0",
@@ -42,10 +43,8 @@
     "jest-watch-typeahead": "^0.6.0",
     "lint-staged": "^10.2.11",
     "nodemon": "^2.0.4",
-    "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.4",
-    "ts-node": "^8.10.2",
     "wsrun": "^5.2.1"
   },
   "husky": {

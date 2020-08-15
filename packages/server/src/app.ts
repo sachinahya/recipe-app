@@ -4,6 +4,8 @@ import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import session from 'express-session';
 import { graphqlUploadExpress } from 'graphql-upload';
+import http from 'http';
+import https from 'https';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
@@ -19,13 +21,13 @@ const createSessionMiddleware = (app: express.Application, config: AppConfig) =>
     secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: {},
+    cookie: {
+      secure: !config.isDevelopment,
+    },
   };
 
-  if (!config.isDevelopment) {
-    app.set('trust proxy', 1); // trust first proxy
-    sessionOptions.cookie = { ...sessionOptions.cookie, secure: true }; // serve secure cookies
-  }
+  // trust first proxy
+  if (!config.isDevelopment) app.set('trust proxy', 1);
 
   app.use(session(sessionOptions));
 };
@@ -58,11 +60,12 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
 
   return createConnection({
     type: 'postgres',
-    host: db.host,
+    url: db.url,
+    /* host: db.host,
     port: db.port,
     username: db.username,
     password: db.password,
-    database: db.database,
+    database: db.database, */
     entities: [path.join(__dirname + '/entities/**/*.{js,ts}')],
 
     // development options
@@ -100,12 +103,12 @@ export default async function getShowOnRoad(config: AppConfig) {
   }
 
   logger.info('Starting server...');
-  app.listen(config.serverPort, () => {
-    logger.info(`Open for business on port ${config.serverPort}.`);
+  if (config.useHttps) https.createServer(app).listen(config.serverPort);
+  else http.createServer(app).listen(config.serverPort);
+  logger.info(`Open for business on port ${config.serverPort}.`);
 
-    if (config.db.dropSchema) {
-      logger.info('Importing sample data...');
-      Container.get(RecipeImport).createRecipes();
-    }
-  });
+  if (config.db.dropSchema) {
+    logger.info('Importing sample data...');
+    Container.get(RecipeImport).createRecipes();
+  }
 }
