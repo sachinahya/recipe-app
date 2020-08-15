@@ -1,5 +1,5 @@
-# Client files
-packages/client/cert
+# Local certificates
+/cert
 
 # Server files
 packages/server/samples

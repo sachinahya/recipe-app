@@ -3,6 +3,7 @@ import { ApolloServer, ForbiddenError, UserInputError } from 'apollo-server-expr
 import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import session from 'express-session';
+import fs from 'fs';
 import { graphqlUploadExpress } from 'graphql-upload';
 import http from 'http';
 import https from 'https';
@@ -103,8 +104,20 @@ export default async function getShowOnRoad(config: AppConfig) {
   }
 
   logger.info('Starting server...');
-  if (config.useHttps) https.createServer(app).listen(config.serverPort);
-  else http.createServer(app).listen(config.serverPort);
+  if (config.useHttps) {
+    https
+      .createServer(
+        {
+          cert: fs.readFileSync(path.join(__dirname, '../../../cert/localhost.pem')),
+          key: fs.readFileSync(path.join(__dirname, '../../../cert/localhost-key.pem')),
+        },
+        app
+      )
+      .listen(config.serverPort);
+  } else {
+    http.createServer(app).listen(config.serverPort);
+  }
+
   logger.info(`Open for business on port ${config.serverPort}.`);
 
   if (config.db.dropSchema) {

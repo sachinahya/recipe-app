@@ -11,11 +11,11 @@
     ]
   },
   "scripts": {
-    "build": "NODE_ENV=production wsrun build",
-    "start": "NODE_ENV=production RA_SERVE_CLIENT=true yarn workspace @sachinahya/recipe-app-server start",
-    "dev": "NODE_ENV=development wsrun dev",
+    "build": "cross-env NODE_ENV=production wsrun build",
+    "start": "cross-env NODE_ENV=production RA_SERVE_CLIENT=true yarn workspace @sachinahya/recipe-app-server start",
+    "dev": "cross-env NODE_ENV=development wsrun dev",
     "migrate:db": "yarn workspace @sachinahya/recipe-app-server migration:run",
-    "test": "NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint --plugin simple-import-sort --rule 'simple-import-sort/sort: error' \"**/*.{js,ts,tsx}\"",
     "prettier": "prettier \"**/*.{js,ts,tsx,json}\" \"**/*.?(s)css\" \"**/*.md\" -l"
   },

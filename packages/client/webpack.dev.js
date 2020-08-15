@@ -2,6 +2,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const fs = require('fs');
 const isCI = require('is-ci');
+const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -74,7 +75,8 @@ module.exports = merge(common, {
     port: 3000,
     transportMode: 'ws',
     https: true,
-    key: fs.readFileSync('./cert/localhost.key'),
-    cert: fs.readFileSync('./cert/localhost.crt'),
+    contentBase: './public',
+    key: fs.readFileSync(path.join(__dirname, '../../cert/localhost-key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/localhost.pem')),
   },
 });
