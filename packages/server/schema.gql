@@ -18,11 +18,20 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+input ImageInput {
+  caption: String
+  filename: String
+  id: String
+  order: Int!
+  url: String
+}
+
 type ImageMeta {
+  caption: String
   creationDate: DateTime!
   id: String!
   modifiedDate: DateTime!
-  order: Int
+  order: Int!
   url: String!
 }
 
@@ -50,7 +59,7 @@ type Mutation {
   loginGoogle: User!
   logout: Int!
   register(newUser: NewUserInput!): User!
-  stageImage(file: Upload!): String!
+  requestUpload(mimeType: String!): SignedUploadRequest!
 }
 
 input NewCategoryInput {
@@ -117,6 +126,7 @@ input RecipeInput {
   cuisines: [NewCuisineInput!]
   description: String
   id: Int
+  images: [ImageInput!]
   imageUrl: String
   ingredients: [NewIngredientInput!]
   prepTime: Int
@@ -125,6 +135,12 @@ input RecipeInput {
   steps: [NewStepInput!]
   title: String!
   yield: Int
+}
+
+type SignedUploadRequest {
+  expires: Float!
+  filename: String!
+  signedUrl: String!
 }
 
 input StagedImage {
@@ -136,9 +152,6 @@ type Step {
   description: String!
   id: Int!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 type User {
   email: String!

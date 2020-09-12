@@ -1,4 +1,4 @@
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -9,8 +9,6 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
 };
 
 export type Category = {
@@ -25,12 +23,21 @@ export type Cuisine = {
   name: Scalars['String'];
 };
 
+export type ImageInput = {
+  caption?: Maybe<Scalars['String']>;
+  filename?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  order: Scalars['Int'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export type ImageMeta = {
   __typename?: 'ImageMeta';
+  caption?: Maybe<Scalars['String']>;
   creationDate: Scalars['DateTime'];
   id: Scalars['String'];
   modifiedDate: Scalars['DateTime'];
-  order?: Maybe<Scalars['Int']>;
+  order: Scalars['Int'];
   url: Scalars['String'];
 };
 
@@ -61,7 +68,7 @@ export type Mutation = {
   loginGoogle: User;
   logout: Scalars['Int'];
   register: User;
-  stageImage: Scalars['String'];
+  requestUpload: SignedUploadRequest;
 };
 
 export type MutationAddRecipeArgs = {
@@ -77,8 +84,8 @@ export type MutationRegisterArgs = {
   newUser: NewUserInput;
 };
 
-export type MutationStageImageArgs = {
-  file: Scalars['Upload'];
+export type MutationRequestUploadArgs = {
+  mimeType: Scalars['String'];
 };
 
 export type NewCategoryInput = {
@@ -152,6 +159,7 @@ export type RecipeInput = {
   cuisines?: Maybe<Array<NewCuisineInput>>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  images?: Maybe<Array<ImageInput>>;
   imageUrl?: Maybe<Scalars['String']>;
   ingredients?: Maybe<Array<NewIngredientInput>>;
   prepTime?: Maybe<Scalars['Int']>;
@@ -160,6 +168,13 @@ export type RecipeInput = {
   steps?: Maybe<Array<NewStepInput>>;
   title: Scalars['String'];
   yield?: Maybe<Scalars['Int']>;
+};
+
+export type SignedUploadRequest = {
+  __typename?: 'SignedUploadRequest';
+  expires: Scalars['Float'];
+  filename: Scalars['String'];
+  signedUrl: Scalars['String'];
 };
 
 export type StagedImage = {

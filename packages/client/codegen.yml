@@ -8,6 +8,8 @@ generates:
   src/features/types.gql.ts:
     plugins:
       - typescript
+    config:
+      maybeValue: T | undefined
   src/:
     preset: near-operation-file-preset
     presetConfig:

@@ -4,15 +4,8 @@ import styled, { css } from 'styled-components';
 interface ImageSelectionOverlayProps {
   alwaysShown?: boolean;
 }
-export const ImageSelectionOverlay: React.FC<ImageSelectionOverlayProps> = ({
-  children,
-  alwaysShown,
-  ...props
-}) => {
-  return <div {...props}>{children}</div>;
-};
 
-export default styled(ImageSelectionOverlay)`
+export default styled.div<ImageSelectionOverlayProps>`
   position: absolute;
   left: 0;
   top: 0;

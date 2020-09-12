@@ -1,14 +1,29 @@
 import { Field, Int, ObjectType } from 'type-graphql';
-import { CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-import { NullableColumn } from '../helpers';
+import { NullableColumn, NullableField } from '../helpers';
 import Recipe from './Recipe';
+
+export interface ImageBase {
+  id?: string;
+  filename?: string;
+  url?: string;
+  caption?: string;
+  order: number;
+}
 
 @ObjectType()
 @Entity()
-export default class ImageMeta {
+export default class ImageMeta implements ImageBase {
   @Field()
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   /**
@@ -30,8 +45,9 @@ export default class ImageMeta {
   @NullableColumn()
   mimetype?: string;
 
-  /* @Column('varbinary')
-  hash: string; */
+  @NullableField()
+  @NullableColumn()
+  caption?: string;
 
   @Field()
   @CreateDateColumn()
@@ -44,7 +60,7 @@ export default class ImageMeta {
   @ManyToOne(type => Recipe, { nullable: true })
   recipe?: Recipe;
 
-  @Field(type => Int, { nullable: true })
-  @NullableColumn()
-  order?: number;
+  @Field(type => Int)
+  @Column()
+  order: number;
 }

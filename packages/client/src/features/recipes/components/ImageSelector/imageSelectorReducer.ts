@@ -2,81 +2,89 @@ import { ErrorAction, PayloadAction } from 'lib/actions';
 import { InvalidActionError } from 'lib/errors';
 import React from 'react';
 
-export enum UploadStatus {
+import { ImageInput } from '../../../types.gql';
+
+export enum ImageUploadStatus {
   Queued,
-  Staging,
-  Staged,
+  Uploading,
   Uploaded,
   Error,
 }
 
-export interface RecipeImageSelection {
-  id: string;
+// Properties in an image that has been selected
+export type ImageSelectionType = Omit<ImageInput, 'order'> & {
+  clientId: string;
+  status?: ImageUploadStatus;
   file?: File;
-  url: string;
-  status: UploadStatus;
-}
+  error?: Error;
+};
 
-export type ReducerState = RecipeImageSelection[];
+export type ReducerState = ImageSelectionType[];
 
 export type ReducerActions =
-  | PayloadAction<'QUEUED', { file: File }>
-  | PayloadAction<'STAGING', string>
-  | PayloadAction<'STAGED', { url: string; newId: string }>
-  | PayloadAction<'UNSTAGE', string>
-  | ErrorAction<'ERROR', { id: string; error: Error }>;
+  | PayloadAction<'ADD', { clientId: string; url?: string; file?: File }>
+  | PayloadAction<'UPLOADING', { clientId: string }>
+  | PayloadAction<'UPLOADED', { clientId: string; newFileName: string }>
+  | ErrorAction<'ERROR', { clientId: string; error: Error }>
+  | PayloadAction<'REMOVE', { clientId: string }>
+  | PayloadAction<'CAPTION_CHANGE', { clientId: string; caption: string | undefined }>;
 
 const imageSelectionReducer: React.Reducer<ReducerState, ReducerActions> = (state, action) => {
   switch (action.type) {
-    case 'QUEUED': {
+    case 'ADD': {
       return [
         ...state,
         {
-          id: '',
-          url: action.payload.file.name,
-          file: action.payload.file,
-          status: UploadStatus.Queued,
+          ...action.payload,
+          status: action.payload.file && ImageUploadStatus.Queued,
         },
       ];
     }
 
-    case 'STAGING':
-      return state.map(item => {
-        if (item.id === action.payload) {
-          return {
-            ...item,
-            status: UploadStatus.Staging,
-          };
-        }
-        return item;
-      });
+    case 'UPLOADING':
+      return state.map(item =>
+        item.clientId === action.payload.clientId
+          ? {
+              ...item,
+              status: ImageUploadStatus.Uploading,
+            }
+          : item
+      );
 
-    case 'STAGED':
-      return state.map(item => {
-        if (item.url === action.payload.url) {
-          return {
-            ...item,
-            id: action.payload.newId,
-            status: UploadStatus.Staged,
-          };
-        }
-        return item;
-      });
+    case 'UPLOADED':
+      return state.map(item =>
+        item.clientId === action.payload.clientId
+          ? {
+              ...item,
+              filename: action.payload.newFileName,
+              status: ImageUploadStatus.Uploaded,
+            }
+          : item
+      );
 
-    case 'UNSTAGE': {
-      return state.filter(item => item.id !== action.payload);
-    }
+    case 'REMOVE':
+      return state.filter(item => item.clientId !== action.payload.clientId);
 
     case 'ERROR':
-      return state.map(item => {
-        if (item.id === action.payload.id) {
-          return {
-            ...item,
-            status: UploadStatus.Error,
-          };
-        }
-        return item;
-      });
+      return state.map(item =>
+        item.clientId === action.payload.clientId
+          ? {
+              ...item,
+              status: ImageUploadStatus.Error,
+              error: action.payload.error,
+            }
+          : item
+      );
+
+    case 'CAPTION_CHANGE':
+      return state.map(item =>
+        item.clientId === action.payload.clientId
+          ? {
+              ...item,
+              caption: action.payload.caption,
+            }
+          : item
+      );
 
     default:
       throw new InvalidActionError(action);

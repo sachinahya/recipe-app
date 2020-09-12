@@ -1,128 +1,83 @@
-import { Button } from '@material-ui/core';
 import { RecipeFormValues } from 'features/recipes/formValues';
 import { useFormikContext } from 'formik';
-import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 import { getSpacing } from 'styles/styleSelectors';
 
+import { ImageInput } from '../../../types.gql';
+import AddImageSelection from './AddImageSelection';
 import ImageSelection from './ImageSelection';
-import { useUploadImageMutation } from './ImageSelector.gql';
-import imageSelectionReducer, { RecipeImageSelection, UploadStatus } from './imageSelectorReducer';
-
-const UPLOAD_IMAGE_MUTATION = gql`
-  mutation uploadImage($file: Upload!) {
-    stageImage(file: $file)
-  }
-`;
+import imageSelectionReducer, {
+  ImageSelectionType,
+  ImageUploadStatus,
+} from './imageSelectorReducer';
+import useImageUpload from './useImageUpload';
 
 const ImageSelector: React.FC = ({ children, ...props }) => {
-  const [upload] = useUploadImageMutation();
   const { values, setFieldValue } = useFormikContext<RecipeFormValues>();
 
-  const [state, dispatch] = React.useReducer(imageSelectionReducer, values.stagedImages, state => {
+  const [state, dispatch] = React.useReducer(imageSelectionReducer, values.images, state => {
     return state
-      ? state.map(item => ({
+      ? state.map<ImageSelectionType>((item: ImageInput & { id: string }) => ({
           ...item,
-          url: item.url,
-          status: UploadStatus.Uploaded,
+          clientId: item.id,
+          status: ImageUploadStatus.Uploaded,
         }))
       : [];
   });
 
-  React.useEffect(() => {
-    const doUpload = async ({ id, url, file }: RecipeImageSelection) => {
-      if (file) {
-        try {
-          dispatch({ type: 'STAGING', payload: id });
-
-          const result = await upload({ variables: { file } });
-          const newId = result.data?.stageImage;
-
-          if (!newId) throw new Error('Unexpected error, no ID back from server.');
-
-          dispatch({ type: 'STAGED', payload: { url, newId } });
-        } catch (error) {
-          dispatch({ type: 'ERROR', payload: { id, error }, error: true });
-        }
-      }
-    };
-
-    // Look for queued images and call upload mutation.
-    const imagesToUpload = state.filter(x => x.status === UploadStatus.Queued);
-
-    if (imagesToUpload.length) {
-      Promise.all(imagesToUpload.map(doUpload))
-        .then(() => console.log(`Processed ${imagesToUpload.length} images.`))
-        .catch(err => console.error('Error uploading images', err));
-    }
-  }, [state, upload]);
+  const queueFile = useImageUpload(state, dispatch);
 
   React.useEffect(() => {
-    const stagedImages = state
-      .filter(image => [UploadStatus.Staged, UploadStatus.Uploaded].includes(image.status))
-      .map((x, i) => ({ id: x.id, order: i + 1 }));
+    const uploadedImages = state
+      .filter(image => image.status == null || image.status === ImageUploadStatus.Uploaded)
+      .map(
+        ({ caption, filename, id, url }, i): ImageInput => ({
+          caption,
+          filename,
+          id,
+          url,
+          order: i + 1,
+        })
+      );
 
-    setFieldValue('stagedImages', stagedImages);
+    setFieldValue('images', uploadedImages);
   }, [setFieldValue, state]);
-
-  const queueFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const files = evt.target.files;
-    if (files) {
-      [...files].forEach(file => dispatch({ type: 'QUEUED', payload: { file } }));
-    }
-  };
 
   return (
     <div {...props}>
       <ImageSelections>
         {state.map(img => (
           <ImageSelection
-            key={img.url || img.id}
+            key={img.id || img.url || img.file?.name || undefined}
+            type="file"
             selection={img}
-            handleDelete={() => dispatch({ type: 'UNSTAGE', payload: img.id })}
+            handleDelete={() =>
+              dispatch({
+                type: 'REMOVE',
+                payload: img,
+              })
+            }
+            handleCaptionChange={newCaption => {
+              dispatch({
+                type: 'CAPTION_CHANGE',
+                payload: { clientId: img.clientId, caption: newCaption },
+              });
+            }}
           />
         ))}
+        <AddImageSelection onChange={queueFile} />
       </ImageSelections>
-      <AddImageSelection onChange={queueFile} />
     </div>
   );
 };
 
-interface AddImageSelectionProps {
-  onChange(evt: React.ChangeEvent): void;
-}
-
-const AddImageSelection: React.FC<AddImageSelectionProps> = ({ onChange }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
-  return (
-    <>
-      <input
-        type="file"
-        id="image-upload"
-        multiple
-        onChange={onChange}
-        style={{ display: 'none' }}
-        accept="image/*"
-        ref={inputRef}
-      />
-      <label htmlFor="image-upload">
-        <Button onClick={() => inputRef.current?.click()}>Add Image</Button>
-      </label>
-    </>
-  );
-};
-
 const ImageSelections = styled.div`
+  margin: 0 -${getSpacing(1)} ${getSpacing(1)} -${getSpacing(1)};
+  width: calc(100% + ${getSpacing(1)});
   display: flex;
-  overflow-y: auto;
-  margin-bottom: ${getSpacing(1)};
-
-  ${tabletUp} {
-    flex-wrap: wrap;
-  }
+  flex-wrap: wrap;
 `;
 
-export default styled(ImageSelector)``;
+export default ImageSelector;

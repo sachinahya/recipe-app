@@ -27,6 +27,8 @@ export interface CorsConfig {
 export interface UploadsConfig {
   dir: string;
   url: string;
+  keyFileName?: string;
+  bucketName: string;
 }
 
 export interface AuthConfig {
@@ -56,6 +58,8 @@ function getEnvValue(key: string, validation: boolean | RegExp = true): string |
 export default ((env: NodeJS.ProcessEnv): AppConfig => {
   const isDevelopment = env.NODE_ENV === 'development';
 
+  const storageKeyFileName = getEnvValue('RA_GOOGLE_STORAGE_PRIVATE_KEY', false);
+
   return {
     isDevelopment,
     isTest: env.NODE_ENV === 'test',
@@ -66,6 +70,11 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
     uploads: {
       dir: path.join(process.cwd(), getEnvValue('RA_UPLOAD_DIR')),
       url: new URL(getEnvValue('RA_UPLOAD_URI')).href,
+      keyFileName:
+        storageKeyFileName != null
+          ? path.join(__dirname, '../../../', storageKeyFileName)
+          : undefined,
+      bucketName: getEnvValue('RA_GOOGLE_STORAGE_BUCKET'),
     },
     cors: {
       credentials: getEnvValue('RA_CORS_CREDENTIALS', false) === 'true',

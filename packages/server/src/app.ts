@@ -49,6 +49,8 @@ const createApolloServer = async (app: express.Application, corsOptions: CorsOpt
       if (err.message.startsWith('Access denied!')) return new ForbiddenError(err.message);
       if (err.message === 'Argument Validation Error')
         return new UserInputError(err.message, err.extensions?.exception.validationErrors);
+
+      logger.error(err);
       return err;
     },
   });

@@ -19,6 +19,7 @@ const RECIPE_STEP_FRAGMENT = gql`
 const RECIPE_IMAGE_FRAGMENT = gql`
   fragment ImageFields on ImageMeta {
     id
+    caption
     url
     order
   }
