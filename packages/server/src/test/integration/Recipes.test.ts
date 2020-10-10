@@ -10,8 +10,9 @@ import RecipeInput from 'resolvers/inputTypes/RecipeInput';
 import { RecipeResolver } from 'resolvers/RecipeResolver';
 import { ResolverContext } from 'resolvers/types';
 import UserDataResolver from 'resolvers/UserDataResolver';
+import CloudImageService from 'services/CloudImageService';
+import { CloudStorageService } from 'services/contracts/CloudStorageService';
 import FileService from 'services/FileService';
-import ImageService from 'services/ImageService';
 import RecipeService from 'services/RecipeService';
 import UserService from 'services/UserService';
 import { user1Input, user2Input } from 'test/fixtures/users';
@@ -19,13 +20,22 @@ import { connection, createResolverContext } from 'test/utils';
 
 import config from '../../config';
 
+class MockStorageService implements CloudStorageService {
+  getFileUrl(filename: string): string {
+    return 'file_url';
+  }
+  generateUploadSignedUrl(mimeType: string, filename: string, expires: number): Promise<string> {
+    return Promise.resolve('signed_url');
+  }
+}
+
 let user1: User;
 let context1: ResolverContext;
 
 let user2: User;
 let context2: ResolverContext;
 
-let imageService: ImageService;
+let imageService: CloudImageService;
 let recipeResolver: RecipeResolver;
 let userDataResolver: UserDataResolver;
 
@@ -40,12 +50,13 @@ beforeAll(async () => {
   context1 = createResolverContext(user1);
   context2 = createResolverContext(user2);
 
-  imageService = new ImageService(db.getRepository(ImageMeta), new FileService());
+  imageService = new CloudImageService(new MockStorageService());
   const categoryRepository = db.getCustomRepository(CategoryRepository);
   const cuisineRepository = db.getCustomRepository(CuisineRepository);
 
   const recipeService = new RecipeService(
     imageService,
+    db.getRepository(ImageMeta),
     db.getRepository(Recipe),
     categoryRepository,
     cuisineRepository
@@ -129,15 +140,19 @@ it('retrieves the correct categories and cuisines for each user', async () => {
   expect(cuisines[0].name).toEqual('Italian');
 });
 
-it('adds recipes with staged images', async () => {
+it('adds recipes with images', async () => {
   const imageOne = 'http://imageOne';
-  const imageId = await imageService.stageImage({ url: imageOne });
 
   const recipe = await recipeResolver.addRecipe(
     {
       title: 'Test',
       author: user1,
-      stagedImages: [{ id: imageId, order: 1 }],
+      images: [
+        {
+          url: imageOne,
+          order: 1,
+        },
+      ],
     },
     context1
   );
@@ -147,34 +162,21 @@ it('adds recipes with staged images', async () => {
   expect(recipeImages[0].url).toEqual(imageOne);
 
   const imageTwo = 'cheese.jpg';
-  const secondImageId = await recipeResolver.stageImage(
-    Promise.resolve({
-      filename: imageTwo,
-      mimetype: 'image/jpeg',
-      encoding: '',
-      createReadStream: () =>
-        createReadStream(path.join(__dirname, '../fixtures/images', imageTwo)),
-    })
-  );
 
   const editedInput: RecipeInput = {
     id: recipe.id,
     title: recipe.title,
     author: await recipe.author,
-    stagedImages: [
-      { id: imageId, order: 3 },
-      { id: secondImageId, order: 2 },
-      { id: 'some_unstaged_image', order: 1 },
+    images: [
+      { ...recipeImages[0], order: 2 },
+      { filename: imageTwo, order: 1 },
     ],
   };
 
   const editedRecipe = await recipeResolver.addRecipe(editedInput, context1);
 
-  // Remove the uploaded image once it's been used.
-  await fs.remove(path.join(config.uploads.dir, secondImageId + '.jpg'));
-
   /**
-   * Currently the client would need to sort the images by the order prop. In the future  this will
+   * Currently the client would need to sort the images by the order prop. In the future this will
    * not be necessary as the service will do the sorting.
    * TODO: Remove the sort once the images get sorted automatically.
    */
@@ -184,7 +186,9 @@ it('adds recipes with staged images', async () => {
   );
 
   expect(editedRecipeImages.length).toEqual(2);
-  expect(editedRecipeImages[0].filename).toBeTruthy();
-  expect(editedRecipeImages[0].mimetype).toEqual('image/jpeg');
-  expect(editedRecipeImages[1].url).toEqual(imageOne);
+  expect(editedRecipeImages[0].id).toBeTruthy();
+  expect(editedRecipeImages[0].filename).toEqual(imageTwo);
+
+  // Original image, should not change.
+  expect(editedRecipeImages[1]).toEqual({ ...recipeImages[0], order: 2 });
 });

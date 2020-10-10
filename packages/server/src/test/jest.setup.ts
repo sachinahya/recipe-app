@@ -1,6 +1,6 @@
 import logger from '@sachinahya/logger';
 
-require('dotenv').config({ path: require('path').join(__dirname, '../../.env.test') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../../../.env') });
 
 // Suppress messages from logger.
 jest.spyOn(logger, 'info').mockImplementation(() => null as any);

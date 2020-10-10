@@ -15,8 +15,9 @@ export type StepFieldsFragment = { __typename?: 'Step'; id: number; description:
 export type ImageFieldsFragment = {
   __typename?: 'ImageMeta';
   id: string;
+  caption?: Types.Maybe<string>;
   url: string;
-  order?: Types.Maybe<number>;
+  order: number;
 };
 
 export type CategoryFieldsFragment = { __typename?: 'Category'; id: number; name: string };
@@ -43,6 +44,7 @@ export type RecipeFieldsFragment = {
 export const ImageFieldsFragmentDoc = gql`
   fragment ImageFields on ImageMeta {
     id
+    caption
     url
     order
   }

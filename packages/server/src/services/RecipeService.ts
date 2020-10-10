@@ -7,7 +7,7 @@ import Recipe from '../entities/Recipe';
 import CategoryRepository from '../repositories/CategoryRepository';
 import CuisineRepository from '../repositories/CuisineRepository';
 import RecipeInput from '../resolvers/inputTypes/RecipeInput';
-import ImageService from './ImageService';
+import CloudImageService from './CloudImageService';
 
 interface GetRecipesOptions {
   categories?: string[];
@@ -17,7 +17,8 @@ interface GetRecipesOptions {
 @Service()
 export default class RecipeService {
   constructor(
-    private imageService: ImageService,
+    private imageService: CloudImageService,
+    @InjectRepository(ImageMeta) private imageRepository: Repository<ImageMeta>,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository() private categoryRepository: CategoryRepository,
     @InjectRepository() private cuisineRepository: CuisineRepository
@@ -54,23 +55,6 @@ export default class RecipeService {
     for (const input of recipeInput) {
       let recipe = this.recipeRepository.create(input);
       recipe = await this.getSubEntities(recipe);
-
-      if (input.stagedImages) {
-        /**
-         * By assigning the images to the Recipe, the recipeId column in the
-         * images table will also be updated when we save the Recipe below.
-         * Aren't ORMs fantastic?
-         */
-        const images = await this.imageService.getStagedImages(input.stagedImages, input.id);
-        const storedImages = input.stagedImages.reduce<ImageMeta[]>((acc, img) => {
-          const foundImg = images.find(x => x.id === img.id);
-          if (foundImg) acc.push({ ...foundImg, order: img.order });
-          return acc;
-        }, []);
-
-        recipe.images = storedImages;
-      }
-
       recipesToSave.push(recipe);
     }
 

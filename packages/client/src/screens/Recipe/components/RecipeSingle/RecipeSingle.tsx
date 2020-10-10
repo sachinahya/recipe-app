@@ -49,7 +49,8 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
   }
 
   const recipe = data.recipe;
-  const recipeImage = recipe.images?.[0]?.url;
+  const recipeImage = recipe.images?.[0];
+  const recipeImageUrl = recipeImage?.url;
 
   return (
     <Typography component="article" {...rest}>
@@ -57,7 +58,7 @@ const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) =>
         <RecipeMeta index={0}>
           <RecipeTitle>{recipe.title}</RecipeTitle>
           <RecipeImage style={{ backgroundColor: getPlaceholderBackground(recipe.title) }}>
-            {recipeImage && <img src={recipeImage} alt={recipe.title} />}
+            {recipeImage && <img src={recipeImageUrl} alt={recipeImage?.caption || recipe.title} />}
           </RecipeImage>
           <RecipeDescription>
             <Typography component="p" variant="body2" gutterBottom>

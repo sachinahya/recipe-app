@@ -5,7 +5,8 @@ import { NewIngredientInput } from '../../entities/Ingredient';
 import Recipe from '../../entities/Recipe';
 import Step from '../../entities/Step';
 import User from '../../entities/User';
-import { IDField,NullableField } from '../../helpers';
+import { IDField, NullableField } from '../../helpers';
+import ImageInput from './ImageInput';
 import NewCategoryInput from './NewCategoryInput';
 import NewCuisineInput from './NewCuisineInput';
 import StagedImage from './StagedImage';
@@ -36,6 +37,9 @@ export default class RecipeInput implements DeepPartial<Recipe> {
 
   @NullableField(type => [StagedImage])
   stagedImages?: StagedImage[];
+
+  @NullableField(type => [ImageInput])
+  images?: ImageInput[];
 
   @NullableField(type => Int)
   prepTime?: number;
