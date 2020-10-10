@@ -1,7 +1,6 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 import * as Types from '../types.gql';
-
 export type IngredientFieldsFragment = {
   __typename?: 'Ingredient';
   id: number;

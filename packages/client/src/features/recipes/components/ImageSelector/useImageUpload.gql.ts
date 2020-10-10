@@ -1,9 +1,7 @@
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 
 import * as Types from '../../../types.gql';
-
 export type RequestUploadMutationVariables = Types.Exact<{
   mimeType: Types.Scalars['String'];
 }>;
@@ -27,7 +25,7 @@ export const RequestUploadDocument = gql`
     }
   }
 `;
-export type RequestUploadMutationFn = ApolloReactCommon.MutationFunction<
+export type RequestUploadMutationFn = Apollo.MutationFunction<
   RequestUploadMutation,
   RequestUploadMutationVariables
 >;
@@ -50,19 +48,16 @@ export type RequestUploadMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useRequestUploadMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    RequestUploadMutation,
-    RequestUploadMutationVariables
-  >
+  baseOptions?: Apollo.MutationHookOptions<RequestUploadMutation, RequestUploadMutationVariables>
 ) {
-  return ApolloReactHooks.useMutation<RequestUploadMutation, RequestUploadMutationVariables>(
+  return Apollo.useMutation<RequestUploadMutation, RequestUploadMutationVariables>(
     RequestUploadDocument,
     baseOptions
   );
 }
 export type RequestUploadMutationHookResult = ReturnType<typeof useRequestUploadMutation>;
-export type RequestUploadMutationResult = ApolloReactCommon.MutationResult<RequestUploadMutation>;
-export type RequestUploadMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type RequestUploadMutationResult = Apollo.MutationResult<RequestUploadMutation>;
+export type RequestUploadMutationOptions = Apollo.BaseMutationOptions<
   RequestUploadMutation,
   RequestUploadMutationVariables
 >;

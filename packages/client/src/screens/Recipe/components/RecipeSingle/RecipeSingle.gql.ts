@@ -1,11 +1,9 @@
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 
 import { RecipeFieldsFragment } from '../../../../features/recipes/fragments.gql';
 import { RecipeFieldsFragmentDoc } from '../../../../features/recipes/fragments.gql';
 import * as Types from '../../../../features/types.gql';
-
 export type RecipeQueryVariables = Types.Exact<{
   id: Types.Scalars['Float'];
 }>;
@@ -41,18 +39,15 @@ export const RecipeDocument = gql`
  * });
  */
 export function useRecipeQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<RecipeQuery, RecipeQueryVariables>
+  baseOptions?: Apollo.QueryHookOptions<RecipeQuery, RecipeQueryVariables>
 ) {
-  return ApolloReactHooks.useQuery<RecipeQuery, RecipeQueryVariables>(RecipeDocument, baseOptions);
+  return Apollo.useQuery<RecipeQuery, RecipeQueryVariables>(RecipeDocument, baseOptions);
 }
 export function useRecipeLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<RecipeQuery, RecipeQueryVariables>
+  baseOptions?: Apollo.LazyQueryHookOptions<RecipeQuery, RecipeQueryVariables>
 ) {
-  return ApolloReactHooks.useLazyQuery<RecipeQuery, RecipeQueryVariables>(
-    RecipeDocument,
-    baseOptions
-  );
+  return Apollo.useLazyQuery<RecipeQuery, RecipeQueryVariables>(RecipeDocument, baseOptions);
 }
 export type RecipeQueryHookResult = ReturnType<typeof useRecipeQuery>;
 export type RecipeLazyQueryHookResult = ReturnType<typeof useRecipeLazyQuery>;
-export type RecipeQueryResult = ApolloReactCommon.QueryResult<RecipeQuery, RecipeQueryVariables>;
+export type RecipeQueryResult = Apollo.QueryResult<RecipeQuery, RecipeQueryVariables>;

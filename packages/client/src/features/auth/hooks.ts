@@ -1,7 +1,5 @@
-import { MutationResult } from '@apollo/react-common';
-import { MutationUpdaterFn } from 'apollo-client';
+import { gql, MutationResult, MutationUpdaterFn } from '@apollo/client';
 import { User } from 'features/types.gql';
-import gql from 'graphql-tag';
 
 import { RegisterFormValues } from './components/RegistrationForm';
 import {

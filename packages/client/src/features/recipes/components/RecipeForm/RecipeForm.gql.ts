@@ -1,11 +1,9 @@
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 
 import * as Types from '../../../types.gql';
 import { RecipeFieldsFragment } from '../../fragments.gql';
 import { RecipeFieldsFragmentDoc } from '../../fragments.gql';
-
 export type SaveRecipeMutationVariables = Types.Exact<{
   data: Types.RecipeInput;
 }>;
@@ -32,7 +30,7 @@ export const SaveRecipeDocument = gql`
   }
   ${RecipeFieldsFragmentDoc}
 `;
-export type SaveRecipeMutationFn = ApolloReactCommon.MutationFunction<
+export type SaveRecipeMutationFn = Apollo.MutationFunction<
   SaveRecipeMutation,
   SaveRecipeMutationVariables
 >;
@@ -55,19 +53,16 @@ export type SaveRecipeMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useSaveRecipeMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    SaveRecipeMutation,
-    SaveRecipeMutationVariables
-  >
+  baseOptions?: Apollo.MutationHookOptions<SaveRecipeMutation, SaveRecipeMutationVariables>
 ) {
-  return ApolloReactHooks.useMutation<SaveRecipeMutation, SaveRecipeMutationVariables>(
+  return Apollo.useMutation<SaveRecipeMutation, SaveRecipeMutationVariables>(
     SaveRecipeDocument,
     baseOptions
   );
 }
 export type SaveRecipeMutationHookResult = ReturnType<typeof useSaveRecipeMutation>;
-export type SaveRecipeMutationResult = ApolloReactCommon.MutationResult<SaveRecipeMutation>;
-export type SaveRecipeMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type SaveRecipeMutationResult = Apollo.MutationResult<SaveRecipeMutation>;
+export type SaveRecipeMutationOptions = Apollo.BaseMutationOptions<
   SaveRecipeMutation,
   SaveRecipeMutationVariables
 >;
@@ -97,27 +92,24 @@ export const RecipeFormDataDocument = gql`
  * });
  */
 export function useRecipeFormDataQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<RecipeFormDataQuery, RecipeFormDataQueryVariables>
+  baseOptions?: Apollo.QueryHookOptions<RecipeFormDataQuery, RecipeFormDataQueryVariables>
 ) {
-  return ApolloReactHooks.useQuery<RecipeFormDataQuery, RecipeFormDataQueryVariables>(
+  return Apollo.useQuery<RecipeFormDataQuery, RecipeFormDataQueryVariables>(
     RecipeFormDataDocument,
     baseOptions
   );
 }
 export function useRecipeFormDataLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    RecipeFormDataQuery,
-    RecipeFormDataQueryVariables
-  >
+  baseOptions?: Apollo.LazyQueryHookOptions<RecipeFormDataQuery, RecipeFormDataQueryVariables>
 ) {
-  return ApolloReactHooks.useLazyQuery<RecipeFormDataQuery, RecipeFormDataQueryVariables>(
+  return Apollo.useLazyQuery<RecipeFormDataQuery, RecipeFormDataQueryVariables>(
     RecipeFormDataDocument,
     baseOptions
   );
 }
 export type RecipeFormDataQueryHookResult = ReturnType<typeof useRecipeFormDataQuery>;
 export type RecipeFormDataLazyQueryHookResult = ReturnType<typeof useRecipeFormDataLazyQuery>;
-export type RecipeFormDataQueryResult = ApolloReactCommon.QueryResult<
+export type RecipeFormDataQueryResult = Apollo.QueryResult<
   RecipeFormDataQuery,
   RecipeFormDataQueryVariables
 >;

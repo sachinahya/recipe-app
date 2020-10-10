@@ -9,11 +9,6 @@ import CuisineRepository from '../repositories/CuisineRepository';
 import RecipeInput from '../resolvers/inputTypes/RecipeInput';
 import CloudImageService from './CloudImageService';
 
-interface GetRecipesOptions {
-  categories?: string[];
-  cuisines?: string[];
-}
-
 @Service()
 export default class RecipeService {
   constructor(
