@@ -1,4 +1,5 @@
 import { CorsOptions } from 'cors';
+import fs from 'fs-extra';
 import path from 'path';
 
 export interface AppConfig {
@@ -58,7 +59,14 @@ function getEnvValue(key: string, validation: boolean | RegExp = true): string |
 export default ((env: NodeJS.ProcessEnv): AppConfig => {
   const isDevelopment = env.NODE_ENV === 'development';
 
-  const storageKeyFileName = getEnvValue('RA_GOOGLE_STORAGE_PRIVATE_KEY', false);
+  const storageKeyFilePath = path.join(__dirname, '../../../', 'keys');
+  const storageKeyFileName = path.join(storageKeyFilePath, 'recipe-app-gcs-private-key.json');
+  const storageKeyData = getEnvValue('RA_GOOGLE_STORAGE_PRIVATE_KEY', false);
+
+  if (storageKeyData != null) {
+    fs.mkdirpSync(storageKeyFilePath);
+    fs.writeFileSync(storageKeyFileName, storageKeyData);
+  }
 
   return {
     isDevelopment,
@@ -70,10 +78,7 @@ export default ((env: NodeJS.ProcessEnv): AppConfig => {
     uploads: {
       dir: path.join(process.cwd(), getEnvValue('RA_UPLOAD_DIR')),
       url: new URL(getEnvValue('RA_UPLOAD_URI')).href,
-      keyFileName:
-        storageKeyFileName != null
-          ? path.join(__dirname, '../../../', storageKeyFileName)
-          : undefined,
+      keyFileName: storageKeyData != null ? storageKeyFileName : undefined,
       bucketName: getEnvValue('RA_GOOGLE_STORAGE_BUCKET'),
     },
     cors: {

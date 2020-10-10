@@ -1,6 +1,9 @@
 # Local certificates
 /cert
 
+# Private keys
+/keys
+
 # Server files
 packages/server/samples
 packages/server/uploads
