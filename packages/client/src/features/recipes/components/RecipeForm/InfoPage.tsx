@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import { Grid, InputAdornment } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import { ProgressOverlay } from 'components/Progress';
@@ -5,7 +6,6 @@ import { ItemFormatter } from 'components/SelectInput';
 import { TabPanel } from 'components/Tabs';
 import SelectField from 'features/forms/SelectField';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
-import gql from 'graphql-tag';
 import React from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';

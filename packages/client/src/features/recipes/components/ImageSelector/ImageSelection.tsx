@@ -20,7 +20,7 @@ interface ImageSelectionProps {
 }
 
 const ImageSelection: React.FC<ImageSelectionProps> = ({
-  selection: { clientId, file, url, status, caption = '', error },
+  selection: { file, url, status, caption = '', error },
   handleQueueFile,
   handleDelete,
   handleCaptionChange,

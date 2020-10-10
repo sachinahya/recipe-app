@@ -1,9 +1,6 @@
 import ImageMeta from 'entities/ImageMeta';
 import Recipe from 'entities/Recipe';
 import User from 'entities/User';
-import { createReadStream } from 'fs';
-import fs from 'fs-extra';
-import path from 'path';
 import CategoryRepository from 'repositories/CategoryRepository';
 import CuisineRepository from 'repositories/CuisineRepository';
 import RecipeInput from 'resolvers/inputTypes/RecipeInput';
@@ -12,18 +9,17 @@ import { ResolverContext } from 'resolvers/types';
 import UserDataResolver from 'resolvers/UserDataResolver';
 import CloudImageService from 'services/CloudImageService';
 import { CloudStorageService } from 'services/contracts/CloudStorageService';
-import FileService from 'services/FileService';
 import RecipeService from 'services/RecipeService';
 import UserService from 'services/UserService';
 import { user1Input, user2Input } from 'test/fixtures/users';
 import { connection, createResolverContext } from 'test/utils';
 
-import config from '../../config';
-
 class MockStorageService implements CloudStorageService {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getFileUrl(filename: string): string {
     return 'file_url';
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   generateUploadSignedUrl(mimeType: string, filename: string, expires: number): Promise<string> {
     return Promise.resolve('signed_url');
   }

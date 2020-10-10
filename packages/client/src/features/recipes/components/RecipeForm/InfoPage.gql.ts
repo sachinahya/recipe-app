@@ -1,11 +1,9 @@
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 
 import * as Types from '../../../types.gql';
 import { CategoryFieldsFragment, CuisineFieldsFragment } from '../../fragments.gql';
 import { CategoryFieldsFragmentDoc, CuisineFieldsFragmentDoc } from '../../fragments.gql';
-
 export type UserCategoriesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type UserCategoriesQuery = {
@@ -45,27 +43,24 @@ export const UserCategoriesDocument = gql`
  * });
  */
 export function useUserCategoriesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<UserCategoriesQuery, UserCategoriesQueryVariables>
+  baseOptions?: Apollo.QueryHookOptions<UserCategoriesQuery, UserCategoriesQueryVariables>
 ) {
-  return ApolloReactHooks.useQuery<UserCategoriesQuery, UserCategoriesQueryVariables>(
+  return Apollo.useQuery<UserCategoriesQuery, UserCategoriesQueryVariables>(
     UserCategoriesDocument,
     baseOptions
   );
 }
 export function useUserCategoriesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    UserCategoriesQuery,
-    UserCategoriesQueryVariables
-  >
+  baseOptions?: Apollo.LazyQueryHookOptions<UserCategoriesQuery, UserCategoriesQueryVariables>
 ) {
-  return ApolloReactHooks.useLazyQuery<UserCategoriesQuery, UserCategoriesQueryVariables>(
+  return Apollo.useLazyQuery<UserCategoriesQuery, UserCategoriesQueryVariables>(
     UserCategoriesDocument,
     baseOptions
   );
 }
 export type UserCategoriesQueryHookResult = ReturnType<typeof useUserCategoriesQuery>;
 export type UserCategoriesLazyQueryHookResult = ReturnType<typeof useUserCategoriesLazyQuery>;
-export type UserCategoriesQueryResult = ApolloReactCommon.QueryResult<
+export type UserCategoriesQueryResult = Apollo.QueryResult<
   UserCategoriesQuery,
   UserCategoriesQueryVariables
 >;
@@ -94,24 +89,24 @@ export const UserCuisinesDocument = gql`
  * });
  */
 export function useUserCuisinesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<UserCuisinesQuery, UserCuisinesQueryVariables>
+  baseOptions?: Apollo.QueryHookOptions<UserCuisinesQuery, UserCuisinesQueryVariables>
 ) {
-  return ApolloReactHooks.useQuery<UserCuisinesQuery, UserCuisinesQueryVariables>(
+  return Apollo.useQuery<UserCuisinesQuery, UserCuisinesQueryVariables>(
     UserCuisinesDocument,
     baseOptions
   );
 }
 export function useUserCuisinesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserCuisinesQuery, UserCuisinesQueryVariables>
+  baseOptions?: Apollo.LazyQueryHookOptions<UserCuisinesQuery, UserCuisinesQueryVariables>
 ) {
-  return ApolloReactHooks.useLazyQuery<UserCuisinesQuery, UserCuisinesQueryVariables>(
+  return Apollo.useLazyQuery<UserCuisinesQuery, UserCuisinesQueryVariables>(
     UserCuisinesDocument,
     baseOptions
   );
 }
 export type UserCuisinesQueryHookResult = ReturnType<typeof useUserCuisinesQuery>;
 export type UserCuisinesLazyQueryHookResult = ReturnType<typeof useUserCuisinesLazyQuery>;
-export type UserCuisinesQueryResult = ApolloReactCommon.QueryResult<
+export type UserCuisinesQueryResult = Apollo.QueryResult<
   UserCuisinesQuery,
   UserCuisinesQueryVariables
 >;

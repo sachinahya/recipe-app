@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strictPropertyInitialization": false,
+    "typeRoots": ["node_modules/@types", "src/@types", "../../node_modules/@types"],
+    "baseUrl": "src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": ["dist", "node_modules"]
+}

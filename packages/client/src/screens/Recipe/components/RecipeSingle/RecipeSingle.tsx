@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import { Box, Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import ButtonRow from 'components/ButtonRow';
@@ -7,7 +8,6 @@ import { ScreenProgress } from 'components/Screen';
 import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import { getPlaceholderBackground } from 'features/recipes/utils';
-import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';

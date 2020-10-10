@@ -1,7 +1,7 @@
+import { gql } from '@apollo/client';
 import { TabPanels } from 'components/Tabs';
 import { RecipeFormValues } from 'features/recipes/formValues';
 import { Form, Formik } from 'formik';
-import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 

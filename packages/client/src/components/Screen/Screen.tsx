@@ -8,7 +8,7 @@ import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
 
-export type ScreenBaseProps<T = {}> = RouteComponentProps<T>;
+export type ScreenBaseProps<T = unknown> = RouteComponentProps<T>;
 
 interface ScreenProps {
   title: string;

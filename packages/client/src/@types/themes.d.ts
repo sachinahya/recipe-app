@@ -1,4 +1,4 @@
-import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
+import '@material-ui/core/styles/createMuiTheme';
 
 export interface CustomThemeOptions {
   drawerWidth: number;

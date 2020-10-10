@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import logger from '@sachinahya/logger';
 
 require('dotenv').config({ path: require('path').join(__dirname, '../../../../.env') });

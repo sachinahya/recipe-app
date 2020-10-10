@@ -2,7 +2,6 @@ import { RecipeFormValues } from 'features/recipes/formValues';
 import { useFormikContext } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
-import { tabletUp } from 'styles/mediaQueries';
 import { getSpacing } from 'styles/styleSelectors';
 
 import { ImageInput } from '../../../types.gql';

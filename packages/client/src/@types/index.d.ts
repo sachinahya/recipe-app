@@ -10,7 +10,7 @@ type Dictionary<T> = { [member: string]: T };
 
 type AsyncOrSync<T> = T | Promise<T>;
 
-type ReactRenderProp<T extends {}> = (props: T) => React.ReactElement;
+type ReactRenderProp<T extends Record<string, unknown>> = (props: T) => React.ReactElement;
 
 type JSONPrimitive = string | number | boolean | null;
 type JSONValue = JSONPrimitive | JSONObject | JSONArray;

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const RECIPE_INGREDIENT_FRAGMENT = gql`
   fragment IngredientFields on Ingredient {

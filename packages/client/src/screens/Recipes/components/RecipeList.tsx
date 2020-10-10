@@ -1,7 +1,7 @@
+import { gql } from '@apollo/client';
 import { Grid } from '@material-ui/core';
 import { ErrorMessage } from 'components/Errors';
 import Progress from 'components/Progress';
-import gql from 'graphql-tag';
 import React from 'react';
 
 import RecipeCard from './RecipeCard';

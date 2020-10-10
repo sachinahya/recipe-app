@@ -1,9 +1,7 @@
-import { ApolloProvider } from '@apollo/react-hooks';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 import { persistCache } from 'apollo-cache-persist';
-import ApolloClient from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
-import { onError } from 'apollo-link-error';
+import { PersistentStorage } from 'apollo-cache-persist/types';
 import { createUploadLink } from 'apollo-upload-client';
 import React from 'react';
 
@@ -11,9 +9,13 @@ const link = ApolloLink.from([
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) =>
-        console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
+            locations
+          )}, Path: ${JSON.stringify(path)}`
+        )
       );
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+    if (networkError) console.log(`[Network error]: ${JSON.stringify(networkError)}`);
   }),
   createUploadLink({
     uri: process.env.RA_CLIENT_GRAPHQL_URI,
@@ -33,9 +35,9 @@ const ApolloClientProvider: React.FC = ({ children }) => {
      * The cache will need to be versioned so that we can reset it if the schema changes.
      * TODO: Read the version of the restored cache and clear it if necessary.
      */
-    persistCache({
+    void persistCache({
       cache,
-      storage: window.localStorage as any,
+      storage: window.localStorage as PersistentStorage<string | null>,
     }).then(() => setLoaded(true));
   }, []);
 

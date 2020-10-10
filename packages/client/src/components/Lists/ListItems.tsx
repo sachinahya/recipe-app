@@ -16,7 +16,7 @@ interface ListItemsProps<T> {
   width?: string | number;
 }
 
-const ListItems = <T extends {}>({
+const ListItems = <T extends Record<string, unknown>>({
   children,
   items,
   virtualized,
