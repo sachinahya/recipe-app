@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-const cssRegex = /.css$/;
 const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
 
 /**
@@ -19,40 +18,6 @@ module.exports = merge(common, {
   output: {
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].chunk.js',
-  },
-  /* module: {
-    rules: [
-      {
-        test: jsRegex,
-        exclude: /node_modules/,
-        loader: require.resolve('eslint-loader'),
-        options: {
-          failOnError: true,
-          failOnWarning: isCI,
-        },
-        enforce: 'pre',
-      },
-    ],
-  }, */
-  module: {
-    rules: [
-      {
-        test: cssRegex,
-        use: [
-          {
-            loader: require.resolve('style-loader'),
-          },
-          {
-            loader: require.resolve('css-loader'),
-            options: {
-              modules: true,
-              sourceMap: true,
-              esModule: true,
-            },
-          },
-        ],
-      },
-    ],
   },
   plugins: [
     isDevServer && new webpack.HotModuleReplacementPlugin(),

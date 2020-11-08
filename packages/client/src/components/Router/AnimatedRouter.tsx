@@ -4,8 +4,6 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import { getDrawerWidth } from 'styles/styleSelectors';
 
-import styles from './Router.module.css';
-
 const getProps = (pathLength: number, isPush: boolean) =>
   pathLength > 1
     ? {
@@ -59,10 +57,15 @@ const AnimatedRouter: React.FC = ({ children }) => {
     <>
       {transitions.map(({ item, key, props }) => (
         <animated.div
-          className={styles.page}
           key={key}
           style={{
             ...props,
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            willChange: 'transform',
             // Ensure the upcoming route is on top.
             zIndex: item.pathname === location.pathname ? 1 : 0,
           }}
