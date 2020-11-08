@@ -8,7 +8,7 @@
     "build": "run-s build:*",
     "dev": "run-p start:*",
     "start:generate": "graphql-codegen --watch --silent",
-    "start:app": "webpack-dev-server --config webpack.dev.js",
+    "start:app": "webpack serve --config webpack.dev.js",
     "build:clean": "rm -rf dist/*",
     "build:generate": "graphql-codegen",
     "build:app": "webpack --config webpack.prod.js",
