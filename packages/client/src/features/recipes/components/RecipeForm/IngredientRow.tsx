@@ -7,23 +7,24 @@ import { getSpacing } from 'styles/styleSelectors';
 
 interface IngredientRowProps {
   index: number;
+  name: string;
   onDelete?: () => void;
 }
 
-const IngredientRow: React.FC<IngredientRowProps> = ({ index, onDelete, ...props }) => {
+const IngredientRow: React.FC<IngredientRowProps> = ({ index, name, onDelete, ...props }) => {
   return (
     <Grid container spacing={1} {...props}>
       <Grid item className="quantity">
-        <TextField fast id={`q${index}`} name={`ingredients[${index}].quantity`} label="Quantity" />
+        <TextField fast id={`q-${name}`} name={`${name}.quantity`} label="Quantity" />
       </Grid>
       <Grid item className="measure">
-        <TextField fast id={`m${index}`} name={`ingredients[${index}].measure`} label="Measure" />
+        <TextField fast id={`m-${name}`} name={`${name}.measure`} label="Measure" />
       </Grid>
       <Grid item className="item">
-        <TextField fast id={`i${index}`} name={`ingredients[${index}].item`} label="Item" />
+        <TextField fast id={`i-${name}`} name={`${name}.item`} label="Item" />
       </Grid>
       <Grid item className="notes">
-        <TextField fast id={`n${index}`} name={`ingredients[${index}].notes`} label="Notes" />
+        <TextField fast id={`n-${name}`} name={`${name}.notes`} label="Notes" />
       </Grid>
       {onDelete && (
         <Grid item>

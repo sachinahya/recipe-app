@@ -1,12 +1,16 @@
 import { gql } from '@apollo/client';
 import { TabPanels } from 'components/Tabs';
-import { RecipeFormValues } from 'features/recipes/formValues';
-import { Form, Formik } from 'formik';
+import { convertToInput } from 'features/recipes/formValues';
+import { RecipeInput } from 'features/types.gql';
+import { setIn } from 'final-form';
+import arrayMutators from 'final-form-arrays';
 import React from 'react';
+import { Form } from 'react-final-form';
 import styled from 'styled-components';
+import { Schema, ValidationError } from 'yup';
 
 import { FieldContextProvider } from '../../../forms/FieldContext';
-import { convertFromFormValues, convertToFormValues, schema } from '../../formValues';
+import { schema } from '../../formValues';
 import InfoPage from './InfoPage';
 import IngredientsPage from './IngredientsPage';
 import {
@@ -37,61 +41,80 @@ const RECIPE_FORM_DATA_QUERY = gql`
   }
 `;
 
-const StyledForm = styled(Form)`
+const StyledForm = styled('form')`
   display: inherit;
   flex-direction: inherit;
   flex-grow: inherit;
   overflow: inherit;
 `;
 
-const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(
-  ({ id, onSubmitted, ...props }, ref) => {
-    const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
-      variables: { id },
-    });
-
-    React.useEffect(() => {
-      if (id) getRecipe();
-    }, [getRecipe, id]);
-
-    const [addRecipe] = useSaveRecipeMutation();
-    // TODO: Figure out what happened to this typing.
-    const initialData = convertToFormValues((id && (data?.recipe as any)) || undefined);
-
-    const handleSubmit = async (values: RecipeFormValues) => {
-      try {
-        const variables = { data: convertFromFormValues(values) };
-        const { data } = await addRecipe({ variables });
-        onSubmitted?.(data?.addRecipe);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    return (
-      <Formik<RecipeFormValues>
-        key={initialData.id}
-        initialValues={initialData}
-        validationSchema={schema}
-        onSubmit={handleSubmit}
-        {...props}
-      >
-        {() => (
-          <StyledForm ref={ref}>
-            <FieldContextProvider fullWidth margin="dense">
-              <TabPanels>
-                <InfoPage />
-                <IngredientsPage />
-                <StepsPage />
-              </TabPanels>
-            </FieldContextProvider>
-          </StyledForm>
-        )}
-      </Formik>
-    );
+const makeYupValidator = <T extends unknown>(schema: Schema<T>) => (
+  values: T
+): Record<string, string> | undefined => {
+  try {
+    schema.validateSync(values, { abortEarly: false });
+  } catch (err: unknown) {
+    if (err instanceof ValidationError) {
+      return err.inner.reduce((errors, error) => setIn(errors, error.path, error.message), {});
+    }
+    throw err;
   }
-);
+};
 
-RecipeForm.displayName = 'RecipeForm';
+const validate = makeYupValidator(schema);
+
+const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeForm(
+  { id, onSubmitted, ...props },
+  ref
+) {
+  const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
+    variables: { id },
+  });
+
+  React.useEffect(() => {
+    if (id) getRecipe();
+  }, [getRecipe, id]);
+
+  const [addRecipe] = useSaveRecipeMutation();
+  const initialData = convertToInput(data?.recipe);
+
+  const handleSubmit = async (values: RecipeInput) => {
+    try {
+      const data = schema.validateSync(values);
+      console.log(data);
+      if (data) {
+        const { data: result } = await addRecipe({ variables: { data } });
+        onSubmitted?.(result?.addRecipe);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  console.log('initialData', initialData);
+
+  return (
+    <Form<RecipeInput>
+      key={initialData?.id || 0}
+      initialValues={initialData}
+      onSubmit={handleSubmit}
+      validate={validate}
+      mutators={{ ...arrayMutators }}
+      {...props}
+    >
+      {({ handleSubmit }) => (
+        <StyledForm onSubmit={handleSubmit} ref={ref}>
+          <FieldContextProvider fullWidth margin="dense">
+            <TabPanels>
+              <InfoPage />
+              <IngredientsPage />
+              <StepsPage />
+            </TabPanels>
+          </FieldContextProvider>
+        </StyledForm>
+      )}
+    </Form>
+  );
+});
 
 export default RecipeForm;

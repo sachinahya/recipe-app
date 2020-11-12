@@ -92,7 +92,7 @@ export const RecipeFormDataDocument = gql`
  * });
  */
 export function useRecipeFormDataQuery(
-  baseOptions?: Apollo.QueryHookOptions<RecipeFormDataQuery, RecipeFormDataQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<RecipeFormDataQuery, RecipeFormDataQueryVariables>
 ) {
   return Apollo.useQuery<RecipeFormDataQuery, RecipeFormDataQueryVariables>(
     RecipeFormDataDocument,

@@ -1,6 +1,6 @@
 import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
-import { useField } from 'formik';
 import React from 'react';
+import { useField } from 'react-final-form';
 
 import { useFieldContext } from './FieldContext';
 
@@ -10,18 +10,16 @@ const SelectField = <T extends any>({ name, ...props }: SelectFieldProps<T>) => 
   if (!name) {
     throw new Error('Name is a required prop for SelectField.');
   }
-  const [field, meta] = useField(name);
+  const { input, meta } = useField(name);
   const contextProps = useFieldContext();
 
   return (
     <SelectInput
       {...contextProps}
       {...props}
-      {...field}
-      // TODO: Figure out what happened to this typing.
+      {...input}
       onChange={(evt: any) => {
-        console.log(evt.target.value);
-        field.onChange(evt);
+        input.onChange(evt);
       }}
       error={Boolean(meta.touched && meta.error)}
       helperText={meta.touched && meta.error}

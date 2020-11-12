@@ -18,12 +18,11 @@ module.exports = {
   stats: 'errors-warnings',
   output: {
     path: path.resolve('./dist'),
-    futureEmitAssets: true,
     publicPath: '/',
   },
   optimization: {
     splitChunks: { chunks: 'all' },
-    noEmitOnErrors: true,
+    emitOnErrors: false,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.mjs', '.cjs'],

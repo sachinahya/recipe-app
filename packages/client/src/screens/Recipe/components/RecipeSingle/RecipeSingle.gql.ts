@@ -39,7 +39,7 @@ export const RecipeDocument = gql`
  * });
  */
 export function useRecipeQuery(
-  baseOptions?: Apollo.QueryHookOptions<RecipeQuery, RecipeQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<RecipeQuery, RecipeQueryVariables>
 ) {
   return Apollo.useQuery<RecipeQuery, RecipeQueryVariables>(RecipeDocument, baseOptions);
 }

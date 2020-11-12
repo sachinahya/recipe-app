@@ -2,13 +2,12 @@ import { gql } from '@apollo/client';
 import { Grid, InputAdornment } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import { ProgressOverlay } from 'components/Progress';
-import { ItemFormatter } from 'components/SelectInput';
 import { TabPanel } from 'components/Tabs';
-import SelectField from 'features/forms/SelectField';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
 import React from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';
+import CategoryAutocomplete from './CategoryAutocomplete';
 import { FormSection } from './FormSection';
 import { useUserCategoriesQuery, useUserCuisinesQuery } from './InfoPage.gql';
 
@@ -42,11 +41,6 @@ const TimeField: React.FC<TextFieldProps> = props => (
   />
 );
 
-const formatSelectItem: ItemFormatter<{ id: number; name: string }> = item => ({
-  label: item.name,
-  value: item.id.toString(),
-});
-
 const InfoPage: React.FC = () => {
   const { data: categories, loading: categoriesLoading } = useUserCategoriesQuery();
   const { data: cuisines, loading: cuisinesLoading } = useUserCuisinesQuery();
@@ -64,28 +58,20 @@ const InfoPage: React.FC = () => {
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <ProgressOverlay fullWidth show={categoriesLoading}>
-              <SelectField
-                multiple
+              <CategoryAutocomplete
                 name="categories"
-                id="categories"
                 label="Categories"
-                disabled={!categories}
-                items={categories ? categories.userCategories : []}
-                formatItem={formatSelectItem}
+                options={categories?.userCategories}
               />
             </ProgressOverlay>
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <ProgressOverlay fullWidth show={cuisinesLoading}>
-              <SelectField
-                multiple
+              <CategoryAutocomplete
                 name="cuisines"
-                id="cuisines"
                 label="Cuisines"
-                disabled={!cuisines}
-                items={cuisines ? cuisines.userCuisines : []}
-                formatItem={formatSelectItem}
+                options={cuisines?.userCuisines}
               />
             </ProgressOverlay>
           </Grid>

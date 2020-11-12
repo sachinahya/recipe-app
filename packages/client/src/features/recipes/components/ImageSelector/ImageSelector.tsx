@@ -1,10 +1,9 @@
-import { RecipeFormValues } from 'features/recipes/formValues';
-import { useFormikContext } from 'formik';
 import React from 'react';
+import { useForm, useFormState } from 'react-final-form';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
-import { ImageInput } from '../../../types.gql';
+import { ImageInput, RecipeInput } from '../../../types.gql';
 import AddImageSelection from './AddImageSelection';
 import ImageSelection from './ImageSelection';
 import imageSelectionReducer, {
@@ -14,13 +13,15 @@ import imageSelectionReducer, {
 import useImageUpload from './useImageUpload';
 
 const ImageSelector: React.FC = ({ children, ...props }) => {
-  const { values, setFieldValue } = useFormikContext<RecipeFormValues>();
+  const { values } = useFormState<RecipeInput>();
+  const { change } = useForm();
 
   const [state, dispatch] = React.useReducer(imageSelectionReducer, values.images, state => {
     return state
-      ? state.map<ImageSelectionType>((item: ImageInput & { id: string }) => ({
+      ? state.map<ImageSelectionType>((item: ImageInput) => ({
           ...item,
-          clientId: item.id,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          clientId: item.id!,
           status: ImageUploadStatus.Uploaded,
         }))
       : [];
@@ -41,8 +42,8 @@ const ImageSelector: React.FC = ({ children, ...props }) => {
         })
       );
 
-    setFieldValue('images', uploadedImages);
-  }, [setFieldValue, state]);
+    change('images', uploadedImages);
+  }, [change, state]);
 
   return (
     <div {...props}>
