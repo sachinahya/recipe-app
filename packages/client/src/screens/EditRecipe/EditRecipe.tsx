@@ -15,7 +15,9 @@ const EditRecipe: React.FC = () => {
 
   const isEdit = !!id;
   const formRef = React.useRef<HTMLFormElement | null>(null);
-  const onSave = () => formRef.current?.dispatchEvent(new Event('submit'));
+  const onSave = () => {
+    formRef.current?.dispatchEvent(new Event('submit', { bubbles: true }));
+  };
 
   return (
     <TabsProvider count={3}>

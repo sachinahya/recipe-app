@@ -7,17 +7,29 @@ import {
   trimStringValue,
 } from 'features/forms/formValues';
 import { NewStepInput, Recipe, RecipeInput } from 'features/types.gql';
-import { array, object } from 'yup';
+import { object } from 'yup';
+
+import { RecipeFieldsFragment } from './fragments.gql';
 
 export type RecipeFormValues = FormValues<RecipeInput>;
 
-export const schema = object().shape<RecipeFormValues>({
+export const schema = object<RecipeInput>({
   title: emptyString().required(),
   description: emptyString(),
   imageUrl: emptyString(),
   sourceUrl: emptyString(),
-  categories: array().of(emptyString()).compact(),
 });
+
+export const convertToInput = (recipe?: RecipeFieldsFragment): RecipeInput => {
+  return {
+    title: '',
+    categories: [],
+    cuisines: [],
+    ingredients: [],
+    steps: [],
+    ...recipe,
+  };
+};
 
 export const convertFromFormValues = (values: RecipeFormValues): RecipeInput => {
   return {
