@@ -22,6 +22,8 @@ overrides:
     extends:
       - '@sachinahya/myconfig/react'
     rules:
+      'react/jsx-uses-react': off
+      'react/react-in-jsx-scope': off
       '@typescript-eslint/no-unused-vars':
         - warn
         - varsIgnorePattern: _(QUERY|MUTATION|FRAGMENT)$

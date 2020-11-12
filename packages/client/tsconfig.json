@@ -6,7 +6,7 @@
     "lib": ["dom", "dom.iterable", "esnext", "webworker"],
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "baseUrl": "src"
   }
 }

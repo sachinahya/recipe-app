@@ -3,6 +3,7 @@ module.exports = api => ({
     [
       '@babel/preset-react',
       {
+        runtime: 'automatic',
         development: api.env('development'),
         useBuiltIns: true,
       },
