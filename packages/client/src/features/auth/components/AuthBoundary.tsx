@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useCurrentUser, UseCurrentUserHookStatus, UseCurrentUserOptions } from '../hooks';
+import { MutationStatus, useCurrentUser, UseCurrentUserOptions } from '../hooks';
 
 interface AuthBoundaryProps extends UseCurrentUserOptions {
   children: JSX.Element;
-  fallback: JSX.Element | null | ((status: UseCurrentUserHookStatus) => JSX.Element | null);
+  fallback: JSX.Element | null | ((status: MutationStatus) => JSX.Element | null);
 }
 
 const AuthBoundary: React.FC<AuthBoundaryProps> = ({ children, fallback, ...hookOptions }) => {

@@ -1,9 +1,9 @@
-import { gql } from '@apollo/client';
 import { Grid, InputAdornment } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import { ProgressOverlay } from 'components/Progress';
 import { TabPanel } from 'components/Tabs';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
+import gql from 'graphql-tag';
 import React from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';
@@ -42,8 +42,8 @@ const TimeField: React.FC<TextFieldProps> = props => (
 );
 
 const InfoPage: React.FC = () => {
-  const { data: categories, loading: categoriesLoading } = useUserCategoriesQuery();
-  const { data: cuisines, loading: cuisinesLoading } = useUserCuisinesQuery();
+  const [{ data: categories, fetching: categoriesLoading }] = useUserCategoriesQuery();
+  const [{ data: cuisines, fetching: cuisinesLoading }] = useUserCuisinesQuery();
 
   return (
     <TabPanel index={0}>

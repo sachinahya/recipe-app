@@ -19,13 +19,13 @@ interface RecipesHeaderProps {
 
 const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
   const isOnline = useOnlineStatus();
-  const { data, refetch, loading } = useRecipesQuery({ notifyOnNetworkStatusChange: true });
+  const [{ data, fetching }, refetch] = useRecipesQuery();
   const loaded = !!data;
 
   const ViewIcon = isGrid ? ViewComfyIcon : ViewListIcon;
   const titleAccess = `Change to ${isGrid ? 'list' : 'grid'} layout`;
 
-  const refresh = () => refetch().catch(console.error);
+  const refresh = () => refetch();
 
   return (
     <Header
@@ -43,7 +43,7 @@ const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutCh
               )}
               {isOnline && (
                 <HeaderAction
-                  icon={loading ? <RotatingRefreshIcon /> : <RefreshIcon />}
+                  icon={fetching ? <RotatingRefreshIcon /> : <RefreshIcon />}
                   onClick={refresh}
                   aria-label="Refresh recipes"
                 />

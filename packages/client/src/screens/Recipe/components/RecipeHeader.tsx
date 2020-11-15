@@ -13,7 +13,7 @@ interface RecipeHeaderProps {
 }
 
 const RecipeHeader: React.FC<RecipeHeaderProps> = ({ id, defaultTitle, onEdit }) => {
-  const { data } = useRecipeQuery({ variables: { id } });
+  const [{ data }] = useRecipeQuery({ variables: { id } });
   const isOnline = useOnlineStatus();
 
   const title = data?.recipe?.title || defaultTitle;

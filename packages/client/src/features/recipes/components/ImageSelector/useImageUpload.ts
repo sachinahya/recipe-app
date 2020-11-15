@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -38,7 +38,7 @@ const uploadImage = async (signedUrl: string, mimeType: string, file: File): Pro
 };
 
 const useImageUpload = (selectedImages: ReducerState, dispatch: React.Dispatch<ReducerActions>) => {
-  const [requestUpload] = useRequestUploadMutation();
+  const [, requestUpload] = useRequestUploadMutation();
 
   const handleUpload = React.useCallback(
     async (input: ImageSelectionType): Promise<void> => {
@@ -49,16 +49,16 @@ const useImageUpload = (selectedImages: ReducerState, dispatch: React.Dispatch<R
         dispatch({ type: 'UPLOADING', payload: { ...input, clientId } });
 
         // Request a signed URL
-        const { data: uploadInfo, errors } = await requestUpload({
-          variables: { mimeType: input.file.type },
+        const { data: uploadInfo, error } = await requestUpload({
+          mimeType: input.file.type,
         });
 
-        if (errors) {
+        if (error) {
           dispatch({
             type: 'ERROR',
             payload: {
               clientId,
-              error: new Error(errors.map(err => err.message).join('. ')),
+              error: new Error(error.graphQLErrors.map(err => err.message).join('. ')),
             },
             error: true,
           });

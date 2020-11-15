@@ -13,10 +13,10 @@ generates:
       baseTypesPath: features/types.gql.ts
     plugins:
       - typescript-operations
-      - typescript-react-apollo
+      - typescript-urql
     config:
+      # typescript-operations
       preResolveTypes: true
-      withComponent: false
-      withHOC: false
-      withHooks: true
-  # documentMode: documentNode
+      # typescript-urql
+      pureMagicComment: true
+      useTypeImports: true

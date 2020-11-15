@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
-import * as Types from '../types.gql';
+import type * as Types from '../types.gql';
 export type IngredientFieldsFragment = {
   __typename?: 'Ingredient';
   id: number;
@@ -40,7 +40,7 @@ export type RecipeFieldsFragment = {
   steps: Array<{ __typename?: 'Step' } & StepFieldsFragment>;
 };
 
-export const ImageFieldsFragmentDoc = gql`
+export const ImageFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment ImageFields on ImageMeta {
     id
     caption
@@ -48,19 +48,19 @@ export const ImageFieldsFragmentDoc = gql`
     order
   }
 `;
-export const CategoryFieldsFragmentDoc = gql`
+export const CategoryFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment CategoryFields on Category {
     id
     name
   }
 `;
-export const CuisineFieldsFragmentDoc = gql`
+export const CuisineFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment CuisineFields on Cuisine {
     id
     name
   }
 `;
-export const IngredientFieldsFragmentDoc = gql`
+export const IngredientFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment IngredientFields on Ingredient {
     id
     quantity
@@ -68,13 +68,13 @@ export const IngredientFieldsFragmentDoc = gql`
     item
   }
 `;
-export const StepFieldsFragmentDoc = gql`
+export const StepFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment StepFields on Step {
     id
     description
   }
 `;
-export const RecipeFieldsFragmentDoc = gql`
+export const RecipeFieldsFragmentDoc = /*#__PURE__*/ gql`
   fragment RecipeFields on Recipe {
     id
     title

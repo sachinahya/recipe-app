@@ -1,9 +1,11 @@
-import { gql } from '@apollo/client';
 import { TabPanels } from 'components/Tabs';
+import Pre from 'components/Typography/Pre';
 import { convertToInput } from 'features/recipes/formValues';
+import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { RecipeInput } from 'features/types.gql';
 import { setIn } from 'final-form';
 import arrayMutators from 'final-form-arrays';
+import gql from 'graphql-tag';
 import React from 'react';
 import { Form } from 'react-final-form';
 import styled from 'styled-components';
@@ -15,7 +17,7 @@ import InfoPage from './InfoPage';
 import IngredientsPage from './IngredientsPage';
 import {
   SaveRecipeMutation,
-  useRecipeFormDataLazyQuery,
+  useRecipeFormDataQuery,
   useSaveRecipeMutation,
 } from './RecipeForm.gql';
 import StepsPage from './StepsPage';
@@ -67,23 +69,22 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeFo
   { id, onSubmitted, ...props },
   ref
 ) {
-  const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
+  const [{ data: initialData }] = useRecipeFormDataQuery({
     variables: { id },
+    pause: !id,
   });
 
-  React.useEffect(() => {
-    if (id) getRecipe();
-  }, [getRecipe, id]);
-
-  const [addRecipe] = useSaveRecipeMutation();
-  const initialData = convertToInput(data?.recipe);
+  const [, addRecipe] = useSaveRecipeMutation();
+  const { __typename, ...initialRecipe } = initialData?.recipe || ({} as RecipeFieldsFragment);
+  const initialValues = convertToInput(initialRecipe);
 
   const handleSubmit = async (values: RecipeInput) => {
     try {
       const data = schema.validateSync(values);
       console.log(data);
       if (data) {
-        const { data: result } = await addRecipe({ variables: { data } });
+        const { data: result, error } = await addRecipe({ data });
+        if (error) throw error;
         onSubmitted?.(result?.addRecipe);
       }
     } catch (err) {
@@ -91,19 +92,18 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeFo
     }
   };
 
-  console.log('initialData', initialData);
-
   return (
     <Form<RecipeInput>
-      key={initialData?.id || 0}
-      initialValues={initialData}
+      key={initialRecipe.id || 0}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validate={validate}
       mutators={{ ...arrayMutators }}
       {...props}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, values }) => (
         <StyledForm onSubmit={handleSubmit} ref={ref}>
+          <Pre>{JSON.stringify(values, undefined, 2)}</Pre>
           <FieldContextProvider fullWidth margin="dense">
             <TabPanels>
               <InfoPage />

@@ -51,6 +51,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin([
       'NODE_ENV',
+      'WEBPACK_DEV_SERVER',
       'RA_CLIENT_GRAPHQL_URI',
       'RA_CLIENT_GOOGLE_OAUTH_URI',
       'RA_CLIENT_GRAPHQL_CREDENTIALS',

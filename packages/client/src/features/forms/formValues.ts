@@ -6,7 +6,7 @@ export type FormValues<T> = {
 };
 
 export const emptyStringToUndefined: TransformFunction<StringSchema> = function (value) {
-  if (this.isType(value)) return value?.trim() || undefined;
+  if (this.isType(value) || value === null) return value?.trim() || undefined;
   return value;
 };
 

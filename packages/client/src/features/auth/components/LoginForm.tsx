@@ -24,7 +24,7 @@ const LoginButton = styled(Button)`
 `;
 
 const LoginForm: React.FC = () => {
-  const [login, { error, loading }] = useLogin();
+  const [login, { error, fetching }] = useLogin();
 
   return (
     <Formik
@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => {
           </Typography>
         )}
 
-        <LoginButton disabled={loading} size="large" variant="contained" type="submit">
+        <LoginButton disabled={fetching} size="large" variant="contained" type="submit">
           Login
         </LoginButton>
       </Form>

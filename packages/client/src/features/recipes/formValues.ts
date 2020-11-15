@@ -20,14 +20,20 @@ export const schema = object<RecipeInput>({
   sourceUrl: emptyString(),
 });
 
-export const convertToInput = (recipe?: RecipeFieldsFragment): RecipeInput => {
+export const convertToInput = (recipe: Partial<RecipeFieldsFragment>): Partial<RecipeInput> => {
   return {
-    title: '',
-    categories: [],
-    cuisines: [],
-    ingredients: [],
-    steps: [],
-    ...recipe,
+    categories: recipe.categories,
+    cookTime: recipe.cookTime,
+    cuisines: recipe.cuisines,
+    description: recipe.description,
+    id: recipe.id,
+    images: recipe.images,
+    ingredients: recipe.ingredients,
+    prepTime: recipe.prepTime,
+    sourceUrl: recipe.sourceUrl,
+    steps: recipe.steps,
+    title: recipe.title,
+    yield: recipe.yield,
   };
 };
 

@@ -9,12 +9,10 @@ import RecipeSuspense from 'screens/Recipe';
 import RecipesSuspense from 'screens/Recipes';
 
 const NotFound = React.lazy(() => import('screens/NotFound'));
-const RegisterScreen = React.lazy(() => import('screens/RegisterScreen'));
 
 const AppRoutes: React.FC = () => (
   <AnimatedRouter>
     <Route exact path="/" component={RecipesSuspense} />
-    <Route exact path="/register" component={RegisterScreen} />
     <Route exact path="/new" component={EditRecipeSuspense} />
     <Route exact path="/recipe/:id/edit" component={EditRecipeSuspense} />
     <Route exact path="/recipe/:id" component={RecipeSuspense} />
