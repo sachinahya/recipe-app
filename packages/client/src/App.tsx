@@ -3,14 +3,14 @@ import { ErrorBoundary } from 'components/Errors';
 import { LayoutProvider, Root } from 'components/Layout';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
 import ThemeSwitcher from 'features/ThemeSwitcher';
-import UrqlClient from 'graphql/UrqlClient';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import LoginScreen from 'screens/LoginScreen';
+import UrqlClient from 'src/graphql/UrqlClient';
 
 const AppRoutes = React.lazy(() => import('routes/App.routes'));
 
-export const App: React.FC = () => {
+const App: React.FC = () => {
   return (
     <ThemeSwitcher>
       <Router>

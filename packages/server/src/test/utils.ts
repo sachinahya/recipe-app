@@ -1,7 +1,7 @@
-import { AuthenticateOptions, AuthenticationResult } from 'auth/LocalStrategy';
-import User from 'entities/User';
 import path from 'path';
-import { ResolverContext } from 'resolvers/types';
+import { AuthenticateOptions, AuthenticationResult } from 'src/auth/LocalStrategy';
+import User from 'src/entities/User';
+import { ResolverContext } from 'src/resolvers/types';
 import { createConnection } from 'typeorm';
 
 export const connection = createConnection({

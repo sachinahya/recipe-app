@@ -9,9 +9,6 @@ packages/server/samples
 packages/server/uploads
 packages/server/ormconfig.*
 
-# VS Code files
-.vscode
-
 # Logs
 logs
 *.log

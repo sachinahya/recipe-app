@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#type-only-modules-watching
+    "importsNotUsedAsValues": "preserve",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": true
+  }
+}

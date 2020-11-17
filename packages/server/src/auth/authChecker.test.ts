@@ -1,4 +1,5 @@
-import User from 'entities/User';
+import { GraphQLResolveInfo } from 'graphql';
+import User from 'src/entities/User';
 
 import authChecker from './authChecker';
 
@@ -11,7 +12,7 @@ const fakeArgs = {
   },
   root: {},
   args: {},
-  info: {} as any,
+  info: {} as GraphQLResolveInfo,
 };
 
 it('returns true when a user is supplied', () => {

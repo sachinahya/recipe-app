@@ -1,12 +1,11 @@
-const path = require('path');
-const { compilerOptions } = require('./tsconfig.json');
-
 module.exports = {
-  moduleDirectories: [
-    'node_modules',
-    compilerOptions.baseUrl != null && path.join(__dirname, compilerOptions.baseUrl),
-  ].filter(Boolean),
-  setupFilesAfterEnv: [path.join(__dirname, 'src/test/jest.setup.ts')],
-  testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['node_modules/(?!(@sachinahya/.*)/)'],
+  moduleNameMapper: {
+    '\\.svg$': '<rootDir>/src/test/imageStub.js',
+  },
+  setupFiles: ['dotenv/config'],
+  setupFilesAfterEnv: ['<rootDir>/src/test/jest.setup.ts'],
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
+  },
+  transformIgnorePatterns: ['node_modules/(?!(@sachinahya/*)/)'],
 };

@@ -1,6 +1,6 @@
 import { TabPanels } from 'components/Tabs';
 import Pre from 'components/Typography/Pre';
-import { convertToInput } from 'features/recipes/formValues';
+import { convertToInput, schema } from 'features/recipes/formValues';
 import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { RecipeInput } from 'features/types.gql';
 import { setIn } from 'final-form';
@@ -12,7 +12,6 @@ import styled from 'styled-components';
 import { Schema, ValidationError } from 'yup';
 
 import { FieldContextProvider } from '../../../forms/FieldContext';
-import { schema } from '../../formValues';
 import InfoPage from './InfoPage';
 import IngredientsPage from './IngredientsPage';
 import {

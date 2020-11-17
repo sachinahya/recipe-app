@@ -15,7 +15,7 @@ const RecipeIngredient: React.FC<RecipeIngredientProps> = ({
   return (
     <li {...props}>
       {quantity}
-      {measure && ' ' + measure} {item} {notes && <span>{' ' + notes}</span>}
+      {measure && ` ${measure}`} {item} {notes && <span>{` ${notes}`}</span>}
     </li>
   );
 };

@@ -15,7 +15,7 @@ const Recipes: React.FC = () => {
       <Screen title="Recipes" padding>
         <RecipeList
           layout={RecipeListLayout[isGrid ? 'Grid' : 'List']}
-          onClick={(evt, { id, title }) => push('/recipe/' + id, { title })}
+          onClick={(evt, { id, title }) => push(`/recipe/${id}`, { title })}
         />
       </Screen>
     </>

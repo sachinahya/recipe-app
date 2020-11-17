@@ -1,5 +1,5 @@
-import User from 'entities/User';
-import { connection } from 'test/utils';
+import User from 'src/entities/User';
+import { connection } from 'src/test/utils';
 
 import UserService, { DuplicateUserError } from './UserService';
 
@@ -10,7 +10,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  (await connection).dropDatabase();
+  void (await connection).dropDatabase();
 });
 
 const email = 'me@email.com';
@@ -26,7 +26,9 @@ it('creates one user per email address', async () => {
   user = newUser;
 
   expect(user.id).toBeDefined();
-  expect(userService.create({ email, plainTextPassword })).rejects.toThrowError(DuplicateUserError);
+  void expect(userService.create({ email, plainTextPassword })).rejects.toThrowError(
+    DuplicateUserError
+  );
 });
 
 it('finds the created user by id and email', async () => {

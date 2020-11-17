@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "client:dev",
+      "command": "yarn workspace @sachinahya/recipe-app-client dev",
+      "isBackground": true
+    }
+  ]
+}

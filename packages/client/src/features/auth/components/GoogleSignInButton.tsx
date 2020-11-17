@@ -5,15 +5,13 @@ import { getSpacing } from 'styles/styleSelectors';
 
 import GoogleLogo from './Google.svg';
 
-interface GoogleSignInButtonProps extends ButtonProps {}
-
 const StyledLogo = styled(GoogleLogo)`
   width: 18px;
   height: 18px;
   margin-right: ${getSpacing(2)};
 `;
 
-const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = props => {
+const GoogleSignInButton: React.FC<ButtonProps> = props => {
   return (
     <Button {...props}>
       <StyledLogo />

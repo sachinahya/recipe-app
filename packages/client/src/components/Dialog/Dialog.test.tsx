@@ -68,7 +68,7 @@ describe('Alert dialog', () => {
     const button = getByRole('button');
 
     // expect(document.activeElement === button).toBeTruthy();
-    expect(button).toHaveTextContent('Got it!');
+    expect(button.textContent).toEqual('Got it!');
     userEvent.click(button);
     expect(handleClose).toBeCalledTimes(1);
   });

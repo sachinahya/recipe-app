@@ -20,7 +20,7 @@ const Recipe: React.FC = () => {
 
   return (
     <TabsProvider enabled={!tablet} count={3}>
-      <RecipeHeader id={id} defaultTitle={title} onEdit={() => push(id + '/edit')} />
+      <RecipeHeader id={id} defaultTitle={title} onEdit={() => push(`${id}/edit`)} />
       <Screen title={title}>
         <React.Suspense fallback={<ScreenProgress />}>
           <RecipeSingle id={id} />

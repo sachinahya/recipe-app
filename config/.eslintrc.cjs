@@ -1,0 +1,138 @@
+module.exports = {
+  root: true,
+  env: {
+    browser: true,
+    node: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.eslint.json'],
+  },
+  plugins: ['@typescript-eslint/eslint-plugin', 'import', 'react-hooks'],
+  extends: [
+    'eslint:recommended',
+    'plugin:jsdoc/recommended',
+    'prettier',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:import/typescript',
+    'prettier/@typescript-eslint',
+  ],
+  ignorePatterns: [
+    '**/node_modules/**',
+    '**/packages/**/node_modules/**',
+    '**/packages/*/dist/**',
+    '**/coverage/**',
+  ],
+  rules: {
+    eqeqeq: ['error', 'smart'],
+    'import/no-named-as-default': 'warn',
+    'import/no-named-as-default-member': 'warn',
+    'import/no-duplicates': 'warn',
+    'import/no-mutable-exports': 'error',
+    'jsdoc/check-alignment': 'off',
+    'jsdoc/require-jsdoc': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+
+    '@typescript-eslint/no-inferrable-types': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        ignoreRestSiblings: true,
+        varsIgnorePattern: '_(QUERY|MUTATION|FRAGMENT)$',
+      },
+    ],
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/unbound-method': 'off',
+  },
+  overrides: [
+    {
+      // TypeScript
+      files: '**/*.ts?(x)',
+      rules: {
+        'no-undef': 'off',
+        'jsdoc/require-param-type': 'off',
+        'jsdoc/require-returns-type': 'off',
+        'import/no-commonjs': 'error',
+      },
+    },
+    {
+      // JavaScript
+      files: '**/*.js?(x)',
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'import/no-unresolved': 'error',
+        'import/named': 'error',
+        'import/namespace': 'error',
+        'import/default': 'error',
+        'import/export': 'error',
+      },
+    },
+    {
+      // GraphQL generated
+      files: '**/?(*.)gql.ts',
+      rules: {
+        '@typescript-eslint/ban-types': 'off',
+        '@typescript-eslint/camelcase': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'jsdoc/require-returns': 'off',
+        'import/no-duplicates': 'off',
+      },
+    },
+    {
+      files: 'packages/client/**',
+      extends: ['plugin:react/recommended', 'prettier/react'],
+      rules: {
+        'react/prop-types': 'off',
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
+      },
+      settings: {
+        react: {
+          version: 'latest',
+          linkComponents: [
+            'Hyperlink',
+            {
+              name: 'Link',
+              linkAttribute: 'to',
+            },
+          ],
+        },
+      },
+    },
+    {
+      // Entity/resolver
+      files: 'packages/server/src/?(entities|resolvers)/**/*.ts',
+      rules: {
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            argsIgnorePattern: '^(of|type|returns)$',
+            ignoreRestSiblings: true,
+          },
+        ],
+      },
+    },
+    {
+      // Test files
+      files: 'packages/*/test/**',
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
+  settings: {
+    jsdoc: {
+      mode: 'typescript',
+    },
+  },
+};

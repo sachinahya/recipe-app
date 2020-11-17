@@ -1,3 +1,4 @@
+import ImageMeta from 'src/entities/ImageMeta';
 import {
   Arg,
   Authorized,
@@ -45,7 +46,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   }
 
   @FieldResolver()
-  async images(@Root() recipe: Recipe) {
+  async images(@Root() recipe: Recipe): Promise<ImageMeta[] | undefined> {
     const images = await recipe.images;
     if (images) {
       return images.map(img => this.imageService.resolveUrl(img));

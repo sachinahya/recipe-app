@@ -1,4 +1,4 @@
-import NewUserInput from 'resolvers/inputTypes/NewUserInput';
+import NewUserInput from 'src/resolvers/inputTypes/NewUserInput';
 
 const email1 = 'user1@email.com';
 const password1 = 'password';

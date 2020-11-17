@@ -1,10 +1,10 @@
 import { AuthenticationError } from 'apollo-server-core';
-import User from 'entities/User';
-import UserResolver from 'resolvers/AuthResolver';
-import { ResolverContext } from 'resolvers/types';
-import UserService from 'services/UserService';
-import { user1Input } from 'test/fixtures/users';
 
+import User from '../../entities/User';
+import UserResolver from '../../resolvers/AuthResolver';
+import { ResolverContext } from '../../resolvers/types';
+import UserService from '../../services/UserService';
+import { user1Input } from '../fixtures/users';
 import { connection, createResolverContext } from '../utils';
 
 let userService: UserService;
@@ -25,7 +25,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  (await connection).dropDatabase();
+  void (await connection).dropDatabase();
 });
 
 it('should create a new user and log them in', async () => {
@@ -51,5 +51,5 @@ it('should authenticate the user and log them in, or reject with an error if inv
 
   const invalidLogin = authResolver.login('blah', 'blah', context);
 
-  expect(invalidLogin).rejects.toThrowError(AuthenticationError);
+  void expect(invalidLogin).rejects.toThrowError(AuthenticationError);
 });

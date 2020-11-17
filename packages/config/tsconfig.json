@@ -6,7 +6,6 @@
     "rootDir": "src",
     "outDir": "dist",
     "strictPropertyInitialization": false,
-    "typeRoots": ["node_modules/@types", "src/@types", "../../node_modules/@types"],
     "baseUrl": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

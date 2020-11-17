@@ -132,5 +132,3 @@ export const useTabs = (
     getTabPanelProps,
   };
 };
-
-export default useTabs;
