@@ -13,8 +13,8 @@
     "dev": "cross-env NODE_ENV=development wsrun dev",
     "migrate:db": "yarn workspace @sachinahya/recipe-app-server migration:run",
     "test": "cross-env NODE_ENV=test jest",
-    "lint": "eslint --config ./config/.eslintrc.imports.cjs \"**/*.{js,ts,tsx}\" --cache",
-    "prettier": "prettier -l \"**/*.{js,ts,tsx,json,md,scss,css}\""
+    "lint": "eslint --config ./config/.eslintrc.imports.cjs \"**/*.{js,ts,tsx,cjs,mjs}\" --cache",
+    "prettier": "prettier -l \"**/*.{js,ts,tsx,cjs,mjs,json,md,scss,css,yml}\""
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -55,6 +55,14 @@
   "eslintConfig": {
     "extends": "./config/.eslintrc.cjs"
   },
+  "eslintIgnore": [
+    ".yarn",
+    ".pnp.cjs",
+    "**/node_modules/**",
+    "**/packages/**/node_modules/**",
+    "**/packages/*/dist/**",
+    "**/coverage/**"
+  ],
   "prettier": {
     "arrowParens": "avoid",
     "printWidth": 100,

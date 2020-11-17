@@ -12,6 +12,7 @@ module.exports = {
     },
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.eslint.json'],
+    extraFileExtensions: ['.cjs', '.mjs'],
   },
   plugins: ['@typescript-eslint/eslint-plugin', 'import', 'react-hooks'],
   extends: [
@@ -24,16 +25,11 @@ module.exports = {
     'plugin:import/typescript',
     'prettier/@typescript-eslint',
   ],
-  ignorePatterns: [
-    '**/node_modules/**',
-    '**/packages/**/node_modules/**',
-    '**/packages/*/dist/**',
-    '**/coverage/**',
-  ],
   rules: {
     eqeqeq: ['error', 'smart'],
     'import/no-named-as-default': 'warn',
     'import/no-named-as-default-member': 'warn',
+    'import/no-commonjs': 'error',
     'import/no-duplicates': 'warn',
     'import/no-mutable-exports': 'error',
     'jsdoc/check-alignment': 'off',
@@ -57,24 +53,30 @@ module.exports = {
   overrides: [
     {
       // TypeScript
-      files: '**/*.ts?(x)',
+      files: '**/*.{ts,tsx}',
       rules: {
         'no-undef': 'off',
         'jsdoc/require-param-type': 'off',
         'jsdoc/require-returns-type': 'off',
-        'import/no-commonjs': 'error',
       },
     },
     {
       // JavaScript
-      files: '**/*.js?(x)',
+      files: '**/*.{js,cjs,mjs}',
       rules: {
-        '@typescript-eslint/no-var-requires': 'off',
         'import/no-unresolved': 'error',
         'import/named': 'error',
         'import/namespace': 'error',
         'import/default': 'error',
         'import/export': 'error',
+      },
+    },
+    {
+      // JavaScript (.cjs)
+      files: '**/*.cjs',
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'import/no-commonjs': 'off',
       },
     },
     {

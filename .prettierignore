@@ -1,2 +1,5 @@
 .yarn
+.pnp.cjs
+cert
+keys
 dist
