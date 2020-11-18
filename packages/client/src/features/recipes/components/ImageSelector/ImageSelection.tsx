@@ -3,7 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { useFile } from '@sachinahya/hooks';
 import DeleteIconButton from 'components/Button/DeleteIconButton';
 import Progress from 'components/Progress';
-import React from 'react';
+import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
@@ -14,12 +14,12 @@ import { ImageSelectionType, ImageUploadStatus } from './imageSelectorReducer';
 interface ImageSelectionProps {
   type: 'url' | 'file';
   selection: ImageSelectionType;
-  handleQueueFile?(evt: React.ChangeEvent<HTMLInputElement>): void;
+  handleQueueFile?(evt: ChangeEvent<HTMLInputElement>): void;
   handleDelete?(): void;
   handleCaptionChange?(newCaption: string): void;
 }
 
-const ImageSelection: React.FC<ImageSelectionProps> = ({
+const ImageSelection: FC<ImageSelectionProps> = ({
   selection: { file, url, status, caption = '', error },
   handleQueueFile,
   handleDelete,

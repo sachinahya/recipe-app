@@ -1,8 +1,8 @@
 import { Header } from 'components/Layout';
 import Screen from 'components/Screen';
-import React from 'react';
+import { FC } from 'react';
 
-const NotFound: React.FC = () => {
+const NotFound: FC = () => {
   return (
     <>
       <Header title="Not Found" />

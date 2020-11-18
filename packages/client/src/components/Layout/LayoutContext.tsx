@@ -1,5 +1,5 @@
 import { makeContextConsumerHook } from '@sachinahya/utils';
-import React from 'react';
+import { createContext, FC,useMemo, useState } from 'react';
 
 export interface LayoutState {
   drawerOpen: boolean;
@@ -12,13 +12,13 @@ export type LayoutContextType = LayoutState & {
   closeDrawer(): void;
 };
 
-const LayoutContext = React.createContext<LayoutContextType | undefined>(undefined);
+const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 
 export const useLayout = makeContextConsumerHook(LayoutContext);
 
-export const LayoutProvider: React.FC = ({ children }) => {
+export const LayoutProvider: FC = ({ children }) => {
   // const isDesktop = useDeviceSize('desktop');
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   // const { pathLength } = useNavigation();
   // const showBottomNav = pathLength <= 1;
 
@@ -28,7 +28,7 @@ export const LayoutProvider: React.FC = ({ children }) => {
   const openDrawer = () => setDrawerOpen(true);
   const closeDrawer = () => setDrawerOpen(false);
 
-  const value = React.useMemo(() => {
+  const value = useMemo(() => {
     return {
       drawerOpen,
       openDrawer,

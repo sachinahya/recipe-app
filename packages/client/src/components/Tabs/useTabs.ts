@@ -1,5 +1,12 @@
 import { useCounter } from '@sachinahya/hooks';
-import React from 'react';
+import {
+  HTMLAttributes,
+  RefAttributes,
+  AriaAttributes,
+  useRef,
+  useEffect,
+  KeyboardEvent,
+} from 'react';
 
 export interface UseTabsOptions {
   count: number;
@@ -21,11 +28,11 @@ export interface UseTabsHook {
   getTabPanelProps: (index: number) => TabPanelProps;
 }
 
-type TablistProps = Pick<React.HTMLAttributes<Element>, 'role' | 'onKeyDown'>;
-type TabProps = React.RefAttributes<HTMLElement> &
-  React.AriaAttributes &
-  Pick<React.HTMLAttributes<Element>, 'role' | 'tabIndex' | 'id'>;
-type TabPanelProps = React.HTMLAttributes<HTMLElement>;
+type TablistProps = Pick<HTMLAttributes<Element>, 'role' | 'onKeyDown'>;
+type TabProps = RefAttributes<HTMLElement> &
+  AriaAttributes &
+  Pick<HTMLAttributes<Element>, 'role' | 'tabIndex' | 'id'>;
+type TabPanelProps = HTMLAttributes<HTMLElement>;
 
 export const useTabs = (
   {
@@ -46,10 +53,10 @@ export const useTabs = (
     max: maxIndex,
   });
 
-  const isKeyboard = React.useRef(false);
-  const focusRef = React.useRef<HTMLElement | null>(null);
+  const isKeyboard = useRef(false);
+  const focusRef = useRef<HTMLElement | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (enabled && isKeyboard.current) {
       focusRef.current && focusRef.current.focus();
       isKeyboard.current = false;
@@ -71,7 +78,7 @@ export const useTabs = (
     return newIndex;
   };
 
-  const handleKeyDown = ({ keyCode }: React.KeyboardEvent) => {
+  const handleKeyDown = ({ keyCode }: KeyboardEvent) => {
     // Left arrow || right arrow
     if (enabled && (keyCode === 37 || keyCode === 39)) {
       isKeyboard.current = true;

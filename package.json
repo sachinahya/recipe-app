@@ -55,15 +55,6 @@
   "eslintConfig": {
     "extends": "./config/.eslintrc.cjs"
   },
-  "eslintIgnore": [
-    ".yarn",
-    ".pnp.cjs",
-    "**/node_modules/**",
-    "**/packages/**/node_modules/**",
-    "**/packages/*/dist/**",
-    "**/coverage/**",
-    "*.gql.ts"
-  ],
   "prettier": {
     "arrowParens": "avoid",
     "printWidth": 100,

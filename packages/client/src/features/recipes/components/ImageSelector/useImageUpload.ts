@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import React from 'react';
+import { Dispatch, ChangeEvent, useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -39,11 +39,11 @@ const uploadImage = async (signedUrl: string, mimeType: string, file: File): Pro
 
 const useImageUpload = (
   selectedImages: ReducerState,
-  dispatch: React.Dispatch<ReducerActions>
-): ((evt: React.ChangeEvent<HTMLInputElement>) => void) => {
+  dispatch: Dispatch<ReducerActions>
+): ((evt: ChangeEvent<HTMLInputElement>) => void) => {
   const [, requestUpload] = useRequestUploadMutation();
 
-  const handleUpload = React.useCallback(
+  const handleUpload = useCallback(
     async (input: ImageSelectionType): Promise<void> => {
       if (!input.file) return;
       const clientId = input.clientId;
@@ -83,7 +83,7 @@ const useImageUpload = (
     [dispatch, requestUpload]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Look for queued images and call upload mutation.
     const imagesToUpload = selectedImages.filter(
       x => x.status === ImageUploadStatus.Queued && x.file
@@ -96,8 +96,8 @@ const useImageUpload = (
     }
   }, [handleUpload, selectedImages]);
 
-  return React.useCallback(
-    (evt: React.ChangeEvent<HTMLInputElement>): void => {
+  return useCallback(
+    (evt: ChangeEvent<HTMLInputElement>): void => {
       const files = evt.target.files;
       if (files) {
         [...files].forEach(file =>

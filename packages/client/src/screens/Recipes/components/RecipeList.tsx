@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import { ErrorMessage } from 'components/Errors';
 import Progress from 'components/Progress';
 import gql from 'graphql-tag';
-import React from 'react';
+import { FC, MouseEvent } from 'react';
 
 import RecipeCard from './RecipeCard';
 import { RecipesQuery, useRecipesQuery } from './RecipeList.gql';
@@ -14,7 +14,7 @@ export enum RecipeListLayout {
 
 interface RecipeListProps {
   layout?: RecipeListLayout;
-  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipe: RecipesQuery['recipes'][0]): void;
+  onClick?(evt: MouseEvent<HTMLButtonElement>, recipe: RecipesQuery['recipes'][0]): void;
 }
 
 gql`
@@ -34,7 +34,7 @@ gql`
   }
 `;
 
-const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
+const RecipeList: FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
   const [{ data, error, fetching }] = useRecipesQuery();
 
   const gridProps =

@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
@@ -7,7 +7,7 @@ interface RecipeStepProps {
   text: string;
 }
 
-const RecipeStep: React.FC<RecipeStepProps> = ({ index, text, ...props }) => {
+const RecipeStep: FC<RecipeStepProps> = ({ index, text, ...props }) => {
   return <li {...props}>{text}</li>;
 };
 

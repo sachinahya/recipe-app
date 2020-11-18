@@ -1,6 +1,4 @@
-import React from 'react';
 import { render, userEvent } from 'test/utils';
-
 import AlertDialog from './AlertDialog';
 import BaseDialog from './BaseDialog';
 

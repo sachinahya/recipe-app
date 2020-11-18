@@ -4,7 +4,7 @@ import { AddButton, DeleteIconButton } from 'components/Button';
 import { TabPanel } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import TextField from 'features/forms/TextField';
-import React from 'react';
+import { FC } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ const StepHeading = styled(Heading).attrs({
   flex-grow: 1;
 `;
 
-const StepsPage: React.FC = () => {
+const StepsPage: FC = () => {
   return (
     <TabPanel index={2}>
       <FieldArray name="steps">

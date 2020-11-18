@@ -2,7 +2,7 @@ import { TextField as MuiTextField } from '@material-ui/core';
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
 import { useFieldContext } from 'features/forms/FieldContext';
 import { CategoryFieldsFragment, CuisineFieldsFragment } from 'features/recipes/fragments.gql';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useField } from 'react-final-form';
 
 interface CategoryAutocompleteProps {

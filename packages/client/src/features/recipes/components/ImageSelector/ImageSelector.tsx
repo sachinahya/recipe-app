@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC,useEffect, useReducer } from 'react';
 import { useForm, useFormState } from 'react-final-form';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
@@ -12,11 +12,11 @@ import imageSelectionReducer, {
 } from './imageSelectorReducer';
 import useImageUpload from './useImageUpload';
 
-const ImageSelector: React.FC = ({ children, ...props }) => {
+const ImageSelector: FC = ({ children, ...props }) => {
   const { values } = useFormState<RecipeInput>();
   const { change } = useForm();
 
-  const [state, dispatch] = React.useReducer(imageSelectionReducer, values.images, state => {
+  const [state, dispatch] = useReducer(imageSelectionReducer, values.images, state => {
     return state
       ? state.map<ImageSelectionType>((item: ImageInput) => ({
           ...item,
@@ -29,7 +29,7 @@ const ImageSelector: React.FC = ({ children, ...props }) => {
 
   const queueFile = useImageUpload(state, dispatch);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const uploadedImages = state
       .filter(image => image.status == null || image.status === ImageUploadStatus.Uploaded)
       .map(

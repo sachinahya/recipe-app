@@ -6,7 +6,7 @@ import { RecipeInput } from 'features/types.gql';
 import { setIn } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import gql from 'graphql-tag';
-import React from 'react';
+import { FC, forwardRef, RefAttributes } from 'react';
 import { Form } from 'react-final-form';
 import styled from 'styled-components';
 import { Schema, ValidationError } from 'yup';
@@ -21,7 +21,7 @@ import {
 } from './RecipeForm.gql';
 import StepsPage from './StepsPage';
 
-interface RecipeFormProps extends React.RefAttributes<HTMLFormElement> {
+interface RecipeFormProps extends RefAttributes<HTMLFormElement> {
   id: number;
   onSubmitted?(recipe?: SaveRecipeMutation['addRecipe']): void;
 }
@@ -64,7 +64,7 @@ const makeYupValidator = <T extends unknown>(schema: Schema<T>) => (
 
 const validate = makeYupValidator(schema);
 
-const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeForm(
+const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
   { id, onSubmitted, ...props },
   ref
 ) {

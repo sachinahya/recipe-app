@@ -3,21 +3,21 @@ import { ErrorBoundary } from 'components/Errors';
 import { LayoutProvider, Root } from 'components/Layout';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
 import ThemeSwitcher from 'features/ThemeSwitcher';
-import React from 'react';
+import { FC,lazy, Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import LoginScreen from 'screens/LoginScreen';
 import UrqlClient from 'src/graphql/UrqlClient';
 
-const AppRoutes = React.lazy(() => import('routes/App.routes'));
+const AppRoutes = lazy(() => import('routes/App.routes'));
 
-const App: React.FC = () => {
+const App: FC = () => {
   return (
     <ThemeSwitcher>
       <Router>
         <CssBaseline />
         <LayoutProvider>
           <Root>
-            <React.Suspense fallback={null}>
+            <Suspense fallback={null}>
               <UrqlClient>
                 {/* Renders as a <div /> for focus management */}
                 <ErrorBoundary>
@@ -29,7 +29,7 @@ const App: React.FC = () => {
                   </AuthBoundary>
                 </ErrorBoundary>
               </UrqlClient>
-            </React.Suspense>
+            </Suspense>
           </Root>
         </LayoutProvider>
       </Router>

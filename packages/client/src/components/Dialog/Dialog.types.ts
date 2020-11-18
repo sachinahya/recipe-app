@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 export interface DialogProps {
   title: string;
-  content: React.ReactNode;
+  content: ReactNode;
   actions?: DialogAction[];
   fullWidth?: boolean;
   dividers?: boolean;

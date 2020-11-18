@@ -1,6 +1,6 @@
 import { IconButton, InputAdornment, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import React from 'react';
+import { FC } from 'react';
 
 export interface TextInputProps {
   id?: string;
@@ -11,7 +11,7 @@ export interface TextInputProps {
   onClear?: () => void;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ onClear, ...props }) => {
+const TextInput: FC<TextInputProps> = ({ onClear, ...props }) => {
   const textFieldProps = Object.assign(
     {},
     props,

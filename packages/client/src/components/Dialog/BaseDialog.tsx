@@ -6,14 +6,14 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { ModalState } from '@sachinahya/hooks';
-import React from 'react';
+import { FC,useRef } from 'react';
 
 import Button from '../Button';
 import { DialogProps } from './Dialog.types';
 
 interface BaseDialogProps extends DialogProps, ModalState {}
 
-const BaseDialog: React.FC<BaseDialogProps> = ({
+const BaseDialog: FC<BaseDialogProps> = ({
   title,
   content,
   actions,
@@ -31,7 +31,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
     resolves ? onResolve && onResolve() : onCancel && onCancel(cancelReason || 'cancelClicked');
   };
 
-  const focusRef = React.useRef<HTMLButtonElement>(null);
+  const focusRef = useRef<HTMLButtonElement>(null);
   const focusButton = (): void => {
     if (focusRef.current) {
       focusRef.current.focus();

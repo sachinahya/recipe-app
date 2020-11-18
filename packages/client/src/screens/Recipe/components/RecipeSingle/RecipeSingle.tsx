@@ -8,7 +8,7 @@ import { TabPanel, TabPanels } from 'components/Tabs';
 import { Heading } from 'components/Typography';
 import { getPlaceholderBackground } from 'features/recipes/utils';
 import gql from 'graphql-tag';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 import { mobileOnlyPadding } from 'styles/snippets';
@@ -31,7 +31,7 @@ gql`
   }
 `;
 
-const RecipeSingle: React.FC<RecipeSingleProps> = ({ children, id, ...rest }) => {
+const RecipeSingle: FC<RecipeSingleProps> = ({ children, id, ...rest }) => {
   const [{ data, fetching, error }] = useRecipeQuery({
     variables: { id },
   });

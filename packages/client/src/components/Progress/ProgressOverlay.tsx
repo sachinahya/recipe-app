@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { FC } from 'react';
 import { animated, useSpring } from 'react-spring';
 
 import Progress from './Progress';
@@ -35,7 +35,7 @@ interface ProgressOverlayProps {
   size?: number;
 }
 
-const ProgressOverlay: React.FC<ProgressOverlayProps> = ({
+const ProgressOverlay: FC<ProgressOverlayProps> = ({
   children,
   show,
   fullWidth = false,

@@ -1,5 +1,5 @@
 import MuiTab, { TabProps as MuiTabProps } from '@material-ui/core/Tab';
-import React from 'react';
+import { FC } from 'react';
 
 import { useTabsContext } from './TabsContext';
 
@@ -7,9 +7,9 @@ interface TabProps extends MuiTabProps {
   index: number;
 }
 
-const Tab: React.FC<TabProps> = ({ index, ...props }) => {
+const Tab: FC<TabProps> = ({ index, ...props }) => {
   const { getTabProps } = useTabsContext();
-  return <MuiTab {...props} {...getTabProps(index)} />;
+  return <MuiTab {...props} {...(getTabProps(index) as unknown)} />;
 };
 
 export default Tab;

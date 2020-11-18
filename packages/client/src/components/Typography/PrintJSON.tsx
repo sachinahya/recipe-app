@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 
 interface PrintJSONProps {
   data?: Record<string, unknown>;
 }
 
-const PrintJSON: React.FC<PrintJSONProps> = ({ children, data = children, ...props }) => {
+const PrintJSON: FC<PrintJSONProps> = ({ children, data = children, ...props }) => {
   return <pre {...props}>{JSON.stringify(data, undefined, 2)}</pre>;
 };
 

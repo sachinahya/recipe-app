@@ -4,6 +4,15 @@ module.exports = {
     browser: true,
     node: true,
   },
+  ignorePatterns: [
+    '.yarn',
+    '.pnp.cjs',
+    '**/node_modules/**',
+    '**/packages/**/node_modules/**',
+    '**/packages/*/dist/**',
+    '**/coverage/**',
+    '*.gql.ts',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
@@ -83,7 +92,9 @@ module.exports = {
       files: 'packages/client/**',
       extends: ['plugin:react/recommended', 'prettier/react'],
       rules: {
+        'react/jsx-uses-react': 'off',
         'react/prop-types': 'off',
+        'react/react-in-jsx-scope': 'off',
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
       },

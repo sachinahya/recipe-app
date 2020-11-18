@@ -1,12 +1,12 @@
-import React from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
 interface IconLabelProps {
-  icon: React.ReactElement;
+  icon: ReactElement;
 }
 
-const IconLabel: React.FC<IconLabelProps> = ({
+const IconLabel: FC<IconLabelProps> = ({
   children,
   icon,
 

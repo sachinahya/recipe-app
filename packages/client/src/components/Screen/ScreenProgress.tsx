@@ -1,8 +1,8 @@
 import Progress from 'components/Progress';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
-const ScreenProgress: React.FC = ({ children, ...rest }) => {
+const ScreenProgress: FC = ({ children, ...rest }) => {
   return (
     <div {...rest}>
       <Progress />

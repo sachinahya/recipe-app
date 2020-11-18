@@ -1,6 +1,6 @@
 import { Card, CardActionArea, CardContent, Typography } from '@material-ui/core';
 import { getPlaceholderBackground } from 'features/recipes/utils';
-import React from 'react';
+import { FC, MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import { onePxGif } from 'styles/utils';
 
@@ -12,7 +12,7 @@ export type RecipeCardVariant = 'card' | 'list';
 interface RecipeCardProps {
   recipe: RecipesQuery['recipes'][0];
   variant: RecipeCardVariant;
-  onClick?(evt: React.MouseEvent<HTMLButtonElement>): void;
+  onClick?(evt: MouseEvent<HTMLButtonElement>): void;
 }
 
 const RecipeCardActionArea = styled(CardActionArea)`
@@ -44,7 +44,7 @@ const RecipeCardDescription = styled(Typography)`
   }
 `;
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, variant, onClick }) => {
+const RecipeCard: FC<RecipeCardProps> = ({ recipe, variant, onClick }) => {
   const recipeImage = recipe.images?.[0]?.url;
 
   return (

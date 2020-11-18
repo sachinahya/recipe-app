@@ -6,7 +6,7 @@ import { Header, HeaderAction } from 'components/Layout';
 import OverflowMenu from 'components/OverflowMenu';
 import { useCurrentUser, useLogout } from 'features/auth/hooks';
 import useOnlineStatus from 'lib/useOnlineStatus';
-import React from 'react';
+import { FC } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { useRecipesQuery } from './RecipeList.gql';
@@ -17,7 +17,7 @@ interface RecipesHeaderProps {
   onLayoutChange?(isGrid: boolean): void;
 }
 
-const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
+const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
   const isOnline = useOnlineStatus();
   const [{ data, fetching }, refetch] = useRecipesQuery();
   const loaded = !!data;
@@ -57,7 +57,7 @@ const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutCh
   );
 };
 
-const RecipesHeaderOverflowMenu: React.FC = () => {
+const RecipesHeaderOverflowMenu: FC = () => {
   const [user] = useCurrentUser();
   const [logout] = useLogout();
 

@@ -1,6 +1,6 @@
 import { ErrorAction, PayloadAction } from 'lib/actions';
 import { InvalidActionError } from 'lib/errors';
-import React from 'react';
+import { Reducer } from 'react';
 
 import { ImageInput } from '../../../types.gql';
 
@@ -29,7 +29,7 @@ export type ReducerActions =
   | PayloadAction<'REMOVE', { clientId: string }>
   | PayloadAction<'CAPTION_CHANGE', { clientId: string; caption: string | undefined }>;
 
-const imageSelectionReducer: React.Reducer<ReducerState, ReducerActions> = (state, action) => {
+const imageSelectionReducer: Reducer<ReducerState, ReducerActions> = (state, action) => {
   switch (action.type) {
     case 'ADD': {
       return [

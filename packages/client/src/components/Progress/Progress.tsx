@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@material-ui/core';
 import { CircularProgressProps } from '@material-ui/core/CircularProgress';
 import { useTimeout } from '@sachinahya/hooks';
-import React from 'react';
+import { FC,useEffect, useState } from 'react';
 
 import { PROGRESS_SHOW_DELAY } from './Progress.constants';
 
@@ -9,11 +9,11 @@ export interface ProgressProps extends CircularProgressProps {
   foo?: string;
 }
 
-const Progress: React.FC<ProgressProps> = props => {
-  const [show, setShow] = React.useState(false);
+const Progress: FC<ProgressProps> = props => {
+  const [show, setShow] = useState(false);
   const showLoading = useTimeout(() => setShow(true), PROGRESS_SHOW_DELAY);
 
-  React.useEffect(() => {
+  useEffect(() => {
     showLoading();
   }, [showLoading]);
 

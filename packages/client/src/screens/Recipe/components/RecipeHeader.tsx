@@ -2,7 +2,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Header, HeaderAction } from 'components/Layout';
 import RecipeTabs from 'features/recipes/components/RecipeTabs';
 import useOnlineStatus from 'lib/useOnlineStatus';
-import React from 'react';
+import { FC } from 'react';
 
 import { useRecipeQuery } from './RecipeSingle/RecipeSingle.gql';
 
@@ -12,7 +12,7 @@ interface RecipeHeaderProps {
   onEdit?(): void;
 }
 
-const RecipeHeader: React.FC<RecipeHeaderProps> = ({ id, defaultTitle, onEdit }) => {
+const RecipeHeader: FC<RecipeHeaderProps> = ({ id, defaultTitle, onEdit }) => {
   const [{ data }] = useRecipeQuery({ variables: { id } });
   const isOnline = useOnlineStatus();
 

@@ -3,7 +3,7 @@ import { useScrollRestoration } from '@sachinahya/hooks';
 import { ErrorBoundary } from 'components/Errors';
 import { useLayout } from 'components/Layout';
 import Clear from 'components/Layout/Clear';
-import React from 'react';
+import { FC, useEffect } from 'react';
 import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
@@ -17,7 +17,7 @@ interface ScreenProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
+const Screen: FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
   const ref = useScrollRestoration<HTMLElement>(
     'scrollPos',
     useLocation().key || '',
@@ -25,7 +25,7 @@ const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...
   );
   const { bottomNavVisible } = useLayout();
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = title;
   }, [title]);
 

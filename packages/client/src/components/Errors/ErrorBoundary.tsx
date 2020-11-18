@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { Component, ReactNode, ErrorInfo } from 'react';
 
 import { ErrorBoundaryInfo } from './ErrorBoundary.types';
 import ErrorMessage from './ErrorMessage';
@@ -7,13 +7,13 @@ interface ErrorBoundaryProps {
   friendlyMessage?: string;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryInfo> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryInfo> {
   state = {
     error: null,
     errorInfo: null,
   };
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
       error,
       errorInfo,

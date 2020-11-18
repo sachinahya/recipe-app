@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React from 'react';
+import { FC } from 'react';
 
 type HeadingLevels = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
@@ -10,7 +10,7 @@ interface HeadingProps {
   variant?: HeadingLevels;
 }
 
-const Heading: React.FC<HeadingProps> = ({
+const Heading: FC<HeadingProps> = ({
   children,
   component,
   variant,

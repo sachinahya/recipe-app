@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import { FC } from 'react';
 
 import ErrorBoundary from './ErrorBoundary';
 import ErrorMessage from './ErrorMessage';
 
-const CauseError: React.FC = () => {
+const CauseError: FC = () => {
   throw new Error('Something went wrong here');
 };
 

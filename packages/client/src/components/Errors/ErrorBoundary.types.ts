@@ -1,6 +1,6 @@
-import React from 'react';
+import { ErrorInfo } from 'react';
 
 export interface ErrorBoundaryInfo {
   error?: Error | null;
-  errorInfo?: React.ErrorInfo | null;
+  errorInfo?: ErrorInfo | null;
 }

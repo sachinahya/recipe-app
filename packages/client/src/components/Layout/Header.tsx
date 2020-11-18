@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { useTabsContext } from 'components/Tabs/TabsContext';
-import React from 'react';
+import { FC, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
@@ -12,11 +12,11 @@ const titleStyles = { flexGrow: 1 };
 export interface HeaderProps {
   title: string;
   variant?: 'back';
-  actions?: React.ReactElement | null | undefined;
-  tabs?: React.ReactNode;
+  actions?: ReactElement | null | undefined;
+  tabs?: ReactNode;
 }
 
-const Header: React.FC<HeaderProps> = ({ children, title, variant, actions, tabs, ...rest }) => {
+const Header: FC<HeaderProps> = ({ children, title, variant, actions, tabs, ...rest }) => {
   const { enabled } = useTabsContext();
 
   return (

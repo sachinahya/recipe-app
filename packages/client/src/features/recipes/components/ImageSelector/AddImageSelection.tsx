@@ -1,12 +1,12 @@
 import { Button } from '@material-ui/core';
-import React from 'react';
+import { ChangeEvent, FC, useRef } from 'react';
 import styled from 'styled-components';
 import { getBorderRadius } from 'styles/styleSelectors';
 
 import ImageSelectionCell from './ImageSelectionCell';
 
 export interface AddImageSelectionProps {
-  onChange(evt: React.ChangeEvent): void;
+  onChange(evt: ChangeEvent): void;
 }
 
 const AddImageSelectionCell = styled.div`
@@ -18,8 +18,8 @@ const AddImageSelectionCell = styled.div`
   width: 100%;
 `;
 
-const AddImageSelection: React.FC<AddImageSelectionProps> = ({ onChange }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+const AddImageSelection: FC<AddImageSelectionProps> = ({ onChange }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => inputRef.current?.click();
 
   return (

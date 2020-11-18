@@ -1,5 +1,5 @@
 import { CardMedia, CardMediaProps } from '@material-ui/core';
-import React from 'react';
+import { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { tabletUp } from 'styles/mediaQueries';
 
@@ -9,7 +9,7 @@ interface RecipeCardImageProps extends CardMediaProps {
   variant: RecipeCardVariant;
 }
 
-const RecipeCardImage: React.FC<RecipeCardImageProps> = ({ variant, ...props }) => {
+const RecipeCardImage: FC<RecipeCardImageProps> = ({ variant, ...props }) => {
   return <CardMedia {...props} />;
 };
 

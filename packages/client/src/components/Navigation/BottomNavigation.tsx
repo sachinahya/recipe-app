@@ -1,13 +1,13 @@
 import { BottomNavigation as MuiBottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { useLayout } from 'components/Layout';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { desktopUp } from 'styles/mediaQueries';
 
 import { NavigationProps } from './Navigation.types';
 import useNavigation from './useNavigation';
 
-const BottomNavigation: React.FC<NavigationProps> = ({ links, ...rest }) => {
+const BottomNavigation: FC<NavigationProps> = ({ links, ...rest }) => {
   const { currentRoot, navigate } = useNavigation();
   const { bottomNavVisible } = useLayout();
 

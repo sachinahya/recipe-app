@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Switch, useHistory, useLocation } from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
@@ -42,7 +42,7 @@ const Container = styled.div`
   } */
 `;
 
-const AnimatedRouter: React.FC = ({ children }) => {
+const AnimatedRouter: FC = ({ children }) => {
   const location = useLocation();
   const history = useHistory();
 

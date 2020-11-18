@@ -3,9 +3,9 @@ import FormPaper from 'components/FormPaper';
 import { Header } from 'components/Layout';
 import Screen from 'components/Screen';
 import GoogleSignInButton from 'features/auth/components/GoogleSignInButton';
-import React from 'react';
+import { FC } from 'react';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen: FC = () => {
   return (
     <>
       <Header title="" />

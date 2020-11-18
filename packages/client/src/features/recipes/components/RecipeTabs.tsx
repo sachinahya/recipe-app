@@ -1,7 +1,7 @@
 import { Tab, Tabs } from 'components/Tabs';
-import React from 'react';
+import { FC } from 'react';
 
-const RecipeTabs: React.FC = () => {
+const RecipeTabs: FC = () => {
   return (
     <Tabs variant="fullWidth">
       <Tab index={0} label="About" />

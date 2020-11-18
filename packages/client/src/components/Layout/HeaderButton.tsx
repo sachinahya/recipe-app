@@ -1,6 +1,6 @@
 import { IconButton } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import React from 'react';
+import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDeviceSize } from 'styles/hooks';
@@ -15,7 +15,7 @@ const buttonProps = {
   edge: 'start',
 } as const;
 
-const HeaderButton: React.FC<HeaderButtonProps> = ({ variant, ...props }) => {
+const HeaderButton: FC<HeaderButtonProps> = ({ variant, ...props }) => {
   const { goBack } = useHistory();
   const isDesktop = useDeviceSize('desktop');
 

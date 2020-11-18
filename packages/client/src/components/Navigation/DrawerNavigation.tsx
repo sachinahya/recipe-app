@@ -1,7 +1,7 @@
 import { List, ListItemIcon, ListItemText } from '@material-ui/core';
 import { useLayout } from 'components/Layout';
 import { ListItemLink } from 'components/Lists';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { desktopUp } from 'styles/mediaQueries';
 
@@ -12,7 +12,7 @@ interface DrawerNavigationProps extends NavigationProps {
   'aria-label'?: string;
 }
 
-const DrawerNavigation: React.FC<DrawerNavigationProps> = ({ links }) => {
+const DrawerNavigation: FC<DrawerNavigationProps> = ({ links }) => {
   const { closeDrawer } = useLayout();
   const { currentRoot } = useNavigation();
 

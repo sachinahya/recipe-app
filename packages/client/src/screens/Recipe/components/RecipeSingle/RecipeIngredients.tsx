@@ -6,7 +6,7 @@ import { pluralize } from '@sachinahya/utils';
 import { TabPanel } from 'components/Tabs';
 import { Recipe } from 'features/types.gql';
 import round from 'lodash/round';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { mobileOnlyPadding } from 'styles/snippets';
 import { getSpacing } from 'styles/styleSelectors';
@@ -36,7 +36,7 @@ const ServingControl = styled(IconButton).attrs({
   }
 `;
 
-const RecipeIngredients: React.FC<RecipeIngredientsProps> = ({
+const RecipeIngredients: FC<RecipeIngredientsProps> = ({
   index,
   ingredients,
   recipeYield,

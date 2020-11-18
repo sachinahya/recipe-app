@@ -1,5 +1,5 @@
 import { cacheExchange } from '@urql/exchange-graphcache';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { createClient, dedupExchange, fetchExchange, Provider } from 'urql';
 
 const client = createClient({

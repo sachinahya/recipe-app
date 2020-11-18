@@ -2,7 +2,7 @@ import { Button, Typography } from '@material-ui/core';
 import { useLogin } from 'features/auth/hooks';
 import TextField from 'features/forms/TextField';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 import { object, string } from 'yup';
@@ -23,7 +23,7 @@ const LoginButton = styled(Button)`
   align-self: center;
 `;
 
-const LoginForm: React.FC = () => {
+const LoginForm: FC = () => {
   const [login, { error, fetching }] = useLogin();
 
   return (

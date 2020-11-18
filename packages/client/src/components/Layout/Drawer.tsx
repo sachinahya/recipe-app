@@ -1,11 +1,11 @@
 import { Drawer as MuiDrawer } from '@material-ui/core';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { getDrawerWidth } from 'styles/styleSelectors';
 
 import { useLayout } from './LayoutContext';
 
-const Drawer: React.FC = ({ children, ...rest }) => {
+const Drawer: FC = ({ children, ...rest }) => {
   const { drawerOpen, drawerPermanent, closeDrawer } = useLayout();
 
   return (

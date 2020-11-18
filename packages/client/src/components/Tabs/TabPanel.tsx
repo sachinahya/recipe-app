@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
 
@@ -8,7 +8,7 @@ interface TabPanelProps {
   index: number;
 }
 
-const TabPanel: React.FC<TabPanelProps> = ({ children, index, ...props }) => {
+const TabPanel: FC<TabPanelProps> = ({ children, index, ...props }) => {
   const { getTabPanelProps } = useTabsContext();
   return (
     <div {...props} {...getTabPanelProps(index)}>

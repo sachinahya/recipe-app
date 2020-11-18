@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import { DeleteIconButton } from 'components/Button';
 import TextField from 'features/forms/TextField';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
@@ -11,7 +11,7 @@ interface IngredientRowProps {
   onDelete?: () => void;
 }
 
-const IngredientRow: React.FC<IngredientRowProps> = ({ index, name, onDelete, ...props }) => {
+const IngredientRow: FC<IngredientRowProps> = ({ index, name, onDelete, ...props }) => {
   return (
     <Grid container spacing={1} {...props}>
       <Grid item className="quantity">

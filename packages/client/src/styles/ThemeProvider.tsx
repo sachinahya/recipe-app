@@ -1,13 +1,13 @@
 import { Theme } from '@material-ui/core/styles';
 import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
-import React from 'react';
+import { FC } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 interface ThemeProviderProps {
   theme: Theme;
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
+const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
   return (
     <StylesProvider injectFirst>
       <StyledThemeProvider theme={theme}>

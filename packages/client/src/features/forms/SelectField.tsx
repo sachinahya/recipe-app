@@ -1,5 +1,5 @@
 import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { useField } from 'react-final-form';
 
 import { useFieldContext } from './FieldContext';

@@ -1,11 +1,11 @@
 import { Ingredient } from 'features/types.gql';
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
 type RecipeIngredientProps = Omit<Ingredient, 'id' | 'group' | '__typename'>;
 
-const RecipeIngredient: React.FC<RecipeIngredientProps> = ({
+const RecipeIngredient: FC<RecipeIngredientProps> = ({
   quantity,
   item,
   measure,

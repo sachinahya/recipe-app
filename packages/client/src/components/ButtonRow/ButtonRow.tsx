@@ -1,16 +1,12 @@
-import React from 'react';
+import { FC, ElementType, HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
 interface ButtonRowProps {
-  component?: React.ElementType<React.HTMLAttributes<HTMLElement>>;
+  component?: ElementType<HTMLAttributes<HTMLElement>>;
 }
 
-const ButtonRow: React.FC<ButtonRowProps> = ({
-  children,
-  component: Component = 'div',
-  ...props
-}) => {
+const ButtonRow: FC<ButtonRowProps> = ({ children, component: Component = 'div', ...props }) => {
   return <Component {...props}>{children}</Component>;
 };
 

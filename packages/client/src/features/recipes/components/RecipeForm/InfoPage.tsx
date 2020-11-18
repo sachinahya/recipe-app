@@ -4,7 +4,7 @@ import { ProgressOverlay } from 'components/Progress';
 import { TabPanel } from 'components/Tabs';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
 import gql from 'graphql-tag';
-import React from 'react';
+import { FC } from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';
 import CategoryAutocomplete from './CategoryAutocomplete';
@@ -27,7 +27,7 @@ const USER_CUISINES_QUERY = gql`
   }
 `;
 
-const TimeField: React.FC<TextFieldProps> = props => (
+const TimeField: FC<TextFieldProps> = props => (
   <TextField
     {...props}
     helperText="Minutes"
@@ -41,7 +41,7 @@ const TimeField: React.FC<TextFieldProps> = props => (
   />
 );
 
-const InfoPage: React.FC = () => {
+const InfoPage: FC = () => {
   const [{ data: categories, fetching: categoriesLoading }] = useUserCategoriesQuery();
   const [{ data: cuisines, fetching: cuisinesLoading }] = useUserCuisinesQuery();
 

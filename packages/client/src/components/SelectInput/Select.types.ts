@@ -1,10 +1,10 @@
 import { BaseTextFieldProps } from '@material-ui/core/TextField';
-import React from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 export interface InputItem {
   value: string;
-  label: React.ReactNode;
-  icon?: React.ReactNode;
+  label: ReactNode;
+  icon?: ReactNode;
 }
 
 export type ItemFormatter<T> = (item: T) => InputItem;
@@ -43,5 +43,5 @@ export interface SelectBaseProps<T> extends Omit<BaseTextFieldProps, 'variant'> 
   /**
    * Handler when an item is selected.
    */
-  onChange?: (evt: React.ChangeEvent<{ value: unknown }>) => void;
+  onChange?: (evt: ChangeEvent<{ value: unknown }>) => void;
 }
