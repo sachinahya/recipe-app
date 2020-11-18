@@ -22,7 +22,7 @@ export interface UseTabsHook {
 }
 
 type TablistProps = Pick<React.HTMLAttributes<Element>, 'role' | 'onKeyDown'>;
-type TabProps = React.RefAttributes<any> &
+type TabProps = React.RefAttributes<HTMLElement> &
   React.AriaAttributes &
   Pick<React.HTMLAttributes<Element>, 'role' | 'tabIndex' | 'id'>;
 type TabPanelProps = React.HTMLAttributes<HTMLElement>;
@@ -104,7 +104,8 @@ export const useTabs = (
             'aria-disabled': disabledTabs.includes(index),
             'aria-selected': current === index,
             'aria-controls': `${tabPanelId}-${index}`,
-            ref: (ref: any) => (current === index ? (focusRef.current = ref) : undefined),
+            ref: (ref: HTMLElement | null) =>
+              current === index ? (focusRef.current = ref) : undefined,
             // onClick: handleClick(index),
           },
           tabsAreButtons && { disabled: disabledTabs.includes(index) }

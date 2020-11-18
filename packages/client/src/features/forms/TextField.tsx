@@ -15,7 +15,7 @@ const TextField: React.FC<TextFieldProps> = ({ name, fast, ...props }) => {
 
   return (
     <Field name={name}>
-      {({ input, meta }: any) => (
+      {({ input, meta }) => (
         <MuiTextField
           {...contextProps}
           {...props}

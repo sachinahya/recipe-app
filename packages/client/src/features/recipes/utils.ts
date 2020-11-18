@@ -4,5 +4,5 @@ export const getTotalTime = (prepTime?: number | null, cookTime?: number | null)
   return (prepTime || 0) + (cookTime || 0);
 };
 
-export const getPlaceholderBackground = (recipeTitle: string) =>
+export const getPlaceholderBackground = (recipeTitle: string): string =>
   stringToHslColor(recipeTitle, 45, 75);

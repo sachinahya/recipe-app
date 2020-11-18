@@ -10,7 +10,7 @@ export const useRecipeIdParam = ({
   required = true,
   paramName = 'id',
 }: UseRecipeIdParamOptions = {}): number => {
-  const id = useRouteMatch<any>().params[paramName];
+  const id = useRouteMatch<Record<string, string | undefined>>().params[paramName];
   if (required) invariant(id, 'An ID must be specified.');
   return Number(id);
 };

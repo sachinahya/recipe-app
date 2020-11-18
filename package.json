@@ -61,7 +61,8 @@
     "**/node_modules/**",
     "**/packages/**/node_modules/**",
     "**/packages/*/dist/**",
-    "**/coverage/**"
+    "**/coverage/**",
+    "*.gql.ts"
   ],
   "prettier": {
     "arrowParens": "avoid",

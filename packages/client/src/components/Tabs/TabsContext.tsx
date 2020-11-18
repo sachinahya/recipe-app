@@ -5,7 +5,7 @@ import { useTabs, UseTabsHook, UseTabsOptions } from './useTabs';
 
 const TabsContext = React.createContext<UseTabsHook>({
   enabled: false,
-} as any);
+} as UseTabsHook);
 
 export const TabsProvider: React.FC<UseTabsOptions> = ({ children, ...props }) => {
   const tabs = useTabs(props);

@@ -18,7 +18,7 @@ const ListItem: React.FC<ListItemProps> = ({
   ...listItemProps
 }) => {
   return (
-    <MuiListItem {...(listItemProps as any)}>
+    <MuiListItem {...(listItemProps as unknown)}>
       {icon && <ListItemIcon>{icon}</ListItemIcon>}
       <ListItemText primary={primary} secondary={secondary} />
       {secondaryAction && <ListItemSecondaryAction>{secondaryAction}</ListItemSecondaryAction>}

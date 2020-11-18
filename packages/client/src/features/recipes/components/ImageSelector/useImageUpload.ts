@@ -37,7 +37,10 @@ const uploadImage = async (signedUrl: string, mimeType: string, file: File): Pro
   if (!response.ok) throw new Error(`Response not OK, returned HTTP status ${response.status}.`);
 };
 
-const useImageUpload = (selectedImages: ReducerState, dispatch: React.Dispatch<ReducerActions>) => {
+const useImageUpload = (
+  selectedImages: ReducerState,
+  dispatch: React.Dispatch<ReducerActions>
+): ((evt: React.ChangeEvent<HTMLInputElement>) => void) => {
   const [, requestUpload] = useRequestUploadMutation();
 
   const handleUpload = React.useCallback(

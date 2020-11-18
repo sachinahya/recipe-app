@@ -15,8 +15,6 @@ export interface ErrorAction<T extends string = string, E = Error, M = undefined
   error: true;
 }
 
-export type AnyAction<T extends string = string> = Partial<PayloadAction<T, any, any>>;
-
 export const basicAction = <T extends string = string, M = undefined>(
   type: T,
   meta?: M

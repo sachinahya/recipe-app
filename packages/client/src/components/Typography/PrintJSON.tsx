@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface PrintJSONProps {
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 const PrintJSON: React.FC<PrintJSONProps> = ({ children, data = children, ...props }) => {

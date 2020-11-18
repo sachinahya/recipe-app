@@ -1,7 +1,9 @@
 export const sleep = (time: number): Promise<void> =>
   new Promise(resolve => window.setTimeout(resolve, time));
 
-export const createTimer = (loggerFn: (message: string) => void = console.log) => {
+type TimerFn = (messageFn: (ms: number) => string) => void;
+
+export const createTimer = (loggerFn: (message: string) => void = console.log): TimerFn => {
   const start = performance.now();
 
   return (messageFn: (ms: number) => string): void => {

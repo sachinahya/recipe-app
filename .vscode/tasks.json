@@ -3,9 +3,31 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "client:dev",
-      "command": "yarn workspace @sachinahya/recipe-app-client dev",
+      "label": "yarn dev",
+      "detail": "Run the app in development mode",
+      "command": "yarn dev",
+      "problemMatcher": ["$eslint-stylish", "$tsc"],
       "isBackground": true
+    },
+    {
+      "type": "shell",
+      "label": "yarn build",
+      "detail": "Build all packages",
+      "command": "yarn build",
+      "problemMatcher": ["$eslint-stylish", "$tsc"]
+    },
+    {
+      "type": "shell",
+      "label": "yarn test",
+      "detail": "Run Jest tests on all packages",
+      "command": "yarn build"
+    },
+    {
+      "type": "shell",
+      "label": "yarn lint",
+      "detail": "Run eslint with auto fix on all files",
+      "command": "yarn lint --fix",
+      "problemMatcher": "$eslint-stylish"
     }
   ]
 }

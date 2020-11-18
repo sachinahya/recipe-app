@@ -1,5 +1,5 @@
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
-import React from 'react';
+import React, { Ref } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 
 export interface ListItemLinkProps extends ListItemProps {
@@ -10,15 +10,15 @@ export interface ListItemLinkProps extends ListItemProps {
 const ListItemLink: React.FC<ListItemLinkProps> = React.forwardRef<
   HTMLLIElement,
   ListItemLinkProps
->(({ children, to, linkProps, ...listItemProps }, ref) => {
+>(({ children, linkProps, ...listItemProps }, ref) => {
   return (
     <ListItem
       button
-      to={to}
-      ref={ref}
-      component={RouterLink}
-      {...(listItemProps as any)}
-      {...(linkProps as any)}
+      ref={ref as Ref<HTMLDivElement>}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      component={RouterLink as any}
+      {...(listItemProps as unknown)}
+      {...(linkProps as unknown)}
     >
       {children}
     </ListItem>

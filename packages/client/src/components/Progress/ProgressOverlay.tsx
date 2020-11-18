@@ -33,7 +33,6 @@ interface ProgressOverlayProps {
   fullWidth?: boolean;
   opaque?: boolean;
   size?: number;
-  style?: any;
 }
 
 const ProgressOverlay: React.FC<ProgressOverlayProps> = ({
@@ -49,7 +48,7 @@ const ProgressOverlay: React.FC<ProgressOverlayProps> = ({
     opacity: show ? 1 : 0,
   });
   return (
-    <div className={classes.wrapper} {...(restProps as any)}>
+    <div className={classes.wrapper} {...restProps}>
       <div className={classes.children}>{children}</div>
       {show && (
         <animated.div style={props}>

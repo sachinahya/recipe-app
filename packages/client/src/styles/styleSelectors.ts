@@ -1,5 +1,4 @@
-import { LayoutContextType } from 'components/Layout';
-import { css, DefaultTheme, StyledProps } from 'styled-components';
+import { StyledProps } from 'styled-components';
 
 export type StyleSelector = ({ theme }: StyledProps<Record<string, unknown>>) => string;
 
@@ -15,23 +14,4 @@ export const getDrawerWidth: StyleSelector = ({ theme }) => {
 
 export const getBorderRadius: StyleSelector = ({ theme }) => {
   return `${theme.shape.borderRadius}px`;
-};
-
-export const getClearDrawer = (props: StyledProps<LayoutContextType>) => {
-  return (
-    props.drawerPermanent &&
-    css`
-      width: calc(100% - ${getDrawerWidth});
-    `
-  );
-};
-
-export const getClearHeaderStyles = (theme: DefaultTheme) => {
-  return {
-    '&::before': {
-      ...theme.mixins.toolbar,
-      content: '""',
-      display: 'block',
-    },
-  };
 };

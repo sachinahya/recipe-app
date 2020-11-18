@@ -8,7 +8,10 @@ import { InputItem, SelectBaseProps } from './Select.types';
 
 export type SelectInputProps<T> = SelectBaseProps<T>;
 
-const createItems = (items: any[], formatItem?: (item: any) => InputItem): InputItem[] => {
+const createItems = <T extends unknown>(
+  items: T[],
+  formatItem?: (item: T) => InputItem
+): InputItem[] => {
   const fn =
     typeof items[0] == 'string'
       ? (item: string): InputItem => ({ label: item, value: item })
@@ -16,10 +19,10 @@ const createItems = (items: any[], formatItem?: (item: any) => InputItem): Input
 
   invariant(fn, 'formatItem needs to be specified when items is an array of objects.');
 
-  return items.map(fn);
+  return items.map(fn as (item: T) => InputItem);
 };
 
-const SelectInput = <T extends any>({
+const SelectInput = <T extends unknown>({
   items,
   formatItem,
   value,

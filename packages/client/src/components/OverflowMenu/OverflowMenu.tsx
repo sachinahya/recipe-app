@@ -3,7 +3,7 @@ import { MenuItemProps } from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useModalState } from '@sachinahya/hooks';
 import { HeaderAction } from 'components/Layout';
-import React from 'react';
+import React, { isValidElement } from 'react';
 
 type OverFlowMenuChild = React.ReactElement<MenuItemProps> | null | undefined;
 
@@ -35,16 +35,16 @@ const OverflowMenu: React.FC<OverflowMenuProps> = ({ children }) => {
         anchorOrigin={originProps}
         transformOrigin={originProps}
       >
-        {React.Children.toArray(children)
-          .filter(child => child != null)
-          .map((child: any) =>
-            React.cloneElement(child, {
-              onClick: (evt: any) => {
-                handleClose();
-                child.props.onClick?.(evt);
-              },
-            })
-          )}
+        {React.Children.map(children, child =>
+          isValidElement<MenuItemProps>(child)
+            ? React.cloneElement<MenuItemProps>(child, {
+                onClick: evt => {
+                  handleClose();
+                  child.props.onClick?.(evt);
+                },
+              })
+            : null
+        )}
       </Menu>
     </>
   );
