@@ -1,8 +1,7 @@
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { useTabsContext } from 'components/Tabs/TabsContext';
 import { FC, ReactElement, ReactNode } from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { spacing } from 'styles/styleSelectors';
 
 import Clear from './Clear';
 import HeaderButton from './HeaderButton';
@@ -28,7 +27,15 @@ const Header: FC<HeaderProps> = ({ children, title, variant, actions, tabs, ...r
           <Typography variant="h6" component="h1" color="inherit" noWrap style={titleStyles}>
             {title}
           </Typography>
-          {actions && <HeaderActions>{actions}</HeaderActions>}
+          {actions && (
+            <div
+              css={theme => ({
+                marginRight: spacing(-1.5)(theme),
+              })}
+            >
+              {actions}
+            </div>
+          )}
         </Toolbar>
         {tabs}
       </AppBar>
@@ -36,9 +43,5 @@ const Header: FC<HeaderProps> = ({ children, title, variant, actions, tabs, ...r
     </>
   );
 };
-
-const HeaderActions = styled.div`
-  margin-right: ${getSpacing(-1.5)};
-`;
 
 export default Header;

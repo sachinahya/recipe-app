@@ -1,7 +1,5 @@
 import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
-import { ChangeEvent } from 'react';
 import { useField } from 'react-final-form';
-
 import { useFieldContext } from './FieldContext';
 
 export type SelectFieldProps<T> = SelectInputProps<T>;
@@ -18,7 +16,7 @@ const SelectField = <T extends unknown>({ name, ...props }: SelectFieldProps<T>)
       {...contextProps}
       {...props}
       {...input}
-      onChange={(evt: ChangeEvent) => {
+      onChange={evt => {
         input.onChange(evt);
       }}
       error={Boolean(meta.touched && meta.error)}

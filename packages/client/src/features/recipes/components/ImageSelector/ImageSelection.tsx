@@ -4,8 +4,7 @@ import { useFile } from '@sachinahya/hooks';
 import DeleteIconButton from 'components/Button/DeleteIconButton';
 import Progress from 'components/Progress';
 import { ChangeEvent, FC } from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { spacing } from 'styles/styleSelectors';
 
 import ImageSelectionCell from './ImageSelectionCell';
 import ImageSelectionOverlay from './ImageSelectionOverlay';
@@ -46,11 +45,30 @@ const ImageSelection: FC<ImageSelectionProps> = ({
 
   return (
     <ImageSelectionCell {...props}>
-      <ImageFigure>
+      <div
+        css={{
+          position: 'relative',
+          width: 150,
+
+          img: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          },
+        }}
+      >
         <img src={imgSrc} alt={caption} />
         {overlay}
-      </ImageFigure>
-      <ImageDescription>
+      </div>
+      <div
+        css={theme => ({
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: spacing(1)(theme),
+        })}
+      >
         <TextField
           fullWidth
           size="small"
@@ -59,41 +77,19 @@ const ImageSelection: FC<ImageSelectionProps> = ({
           onChange={evt => handleCaptionChange?.(evt.target.value)}
         />
         {status !== ImageUploadStatus.Uploading && (
-          <DeleteButton
+          <Button
+            css={{ marginTop: 'auto' }}
             color="primary"
             size="small"
             startIcon={<DeleteIcon />}
             onClick={handleDelete}
           >
             Delete
-          </DeleteButton>
+          </Button>
         )}
-      </ImageDescription>
+      </div>
     </ImageSelectionCell>
   );
 };
-
-const ImageFigure = styled.div`
-  position: relative;
-  width: 150px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const ImageDescription = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: ${getSpacing(1)};
-`;
-
-const DeleteButton = styled(Button)`
-  margin-top: auto;
-`;
 
 export default ImageSelection;

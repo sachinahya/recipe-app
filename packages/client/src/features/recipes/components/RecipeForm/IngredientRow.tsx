@@ -2,8 +2,7 @@ import { Grid } from '@material-ui/core';
 import { DeleteIconButton } from 'components/Button';
 import TextField from 'features/forms/TextField';
 import { FC } from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { spacing } from 'styles/styleSelectors';
 
 interface IngredientRowProps {
   index: number;
@@ -13,7 +12,30 @@ interface IngredientRowProps {
 
 const IngredientRow: FC<IngredientRowProps> = ({ index, name, onDelete, ...props }) => {
   return (
-    <Grid container spacing={1} {...props}>
+    <Grid
+      container
+      spacing={1}
+      css={theme => ({
+        marginBottom: spacing(2)(theme),
+
+        '.quantity': {
+          width: '6rem',
+        },
+
+        '.measure': {
+          width: '6rem',
+        },
+
+        '.item': {
+          flexGrow: 3,
+        },
+
+        '.notes': {
+          flexGrow: 1,
+        },
+      })}
+      {...props}
+    >
       <Grid item className="quantity">
         <TextField fast id={`q-${name}`} name={`${name}.quantity`} label="Quantity" />
       </Grid>
@@ -35,22 +57,4 @@ const IngredientRow: FC<IngredientRowProps> = ({ index, name, onDelete, ...props
   );
 };
 
-export default styled(IngredientRow)`
-  margin-bottom: ${getSpacing(2)};
-
-  .quantity {
-    width: 6rem;
-  }
-
-  .measure {
-    width: 6rem;
-  }
-
-  .item {
-    flex-grow: 3;
-  }
-
-  .notes {
-    flex-grow: 1;
-  }
-`;
+export default IngredientRow;

@@ -1,6 +1,5 @@
 import { Ingredient } from 'features/types.gql';
 import { FC } from 'react';
-import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
 type RecipeIngredientProps = Omit<Ingredient, 'id' | 'group' | '__typename'>;
@@ -13,28 +12,35 @@ const RecipeIngredient: FC<RecipeIngredientProps> = ({
   ...props
 }) => {
   return (
-    <li {...props}>
+    <li
+      css={theme => ({
+        listStyle: 'none',
+        display: 'flex',
+        marginBottom: getSpacing(2)(theme),
+
+        '&::before': {
+          content: '\\2022',
+          display: 'block',
+          fontSize: '1.5rem',
+          lineHeight: '1.5rem',
+          color: theme.palette.primary.main,
+          marginRight: getSpacing(1)(theme),
+        },
+      })}
+      {...props}
+    >
       {quantity}
-      {measure && ` ${measure}`} {item} {notes && <span>{` ${notes}`}</span>}
+      {measure && ` ${measure}`} {item}{' '}
+      {notes && (
+        <span
+          css={theme => ({
+            color: theme.palette.grey[600],
+            fontStyle: 'italic',
+          })}
+        >{` ${notes}`}</span>
+      )}
     </li>
   );
 };
 
-export default styled(RecipeIngredient)`
-  list-style: none;
-  display: flex;
-
-  &::before {
-    content: '\\2022';
-    display: block;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    color: ${props => props.theme.palette.primary.main};
-    margin-right: ${getSpacing(1)};
-  }
-
-  span {
-    color: ${props => props.theme.palette.grey[600]};
-    font-style: italic;
-  }
-`;
+export default RecipeIngredient;

@@ -28,6 +28,9 @@ const config: WebpackConfiguration & {
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].chunk.js',
   },
+  // The default target setting breaks hot reloading.
+  // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/252
+  target: isDevServer ? 'web' : 'browserslist',
   plugins: [
     isDevServer && new HotModuleReplacementPlugin(),
     isDevServer && new ReactRefreshWebpackPlugin(),

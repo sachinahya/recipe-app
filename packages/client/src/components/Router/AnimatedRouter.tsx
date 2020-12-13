@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { Switch, useHistory, useLocation } from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
-import styled from 'styled-components';
-import { getDrawerWidth } from 'styles/styleSelectors';
 
 const getProps = (pathLength: number, isPush: boolean) =>
   pathLength > 1
@@ -28,19 +26,6 @@ const getProps = (pathLength: number, isPush: boolean) =>
           opacity: 0,
         },
       };
-
-const Container = styled.div`
-  background-color: ${props => props.theme.palette.background.default};
-  overflow: auto;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  /* drawerShown {
-    padding-left: ${getDrawerWidth};
-  } */
-`;
 
 const AnimatedRouter: FC = ({ children }) => {
   const location = useLocation();
@@ -70,9 +55,18 @@ const AnimatedRouter: FC = ({ children }) => {
             zIndex: item.pathname === location.pathname ? 1 : 0,
           }}
         >
-          <Container>
+          <div
+            css={theme => ({
+              backgroundColor: theme.palette.background.default,
+              overflow: 'auto',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            })}
+          >
             <Switch location={item}>{children}</Switch>
-          </Container>
+          </div>
         </animated.div>
       ))}
     </>

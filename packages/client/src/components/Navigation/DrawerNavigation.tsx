@@ -2,8 +2,7 @@ import { List, ListItemIcon, ListItemText } from '@material-ui/core';
 import { useLayout } from 'components/Layout';
 import { ListItemLink } from 'components/Lists';
 import { FC } from 'react';
-import styled from 'styled-components';
-import { desktopUp } from 'styles/mediaQueries';
+import { desktopUp, spacing } from 'src/styles/styleSelectors';
 
 import { NavigationProps } from './Navigation.types';
 import useNavigation from './useNavigation';
@@ -12,12 +11,26 @@ interface DrawerNavigationProps extends NavigationProps {
   'aria-label'?: string;
 }
 
-const DrawerNavigation: FC<DrawerNavigationProps> = ({ links }) => {
+const DrawerNavigation: FC<DrawerNavigationProps> = ({ links, ...props }) => {
   const { closeDrawer } = useLayout();
   const { currentRoot } = useNavigation();
 
   return (
-    <List>
+    <List
+      css={theme => ({
+        margin: spacing(2, 0)(theme),
+        flexGrow: 1,
+
+        '& .MuiList-root': {
+          display: 'none',
+
+          [desktopUp(theme)]: {
+            display: 'block',
+          },
+        },
+      })}
+      {...props}
+    >
       {links &&
         links.map(({ to, text, icon: Icon }) => {
           const isCurrent = to === currentRoot;
@@ -38,15 +51,4 @@ const DrawerNavigation: FC<DrawerNavigationProps> = ({ links }) => {
   );
 };
 
-export default styled(DrawerNavigation)`
-  margin: ${props => props.theme.spacing(2, 0)};
-  flex-grow: 1;
-
-  & .MuiList-root {
-    display: none;
-
-    ${desktopUp} {
-      display: block;
-    }
-  }
-`;
+export default DrawerNavigation;

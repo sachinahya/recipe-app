@@ -1,7 +1,7 @@
 import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-import { desktopUp, tabletUp } from './mediaQueries';
+import { desktopUp, tabletUp } from './styleSelectors';
 
 const sizes = {
   tablet: tabletUp,

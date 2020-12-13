@@ -1,34 +1,18 @@
-import { css } from 'styled-components';
+import { FunctionInterpolation, Theme } from '@emotion/react';
+import { desktopUp, getSpacing, mobileDown, tabletUp } from './styleSelectors';
 
-import { desktopUp, mobileDown,tabletUp } from './mediaQueries';
-import { getSpacing } from './styleSelectors';
+export const mobileOnlyPadding: FunctionInterpolation<Theme> = theme => ({
+  [mobileDown(theme)]: {
+    padding: getSpacing(2)(theme),
+  },
+});
 
-export const screenPadding = {
-  mobile: css`
-    padding: ${getSpacing(2)};
-  `,
-  tablet: css`
-    padding: ${getSpacing(3)};
-  `,
-  desktop: css`
-    padding: ${getSpacing(4)};
-  `,
-};
-
-export const mobileOnlyPadding = css`
-  ${mobileDown} {
-    ${screenPadding.mobile}
-  }
-`;
-
-export const containerPadding = css`
-  ${screenPadding.mobile}
-
-  ${tabletUp} {
-    ${screenPadding.tablet}
-  }
-
-  ${desktopUp} {
-    ${screenPadding.desktop}
-  }
-`;
+export const containerPadding: FunctionInterpolation<Theme> = theme => ({
+  padding: getSpacing(2)(theme),
+  [tabletUp(theme)]: {
+    padding: getSpacing(3)(theme),
+  },
+  [desktopUp(theme)]: {
+    padding: getSpacing(4)(theme),
+  },
+});

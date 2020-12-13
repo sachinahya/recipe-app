@@ -1,9 +1,8 @@
 import { Button, ButtonProps } from '@material-ui/core';
 import { FC } from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { spacing } from 'styles/styleSelectors';
 
-const GoogleLogo = styled(props => (
+const GoogleLogo: FC = props => (
   <svg viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
@@ -22,21 +21,21 @@ const GoogleLogo = styled(props => (
       fill="#ea4335"
     />
   </svg>
-))`
-  width: 18px;
-  height: 18px;
-  margin-right: ${getSpacing(2)};
-`;
+);
 
 const GoogleSignInButton: FC<ButtonProps> = props => {
   return (
-    <Button {...props}>
-      <GoogleLogo />
+    <Button css={{ alignSelf: 'center' }} {...props}>
+      <GoogleLogo
+        css={theme => ({
+          width: 18,
+          height: 18,
+          marginRight: spacing(2)(theme),
+        })}
+      />
       Sign in with Google
     </Button>
   );
 };
 
-export default styled(GoogleSignInButton)`
-  align-self: center;
-`;
+export default GoogleSignInButton;

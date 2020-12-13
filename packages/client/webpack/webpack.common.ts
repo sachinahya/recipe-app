@@ -38,7 +38,7 @@ const config: Configuration = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          cacheDirectory: false,
+          cacheDirectory: true,
           cacheCompression: false,
           rootMode: 'upward',
           compact: false,

@@ -1,7 +1,6 @@
 import { Checkbox, ListItemText, MenuItem, TextField } from '@material-ui/core';
 import { ensureArray, invariant } from '@sachinahya/utils';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { spacing } from 'styles/styleSelectors';
 import { InputItem, SelectBaseProps } from './Select.types';
 
 export type SelectInputProps<T> = SelectBaseProps<T>;
@@ -27,7 +26,7 @@ const SelectInput = <T extends unknown>({
   multiple,
   dense,
   ...props
-}: SelectInputProps<T>) => {
+}: SelectInputProps<T>): JSX.Element => {
   invariant(
     (multiple && Array.isArray(items)) || !multiple,
     'items must be an array when multiple is specified.'
@@ -51,6 +50,11 @@ const SelectInput = <T extends unknown>({
             .join(', ');
         },
       }}
+      css={theme => ({
+        '.MuiOutlinedInput-inputSelect': {
+          paddingRight: spacing(4)(theme),
+        },
+      })}
       {...props}
     >
       {parsedItems.map(item => {
@@ -66,10 +70,4 @@ const SelectInput = <T extends unknown>({
   );
 };
 
-const StyledSelectInput = styled(SelectInput)`
-  .MuiOutlinedInput-inputSelect {
-    padding-right: ${getSpacing(4)};
-  }
-`;
-
-export default StyledSelectInput;
+export default SelectInput;

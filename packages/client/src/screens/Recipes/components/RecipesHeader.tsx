@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import { MenuItem } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -7,8 +8,6 @@ import OverflowMenu from 'components/OverflowMenu';
 import { useCurrentUser, useLogout } from 'features/auth/hooks';
 import useOnlineStatus from 'lib/useOnlineStatus';
 import { FC } from 'react';
-import styled, { keyframes } from 'styled-components';
-
 import { useRecipesQuery } from './RecipeList.gql';
 
 interface RecipesHeaderProps {
@@ -16,6 +15,16 @@ interface RecipesHeaderProps {
   isGrid: boolean;
   onLayoutChange?(isGrid: boolean): void;
 }
+
+const rotateAnim = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
   const isOnline = useOnlineStatus();
@@ -43,7 +52,11 @@ const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }
               )}
               {isOnline && (
                 <HeaderAction
-                  icon={fetching ? <RotatingRefreshIcon /> : <RefreshIcon />}
+                  icon={
+                    <RefreshIcon
+                      css={fetching && { animation: `${rotateAnim} 2s linear infinite` }}
+                    />
+                  }
                   onClick={refresh}
                   aria-label="Refresh recipes"
                 />
@@ -67,19 +80,5 @@ const RecipesHeaderOverflowMenu: FC = () => {
     </OverflowMenu>
   ) : null;
 };
-
-const rotateAnim = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const RotatingRefreshIcon = styled(RefreshIcon)`
-  animation: ${rotateAnim} 2s linear infinite;
-`;
 
 export default RecipesHeader;

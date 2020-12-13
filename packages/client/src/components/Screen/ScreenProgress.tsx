@@ -1,18 +1,20 @@
 import Progress from 'components/Progress';
 import { FC } from 'react';
-import styled from 'styled-components';
 
 const ScreenProgress: FC = ({ children, ...rest }) => {
   return (
-    <div {...rest}>
+    <div
+      css={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+      }}
+      {...rest}
+    >
       <Progress />
     </div>
   );
 };
 
-export default styled(ScreenProgress)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
+export default ScreenProgress;

@@ -6,16 +6,7 @@ import { Heading } from 'components/Typography';
 import TextField from 'features/forms/TextField';
 import { FC } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
-import styled from 'styled-components';
-
-import { FormSection } from './FormSection';
-
-const StepHeading = styled(Heading).attrs({
-  component: 'h2',
-  variant: 'h5',
-})`
-  flex-grow: 1;
-`;
+import FormSection from './FormSection';
 
 const StepsPage: FC = () => {
   return (
@@ -27,7 +18,9 @@ const StepsPage: FC = () => {
               return (
                 <FormSection key={name}>
                   <Box display="flex" alignItems="center">
-                    <StepHeading>Step {i + 1}</StepHeading>
+                    <Heading component="h2" variant="h5" css={{ flexGrow: 1 }}>
+                      Step {i + 1}
+                    </Heading>
                     <DeleteIconButton onClick={() => fields.remove(i)} />
                   </Box>
                   <TextField multiline rows={3} id={`step-${name}`} name={`${name}.description`} />

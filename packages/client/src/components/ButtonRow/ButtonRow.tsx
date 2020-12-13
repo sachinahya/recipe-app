@@ -1,5 +1,4 @@
 import { FC, ElementType, HTMLAttributes } from 'react';
-import styled from 'styled-components';
 import { getSpacing } from 'styles/styleSelectors';
 
 interface ButtonRowProps {
@@ -7,11 +6,18 @@ interface ButtonRowProps {
 }
 
 const ButtonRow: FC<ButtonRowProps> = ({ children, component: Component = 'div', ...props }) => {
-  return <Component {...props}>{children}</Component>;
+  return (
+    <Component
+      css={theme => ({
+        button: {
+          marginRight: getSpacing(1)(theme),
+        },
+      })}
+      {...props}
+    >
+      {children}
+    </Component>
+  );
 };
 
-export default styled(ButtonRow)`
-  button {
-    margin-right: ${getSpacing(1)};
-  }
-`;
+export default ButtonRow;

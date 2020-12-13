@@ -8,7 +8,6 @@ import arrayMutators from 'final-form-arrays';
 import gql from 'graphql-tag';
 import { FC, forwardRef, RefAttributes } from 'react';
 import { Form } from 'react-final-form';
-import styled from 'styled-components';
 import { Schema, ValidationError } from 'yup';
 
 import { FieldContextProvider } from '../../../forms/FieldContext';
@@ -40,13 +39,6 @@ const RECIPE_FORM_DATA_QUERY = gql`
       ...RecipeFields
     }
   }
-`;
-
-const StyledForm = styled('form')`
-  display: inherit;
-  flex-direction: inherit;
-  flex-grow: inherit;
-  overflow: inherit;
 `;
 
 const makeYupValidator = <T extends unknown>(schema: Schema<T>) => (
@@ -101,7 +93,16 @@ const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
       {...props}
     >
       {({ handleSubmit, values }) => (
-        <StyledForm onSubmit={handleSubmit} ref={ref}>
+        <form
+          css={{
+            display: 'inherit',
+            flexDirection: 'inherit',
+            flexGrow: 'inherit',
+            overflow: 'inherit',
+          }}
+          onSubmit={handleSubmit}
+          ref={ref}
+        >
           <Pre>{JSON.stringify(values, undefined, 2)}</Pre>
           <FieldContextProvider fullWidth margin="dense">
             <TabPanels>
@@ -110,7 +111,7 @@ const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
               <StepsPage />
             </TabPanels>
           </FieldContextProvider>
-        </StyledForm>
+        </form>
       )}
     </Form>
   );

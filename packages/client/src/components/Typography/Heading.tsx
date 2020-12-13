@@ -1,9 +1,9 @@
 import { Typography } from '@material-ui/core';
 import { FC } from 'react';
 
-type HeadingLevels = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type HeadingLevels = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-interface HeadingProps {
+export interface HeadingProps {
   subheading?: boolean;
   noGutter?: boolean;
   component?: HeadingLevels;

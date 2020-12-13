@@ -3,10 +3,11 @@ import { ErrorBoundary } from 'components/Errors';
 import { LayoutProvider, Root } from 'components/Layout';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
 import ThemeSwitcher from 'features/ThemeSwitcher';
-import { FC,lazy, Suspense } from 'react';
+import { FC, lazy, Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import LoginScreen from 'screens/LoginScreen';
 import UrqlClient from 'src/graphql/UrqlClient';
+import type {} from '@emotion/react/types/css-prop';
 
 const AppRoutes = lazy(() => import('routes/App.routes'));
 

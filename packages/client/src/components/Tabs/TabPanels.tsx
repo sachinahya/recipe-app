@@ -1,7 +1,5 @@
 import { FC } from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import styled from 'styled-components';
-
 import { useTabsContext } from './TabsContext';
 
 const TabPanels: FC = ({ children }) => {
@@ -10,26 +8,21 @@ const TabPanels: FC = ({ children }) => {
   if (!enabled) return <>{children}</>;
 
   return (
-    <StyledSwipeableViews
+    <SwipeableViews
       axis="x"
       index={current}
       onChangeIndex={(index: number) => setCurrent(index)}
+      css={{
+        flexGrow: 1,
+
+        '.react-swipeable-view-container': {
+          height: '100%',
+        },
+      }}
     >
       {children}
-    </StyledSwipeableViews>
+    </SwipeableViews>
   );
 };
-
-const StyledSwipeableViews = styled(SwipeableViews)`
-  flex-grow: 1;
-
-  .react-swipeable-view-container {
-    height: 100%;
-
-    & > div {
-      /* overflow-x: hidden !important; */
-    }
-  }
-`;
 
 export default TabPanels;

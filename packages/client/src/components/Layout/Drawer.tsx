@@ -1,8 +1,6 @@
 import { Drawer as MuiDrawer } from '@material-ui/core';
 import { FC } from 'react';
-import styled from 'styled-components';
 import { getDrawerWidth } from 'styles/styleSelectors';
-
 import { useLayout } from './LayoutContext';
 
 const Drawer: FC = ({ children, ...rest }) => {
@@ -11,6 +9,11 @@ const Drawer: FC = ({ children, ...rest }) => {
   return (
     <MuiDrawer
       {...rest}
+      css={theme => ({
+        paper: {
+          width: getDrawerWidth(theme),
+        },
+      })}
       classes={{ paper: 'paper' }}
       variant={drawerPermanent ? 'permanent' : 'temporary'}
       open={drawerOpen}
@@ -22,9 +25,4 @@ const Drawer: FC = ({ children, ...rest }) => {
   );
 };
 
-export default styled(Drawer)`
-  & .paper {
-    /* position: static; */
-    width: ${getDrawerWidth};
-  }
-`;
+export default Drawer;

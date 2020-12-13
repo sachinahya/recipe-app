@@ -4,7 +4,7 @@ import { TabPanel } from 'components/Tabs';
 import { FC } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
 
-import { FormSection } from './FormSection';
+import FormSection from './FormSection';
 import IngredientRow from './IngredientRow';
 
 const IngredientsPage: FC = () => {

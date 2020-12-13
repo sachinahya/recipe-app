@@ -1,14 +1,18 @@
-import { Heading } from 'components/Typography';
-import styled from 'styled-components';
-import { mobileDown } from 'styles/mediaQueries';
+import { Heading, HeadingProps } from 'components/Typography';
+import { FC } from 'react';
+import { mobileDown } from 'src/styles/styleSelectors';
 
-const SectionTitle = styled(Heading).attrs({
-  component: 'h2',
-  variant: 'h5',
-})`
-  ${mobileDown} {
-    display: none;
-  }
-`;
+const SectionTitle: FC<HeadingProps> = props => (
+  <Heading
+    component="h2"
+    variant="h5"
+    css={theme => ({
+      [mobileDown(theme)]: {
+        display: 'none',
+      },
+    })}
+    {...props}
+  />
+);
 
 export default SectionTitle;

@@ -1,7 +1,5 @@
 import { FC } from 'react';
-import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
-
 import { useTabsContext } from './TabsContext';
 
 interface TabPanelProps {
@@ -11,17 +9,10 @@ interface TabPanelProps {
 const TabPanel: FC<TabPanelProps> = ({ children, index, ...props }) => {
   const { getTabPanelProps } = useTabsContext();
   return (
-    <div {...props} {...getTabPanelProps(index)}>
+    <div css={containerPadding} {...props} {...getTabPanelProps(index)}>
       {children}
     </div>
   );
 };
 
-export default styled(TabPanel)`
-  ${containerPadding}
-`;
-
-/* const TabPanel = styled.div`
-  background-color: ${props => props.theme.palette.background.default};
-  padding: ${getSpacing(3)};
-`; */
+export default TabPanel;

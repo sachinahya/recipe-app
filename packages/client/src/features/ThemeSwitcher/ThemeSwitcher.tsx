@@ -1,8 +1,8 @@
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
-import { FC,useMemo } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { FC, useMemo } from 'react';
 import { baseTheme, darkTheme } from 'styles/themes';
+import { ThemeProvider } from '@emotion/react';
 
 const ThemeSwitcher: FC = ({ children }) => {
   // const isDark = useMediaQuery('(prefers-color-scheme: dark)');

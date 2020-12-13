@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';
 import CategoryAutocomplete from './CategoryAutocomplete';
-import { FormSection } from './FormSection';
+import FormSection from './FormSection';
 import { useUserCategoriesQuery, useUserCuisinesQuery } from './InfoPage.gql';
 
 const USER_CATEGORIES_QUERY = gql`

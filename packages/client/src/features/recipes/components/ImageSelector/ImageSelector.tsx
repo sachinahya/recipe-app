@@ -1,8 +1,6 @@
-import { FC,useEffect, useReducer } from 'react';
+import { FC, useEffect, useReducer } from 'react';
 import { useForm, useFormState } from 'react-final-form';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
-
+import { spacing } from 'styles/styleSelectors';
 import { ImageInput, RecipeInput } from '../../../types.gql';
 import AddImageSelection from './AddImageSelection';
 import ImageSelection from './ImageSelection';
@@ -47,7 +45,14 @@ const ImageSelector: FC = ({ children, ...props }) => {
 
   return (
     <div {...props}>
-      <ImageSelections>
+      <div
+        css={theme => ({
+          margin: spacing(0, -1, 1)(theme),
+          width: `calc(100% + ${spacing(1)(theme)})`,
+          display: 'flex',
+          flexWrap: 'wrap',
+        })}
+      >
         {state.map(img => (
           <ImageSelection
             key={img.id || img.url || img.file?.name || undefined}
@@ -68,16 +73,9 @@ const ImageSelector: FC = ({ children, ...props }) => {
           />
         ))}
         <AddImageSelection onChange={queueFile} />
-      </ImageSelections>
+      </div>
     </div>
   );
 };
-
-const ImageSelections = styled.div`
-  margin: 0 -${getSpacing(1)} ${getSpacing(1)} -${getSpacing(1)};
-  width: calc(100% + ${getSpacing(1)});
-  display: flex;
-  flex-wrap: wrap;
-`;
 
 export default ImageSelector;

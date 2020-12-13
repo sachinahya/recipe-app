@@ -35,22 +35,14 @@ module.exports = api => {
             '@babel/preset-react',
             {
               runtime: 'automatic',
+              importSource: '@emotion/react',
               development: api.env('development'),
               useBuiltIns: true,
             },
           ],
         ],
         plugins: [
-          // Needs to be specified first within each "env" so that it executes first.
-          // https://styled-components.com/docs/tooling#babel-plugin
-          [
-            'babel-plugin-styled-components',
-            {
-              pure: true,
-              minify: true,
-              transpileTemplateLiterals: true,
-            },
-          ],
+          '@emotion',
           /**
            * Use the latest version of the runtime for a smaller bundle size.
            * https://babeljs.io/docs/en/babel-plugin-transform-runtime#version

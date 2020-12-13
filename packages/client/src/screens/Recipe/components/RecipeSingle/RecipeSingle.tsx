@@ -1,6 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
-import ButtonRow from 'components/ButtonRow';
 import { ErrorMessage } from 'components/Errors';
 import IconLabel from 'components/IconLabel';
 import { ScreenProgress } from 'components/Screen';
@@ -9,11 +8,8 @@ import { Heading } from 'components/Typography';
 import { getPlaceholderBackground } from 'features/recipes/utils';
 import gql from 'graphql-tag';
 import { FC } from 'react';
-import styled from 'styled-components';
-import { tabletUp } from 'styles/mediaQueries';
+import { tabletUp, getSpacing } from 'src/styles/styleSelectors';
 import { mobileOnlyPadding } from 'styles/snippets';
-import { getSpacing } from 'styles/styleSelectors';
-
 import RecipeIngredients from './RecipeIngredients';
 import { useRecipeQuery } from './RecipeSingle.gql';
 import RecipeStep from './RecipeStep';
@@ -53,19 +49,71 @@ const RecipeSingle: FC<RecipeSingleProps> = ({ children, id, ...rest }) => {
   const recipeImageUrl = recipeImage?.url;
 
   return (
-    <Typography component="article" {...rest}>
+    <Typography
+      component="article"
+      css={theme => ({
+        display: 'flex',
+        flexGrow: 1,
+        overflow: 'hidden',
+
+        [tabletUp(theme)]: {
+          display: 'grid',
+          overflow: 'visible',
+          gridTemplateRows: 'minmax(150px, auto)',
+          gridTemplateColumns: 'minmax(300px, 1fr) 2fr',
+          gridTemplateAreas: "'meta meta' 'ingredients method'",
+          gridGap: '24px 16px',
+        },
+      })}
+      {...rest}
+    >
       <TabPanels>
-        <RecipeMeta index={0}>
-          <RecipeTitle>{recipe.title}</RecipeTitle>
-          <RecipeImage style={{ backgroundColor: getPlaceholderBackground(recipe.title) }}>
-            {recipeImage && <img src={recipeImageUrl} alt={recipeImage?.caption || recipe.title} />}
-          </RecipeImage>
-          <RecipeDescription>
+        <TabPanel index={0}>
+          <Heading component="h1" variant="h4" css={{ gridArea: 'title' }}>
+            {recipe.title}
+          </Heading>
+
+          <figure
+            css={theme => ({
+              gridArea: 'image',
+              width: `calc(100% + ${getSpacing(4)(theme)})`,
+              height: `calc(100% + ${getSpacing(2)(theme)})`,
+              margin: -getSpacing(2)(theme),
+
+              [tabletUp(theme)]: {
+                width: '100%',
+                height: '100%',
+                maxHeight: '35vh',
+                margin: 0,
+              },
+            })}
+            style={{ backgroundColor: getPlaceholderBackground(recipe.title) }}
+          >
+            {recipeImage && (
+              <img
+                css={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+                src={recipeImageUrl}
+                alt={recipeImage?.caption || recipe.title}
+              />
+            )}
+          </figure>
+
+          <div css={{ gridArea: 'description' }}>
             <Typography component="p" variant="body2" gutterBottom>
               {recipe.description}
             </Typography>
-          </RecipeDescription>
-          <RecipeActions>
+          </div>
+
+          <div
+            css={theme => ({
+              gridArea: 'actions',
+              paddingTop: getSpacing(2)(theme),
+            })}
+          >
             <Typography component="p" variant="body2" color="textSecondary">
               {recipe.totalTime ? (
                 <IconLabel icon={<TimerIcon titleAccess="Total time" />}>
@@ -73,112 +121,22 @@ const RecipeSingle: FC<RecipeSingleProps> = ({ children, id, ...rest }) => {
                 </IconLabel>
               ) : null}
             </Typography>
-          </RecipeActions>
-        </RecipeMeta>
+          </div>
+        </TabPanel>
 
         <RecipeIngredients index={1} ingredients={recipe.ingredients} recipeYield={recipe.yield} />
 
-        <RecipeMethod index={2}>
+        <TabPanel index={2} css={[{ gridArea: 'method' }, mobileOnlyPadding]}>
           <SectionTitle>Steps</SectionTitle>
-          <ol>
+          <ol css={{ counterReset: 'steps', margin: '1rem 0', padding: 0 }}>
             {recipe.steps.map((step, i) => (
               <RecipeStep key={step.id} index={i} text={step.description} />
             ))}
           </ol>
-        </RecipeMethod>
+        </TabPanel>
       </TabPanels>
     </Typography>
   );
 };
 
-const RecipeTitle = styled(Heading).attrs({
-  component: 'h1',
-  variant: 'h4',
-})`
-  grid-area: title;
-`;
-
-const RecipeMeta = styled(TabPanel)`
-  grid-area: meta;
-  display: grid;
-  grid-template-rows: 40vh ${getSpacing(2)};
-  grid-template-columns: 1fr;
-  grid-template-areas: 'image' '.' 'title' 'description' 'actions';
-
-  p {
-    margin-top: 0;
-  }
-
-  &[hidden] {
-    /* Override display: grid above */
-    display: none;
-  }
-
-  ${mobileOnlyPadding}
-
-  ${tabletUp} {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-template-columns: minmax(calc(300px - ${getSpacing(3)}), 1fr) ${getSpacing(5)} 2fr;
-    grid-template-areas: 'image . title' 'image . description' 'image . actions';
-  }
-`;
-
-const RecipeImage = styled.figure`
-  grid-area: image;
-  width: calc(100% + ${getSpacing(4)});
-  height: calc(100% + ${getSpacing(2)});
-  margin: -${getSpacing(2)};
-
-  ${tabletUp} {
-    width: 100%;
-    height: 100%;
-    max-height: 35vh;
-    margin: 0;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const RecipeDescription = styled.div`
-  grid-area: description;
-`;
-
-const RecipeActions = styled(ButtonRow)`
-  grid-area: actions;
-  padding-top: ${getSpacing(2)};
-`;
-
-const RecipeMethod = styled(TabPanel)`
-  grid-area: method;
-  ${mobileOnlyPadding}
-
-  ol {
-    counter-reset: steps;
-    margin: 1rem 0;
-    padding: 0;
-  }
-
-  li {
-    margin-bottom: ${getSpacing(2)};
-  }
-`;
-
-export default styled(RecipeSingle)`
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-
-  ${tabletUp} {
-    display: grid;
-    overflow: visible;
-    grid-template-rows: minmax(150px, auto);
-    grid-template-columns: minmax(300px, 1fr) 2fr;
-    grid-template-areas: 'meta meta' 'ingredients method';
-    grid-gap: 24px 16px;
-  }
-`;
+export default RecipeSingle;
