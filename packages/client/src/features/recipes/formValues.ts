@@ -22,9 +22,9 @@ export const schema = object<RecipeInput>({
 
 export const convertToInput = (recipe: Partial<RecipeFieldsFragment>): Partial<RecipeInput> => {
   return {
-    categories: recipe.categories,
+    categories: recipe.categories || [],
     cookTime: recipe.cookTime,
-    cuisines: recipe.cuisines,
+    cuisines: recipe.cuisines || [],
     description: recipe.description,
     id: recipe.id,
     images: recipe.images,

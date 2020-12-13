@@ -34,8 +34,6 @@ const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }
   const ViewIcon = isGrid ? ViewComfyIcon : ViewListIcon;
   const titleAccess = `Change to ${isGrid ? 'list' : 'grid'} layout`;
 
-  const refresh = () => refetch();
-
   return (
     <Header
       title={title}
@@ -57,7 +55,7 @@ const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }
                       css={fetching && { animation: `${rotateAnim} 2s linear infinite` }}
                     />
                   }
-                  onClick={refresh}
+                  onClick={() => refetch({ requestPolicy: 'network-only' })}
                   aria-label="Refresh recipes"
                 />
               )}

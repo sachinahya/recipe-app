@@ -1,5 +1,4 @@
 import { TabPanels } from 'components/Tabs';
-import Pre from 'components/Typography/Pre';
 import { convertToInput, schema } from 'features/recipes/formValues';
 import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { RecipeInput } from 'features/types.gql';
@@ -92,7 +91,7 @@ const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
       mutators={{ ...arrayMutators }}
       {...props}
     >
-      {({ handleSubmit, values }) => (
+      {({ handleSubmit }) => (
         <form
           css={{
             display: 'inherit',
@@ -103,7 +102,6 @@ const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
           onSubmit={handleSubmit}
           ref={ref}
         >
-          <Pre>{JSON.stringify(values, undefined, 2)}</Pre>
           <FieldContextProvider fullWidth margin="dense">
             <TabPanels>
               <InfoPage />

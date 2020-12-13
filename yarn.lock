@@ -2913,6 +2913,7 @@ __metadata:
     "@types/webpack-dev-server": ^3.11.1
     "@types/workbox-webpack-plugin": ^5.1.5
     "@types/yup": ^0.29.9
+    "@urql/devtools": ^2.0.2
     "@urql/exchange-graphcache": ^3.1.11
     babel-jest: ^26.6.3
     babel-loader: ^8.2.1
@@ -4332,6 +4333,18 @@ __metadata:
   peerDependencies:
     graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
   checksum: b4ea15355e0fa138e5479612b5ccb1e5c84953dd01fb932d92349750d1e3986317c3fa8acb1799d06d734acc089d7843e9e17b834eab27d856baef5a01251741
+  languageName: node
+  linkType: hard
+
+"@urql/devtools@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@urql/devtools@npm:2.0.2"
+  dependencies:
+    wonka: ">= 4.0.9"
+  peerDependencies:
+    "@urql/core": ">= 1.11.0"
+    graphql: ">= 0.11.0"
+  checksum: 7dd59a463c9a9846b43b1a6644224c4190f275c71bdba3ea090325bd9ec074408392bb3c70181605593c006c9324d3fdbeb1d61ff416686db9ce9a60846b35c4
   languageName: node
   linkType: hard
 
@@ -18082,7 +18095,7 @@ typescript@^4.1.1-rc:
   languageName: node
   linkType: hard
 
-"wonka@npm:^4.0.14":
+"wonka@npm:>= 4.0.9, wonka@npm:^4.0.14":
   version: 4.0.15
   resolution: "wonka@npm:4.0.15"
   checksum: df4fd51c15744570e6737975b9cff3e27c39840c1f2c4d4a01cb0b0a6641ff672c96475eb8df8276da2873147e46d8bdd3c3cddcf8f258ef5e97ae55c031f8f9
