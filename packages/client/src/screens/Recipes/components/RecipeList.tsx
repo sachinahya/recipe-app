@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
 import { Grid } from '@material-ui/core';
 import { ErrorMessage } from 'components/Errors';
 import Progress from 'components/Progress';
-import React from 'react';
+import gql from 'graphql-tag';
+import { FC, MouseEvent } from 'react';
 
 import RecipeCard from './RecipeCard';
 import { RecipesQuery, useRecipesQuery } from './RecipeList.gql';
@@ -14,7 +14,7 @@ export enum RecipeListLayout {
 
 interface RecipeListProps {
   layout?: RecipeListLayout;
-  onClick?(evt: React.MouseEvent<HTMLButtonElement>, recipe: RecipesQuery['recipes'][0]): void;
+  onClick?(evt: MouseEvent<HTMLButtonElement>, recipe: RecipesQuery['recipes'][0]): void;
 }
 
 gql`
@@ -34,8 +34,8 @@ gql`
   }
 `;
 
-const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
-  const { data, error, loading } = useRecipesQuery();
+const RecipeList: FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid, onClick }) => {
+  const [{ data, error, fetching }] = useRecipesQuery();
 
   const gridProps =
     layout === RecipeListLayout.Grid
@@ -48,7 +48,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ layout = RecipeListLayout.Grid,
           xs: 12,
         } as const);
 
-  if (loading) return <Progress />;
+  if (fetching) return <Progress />;
   if (error) return <ErrorMessage error={error} />;
 
   if (data) {

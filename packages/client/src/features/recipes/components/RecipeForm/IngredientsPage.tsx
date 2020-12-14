@@ -1,13 +1,13 @@
 import { Box, Grid } from '@material-ui/core';
 import { AddButton } from 'components/Button';
 import { TabPanel } from 'components/Tabs';
-import React from 'react';
+import { FC } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
 
-import { FormSection } from './FormSection';
+import FormSection from './FormSection';
 import IngredientRow from './IngredientRow';
 
-const IngredientsPage: React.FC = () => {
+const IngredientsPage: FC = () => {
   return (
     <TabPanel index={1}>
       <FormSection>

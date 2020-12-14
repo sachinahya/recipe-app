@@ -25,7 +25,7 @@ export default class UserService {
     return user.password == null ? false : bcrypt.compare(password, user.password.toString());
   }
 
-  async registerGoogleUser(googleId: string, email: string) {
+  async registerGoogleUser(googleId: string, email: string): Promise<User> {
     const user = (await this.getByEmail(email)) || this.userRepository.create({ email });
     user.googleId = googleId;
 

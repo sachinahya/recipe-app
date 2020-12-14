@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
 import logger from '@sachinahya/logger';
-import Container from 'typedi';
+import { Container } from 'typedi';
 
-import getShowOnRoad from './app';
+import { getShowOnRoad } from './app';
 import config from './config';
 import { CLOUD_STORAGE_SERVICE_TOKEN } from './services/contracts/CloudStorageService';
 import GoogleCloudStorageService from './services/google/GoogleCloudStorageService';

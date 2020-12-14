@@ -1,11 +1,11 @@
-import React from 'react';
+import { FC,lazy, Suspense } from 'react';
 import BlankScreen from 'screens/BlankScreen';
-const EditRecipe = React.lazy(() => import('./EditRecipe'));
+const EditRecipe = lazy(() => import('./EditRecipe'));
 
-const EditRecipeSuspense: React.FC = () => (
-  <React.Suspense fallback={<BlankScreen />}>
+const EditRecipeSuspense: FC = () => (
+  <Suspense fallback={<BlankScreen />}>
     <EditRecipe />
-  </React.Suspense>
+  </Suspense>
 );
 
 export default EditRecipeSuspense;

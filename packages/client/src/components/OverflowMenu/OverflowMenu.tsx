@@ -3,9 +3,9 @@ import { MenuItemProps } from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useModalState } from '@sachinahya/hooks';
 import { HeaderAction } from 'components/Layout';
-import React from 'react';
+import { Children, isValidElement, ReactElement, FC, cloneElement } from 'react';
 
-type OverFlowMenuChild = React.ReactElement<MenuItemProps> | null | undefined;
+type OverFlowMenuChild = ReactElement<MenuItemProps> | null | undefined;
 
 interface OverflowMenuProps {
   children: OverFlowMenuChild | OverFlowMenuChild[];
@@ -14,7 +14,7 @@ interface OverflowMenuProps {
 const menuId = 'menu-overflow-header';
 const originProps = { vertical: 'top', horizontal: 'right' } as const;
 
-const OverflowMenu: React.FC<OverflowMenuProps> = ({ children }) => {
+const OverflowMenu: FC<OverflowMenuProps> = ({ children }) => {
   const { handleClose, handleOpen, open, anchorEl } = useModalState();
 
   return (
@@ -35,16 +35,16 @@ const OverflowMenu: React.FC<OverflowMenuProps> = ({ children }) => {
         anchorOrigin={originProps}
         transformOrigin={originProps}
       >
-        {React.Children.toArray(children)
-          .filter(child => child != null)
-          .map((child: any) =>
-            React.cloneElement(child, {
-              onClick: (evt: any) => {
-                handleClose();
-                child.props.onClick?.(evt);
-              },
-            })
-          )}
+        {Children.map(children, child =>
+          isValidElement<MenuItemProps>(child)
+            ? cloneElement<MenuItemProps>(child, {
+                onClick: evt => {
+                  handleClose();
+                  child.props.onClick?.(evt);
+                },
+              })
+            : null
+        )}
       </Menu>
     </>
   );

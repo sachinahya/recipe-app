@@ -1,0 +1,2 @@
+schema: './packages/server/schema.gql'
+documents: './packages/client/**/!(*.gql).{gql,ts,tsx}'

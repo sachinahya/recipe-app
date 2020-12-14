@@ -7,7 +7,7 @@ import User from '../entities/User';
 
 export interface Context {
   user?: User;
-  login: any;
+  login: (user: User) => void;
   logout: express.Request['logout'];
 
   authenticate(

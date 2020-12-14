@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { config } from 'dotenv';
+import { join } from 'path';
+config({ path: join(__dirname, '../../.env') });
+
 import logger from '@sachinahya/logger';
 
-require('dotenv').config({ path: require('path').join(__dirname, '../../../../.env') });
-
 // Suppress messages from logger.
-jest.spyOn(logger, 'info').mockImplementation(() => null as any);
-jest.spyOn(logger, 'warn').mockImplementation(() => null as any);
-jest.spyOn(logger, 'error').mockImplementation(() => null as any);
+// TODO: Need to re-export the Logger type.
+jest.spyOn(logger, 'info').mockImplementation(() => null as never);
+jest.spyOn(logger, 'warn').mockImplementation(() => null as never);
+jest.spyOn(logger, 'error').mockImplementation(() => null as never);

@@ -1,18 +1,32 @@
 import { BottomNavigation as MuiBottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { useLayout } from 'components/Layout';
-import React from 'react';
-import styled from 'styled-components';
-import { desktopUp } from 'styles/mediaQueries';
+import { FC } from 'react';
+import { desktopUp } from 'src/styles/styleSelectors';
 
 import { NavigationProps } from './Navigation.types';
 import useNavigation from './useNavigation';
 
-const BottomNavigation: React.FC<NavigationProps> = ({ links, ...rest }) => {
+const BottomNavigation: FC<NavigationProps> = ({ links, ...rest }) => {
   const { currentRoot, navigate } = useNavigation();
   const { bottomNavVisible } = useLayout();
 
   return (
-    <nav style={{ display: bottomNavVisible ? undefined : 'none' }} {...rest}>
+    <nav
+      css={theme => ({
+        gridArea: 'footer',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: theme.zIndex.appBar,
+
+        [desktopUp(theme)]: {
+          display: 'none',
+        },
+      })}
+      style={{ display: bottomNavVisible ? undefined : 'none' }}
+      {...rest}
+    >
       <MuiBottomNavigation
         showLabels={true}
         value={currentRoot}
@@ -27,15 +41,4 @@ const BottomNavigation: React.FC<NavigationProps> = ({ links, ...rest }) => {
   );
 };
 
-export default styled(BottomNavigation)`
-  grid-area: footer;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: ${props => props.theme.zIndex.appBar};
-
-  ${desktopUp} {
-    display: none;
-  }
-`;
+export default BottomNavigation;

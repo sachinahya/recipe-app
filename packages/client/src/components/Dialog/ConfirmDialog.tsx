@@ -1,5 +1,5 @@
 import { ModalState } from '@sachinahya/hooks';
-import React from 'react';
+import { FC } from 'react';
 
 import BaseDialog from './BaseDialog';
 import { DialogProps } from './Dialog.types';
@@ -10,7 +10,7 @@ export type ConfirmDialogProps = ModalState &
     resolveText?: string;
   };
 
-const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+const ConfirmDialog: FC<ConfirmDialogProps> = ({
   cancelText = 'Cancel',
   resolveText = 'OK',
   ...props

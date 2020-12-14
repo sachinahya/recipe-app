@@ -3,9 +3,8 @@ import { useScrollRestoration } from '@sachinahya/hooks';
 import { ErrorBoundary } from 'components/Errors';
 import { useLayout } from 'components/Layout';
 import Clear from 'components/Layout/Clear';
-import React from 'react';
+import { FC, useEffect } from 'react';
 import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import { containerPadding } from 'styles/snippets';
 
 export type ScreenBaseProps<T = unknown> = RouteComponentProps<T>;
@@ -17,7 +16,7 @@ interface ScreenProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
+const Screen: FC<ScreenProps> = ({ children, title, maxWidth, padding, ...rest }) => {
   const ref = useScrollRestoration<HTMLElement>(
     'scrollPos',
     useLocation().key || '',
@@ -25,30 +24,31 @@ const Screen: React.FC<ScreenProps> = ({ children, title, maxWidth, padding, ...
   );
   const { bottomNavVisible } = useLayout();
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = title;
   }, [title]);
 
   return (
     <>
-      <main ref={ref} {...rest}>
-        <Container maxWidth={maxWidth}>
+      <main
+        css={{
+          padding: 0,
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'auto',
+          ...(padding ? containerPadding : undefined),
+        }}
+        ref={ref}
+        {...rest}
+      >
+        <MuiContainer css={{ padding: 0 }} maxWidth={maxWidth}>
           <ErrorBoundary>{children}</ErrorBoundary>
-        </Container>
+        </MuiContainer>
       </main>
       <Clear footer={bottomNavVisible} />
     </>
   );
 };
-const Container = styled(MuiContainer)`
-  padding: 0;
-`;
 
-export default styled(Screen)`
-  padding: 0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  ${props => props.padding && containerPadding}
-`;
+export default Screen;

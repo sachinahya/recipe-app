@@ -1,6 +1,10 @@
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import React, { FC, HTMLAttributes } from 'react';
+import { spacing } from 'src/styles/styleSelectors';
 
-export const FormSection = styled.div`
-  margin-bottom: ${getSpacing(4)};
-`;
+interface FormSectionProps extends HTMLAttributes<HTMLDivElement> {}
+
+const FormSection: FC<FormSectionProps> = props => (
+  <div css={theme => ({ marginBottom: spacing(4)(theme) })} {...props} />
+);
+
+export default FormSection;

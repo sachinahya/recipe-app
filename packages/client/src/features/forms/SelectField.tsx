@@ -1,12 +1,10 @@
 import SelectInput, { SelectInputProps } from 'components/SelectInput/SelectInput';
-import React from 'react';
 import { useField } from 'react-final-form';
-
 import { useFieldContext } from './FieldContext';
 
 export type SelectFieldProps<T> = SelectInputProps<T>;
 
-const SelectField = <T extends any>({ name, ...props }: SelectFieldProps<T>) => {
+const SelectField = <T extends unknown>({ name, ...props }: SelectFieldProps<T>): JSX.Element => {
   if (!name) {
     throw new Error('Name is a required prop for SelectField.');
   }
@@ -18,7 +16,7 @@ const SelectField = <T extends any>({ name, ...props }: SelectFieldProps<T>) => 
       {...contextProps}
       {...props}
       {...input}
-      onChange={(evt: any) => {
+      onChange={evt => {
         input.onChange(evt);
       }}
       error={Boolean(meta.touched && meta.error)}

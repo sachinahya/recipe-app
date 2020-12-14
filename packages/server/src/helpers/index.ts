@@ -6,7 +6,8 @@ import {
 } from 'type-graphql/dist/decorators/types';
 import { Column, ColumnOptions } from 'typeorm';
 
-export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay));
+export const sleep = (delay: number): Promise<void> =>
+  new Promise(resolve => setTimeout(resolve, delay));
 
 export type Lazy<T> = T | Promise<T>;
 
@@ -19,7 +20,7 @@ export function NullableField(
 export function NullableField(
   returnTypeFunction?: AdvancedOptions | ReturnTypeFunc,
   options?: AdvancedOptions
-) {
+): MethodAndPropDecorator {
   if (typeof returnTypeFunction != 'function') {
     return Field({
       nullable: true,
@@ -33,6 +34,6 @@ export function IDField(options?: AdvancedOptions): MethodAndPropDecorator {
   return Field(() => Int, options);
 }
 
-export function NullableColumn(options?: ColumnOptions) {
+export function NullableColumn(options?: ColumnOptions): PropertyDecorator {
   return Column({ nullable: true, ...options });
 }

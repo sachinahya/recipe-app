@@ -78,7 +78,7 @@ const createDatabaseConnection = (db: DbConfig): Promise<Connection> => {
   });
 };
 
-export default async function getShowOnRoad(config: AppConfig) {
+export const getShowOnRoad = async (config: AppConfig): Promise<void> => {
   logger.info(`isDev: ${config.isDevelopment}`);
 
   logger.info('Initializing app...');
@@ -124,6 +124,6 @@ export default async function getShowOnRoad(config: AppConfig) {
 
   if (config.db.dropSchema) {
     logger.info('Importing sample data...');
-    Container.get(RecipeImport).createRecipes();
+    await Container.get(RecipeImport).createRecipes();
   }
-}
+};

@@ -3,9 +3,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { useFile } from '@sachinahya/hooks';
 import DeleteIconButton from 'components/Button/DeleteIconButton';
 import Progress from 'components/Progress';
-import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { ChangeEvent, FC } from 'react';
+import { spacing } from 'styles/styleSelectors';
 
 import ImageSelectionCell from './ImageSelectionCell';
 import ImageSelectionOverlay from './ImageSelectionOverlay';
@@ -14,12 +13,12 @@ import { ImageSelectionType, ImageUploadStatus } from './imageSelectorReducer';
 interface ImageSelectionProps {
   type: 'url' | 'file';
   selection: ImageSelectionType;
-  handleQueueFile?(evt: React.ChangeEvent<HTMLInputElement>): void;
+  handleQueueFile?(evt: ChangeEvent<HTMLInputElement>): void;
   handleDelete?(): void;
   handleCaptionChange?(newCaption: string): void;
 }
 
-const ImageSelection: React.FC<ImageSelectionProps> = ({
+const ImageSelection: FC<ImageSelectionProps> = ({
   selection: { file, url, status, caption = '', error },
   handleQueueFile,
   handleDelete,
@@ -46,11 +45,30 @@ const ImageSelection: React.FC<ImageSelectionProps> = ({
 
   return (
     <ImageSelectionCell {...props}>
-      <ImageFigure>
+      <div
+        css={{
+          position: 'relative',
+          width: 150,
+
+          img: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          },
+        }}
+      >
         <img src={imgSrc} alt={caption} />
         {overlay}
-      </ImageFigure>
-      <ImageDescription>
+      </div>
+      <div
+        css={theme => ({
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: spacing(1)(theme),
+        })}
+      >
         <TextField
           fullWidth
           size="small"
@@ -59,41 +77,19 @@ const ImageSelection: React.FC<ImageSelectionProps> = ({
           onChange={evt => handleCaptionChange?.(evt.target.value)}
         />
         {status !== ImageUploadStatus.Uploading && (
-          <DeleteButton
+          <Button
+            css={{ marginTop: 'auto' }}
             color="primary"
             size="small"
             startIcon={<DeleteIcon />}
             onClick={handleDelete}
           >
             Delete
-          </DeleteButton>
+          </Button>
         )}
-      </ImageDescription>
+      </div>
     </ImageSelectionCell>
   );
 };
-
-const ImageFigure = styled.div`
-  position: relative;
-  width: 150px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const ImageDescription = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: ${getSpacing(1)};
-`;
-
-const DeleteButton = styled(Button)`
-  margin-top: auto;
-`;
 
 export default ImageSelection;

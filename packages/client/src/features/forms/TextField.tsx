@@ -1,6 +1,6 @@
 import { TextField as MuiTextField } from '@material-ui/core';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import React from 'react';
+import { FC } from 'react';
 import { Field } from 'react-final-form';
 
 import { useFieldContext } from './FieldContext';
@@ -10,12 +10,12 @@ export type TextFieldProps = MuiTextFieldProps & {
   name: string;
 };
 
-const TextField: React.FC<TextFieldProps> = ({ name, fast, ...props }) => {
+const TextField: FC<TextFieldProps> = ({ name, fast, ...props }) => {
   const contextProps = useFieldContext();
 
   return (
     <Field name={name}>
-      {({ input, meta }: any) => (
+      {({ input, meta }) => (
         <MuiTextField
           {...contextProps}
           {...props}

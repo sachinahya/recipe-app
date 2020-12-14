@@ -1,7 +1,7 @@
 import logger from '@sachinahya/logger';
 import { Strategy } from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import Container from 'typedi';
+import { Container } from 'typedi';
 
 import config from '../config';
 import UserService from '../services/UserService';
@@ -15,7 +15,7 @@ export enum AuthStrategies {
 const strategies: { [K in AuthStrategies]: Strategy } = {
   [AuthStrategies.Local]: new LocalStrategy((email, password, done) => {
     const userService = Container.get(UserService);
-    (async () => {
+    void (async () => {
       try {
         const foundUser = await userService.getByEmail(email);
 

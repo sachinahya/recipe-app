@@ -2,16 +2,17 @@ import logger from '@sachinahya/logger';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 import express from 'express';
 import passport from 'passport';
-import Container from 'typedi';
+import { AuthenticateOptionsGoogle } from 'passport-google-oauth20';
+import { Container } from 'typedi';
 
 import User from '../entities/User';
 import { Context } from '../resolvers/types';
 import UserService from '../services/UserService';
 import authRoutes from './auth.routes';
-import { AuthenticationResult } from './LocalStrategy';
+import { AuthenticateOptions, AuthenticationResult } from './LocalStrategy';
 import strategies, { AuthStrategies } from './strategies';
 
-export const configurePassport = (app: express.Application) => {
+export const configurePassport = (app: express.Application): void => {
   const userService = Container.get(UserService);
 
   passport.serializeUser<User, number>((user, done) => {
@@ -19,7 +20,10 @@ export const configurePassport = (app: express.Application) => {
   });
 
   passport.deserializeUser<User, number>((id, done) => {
-    userService.getById(id).then(matchingUser => done(null, matchingUser));
+    void userService
+      .getById(id)
+      .then(matchingUser => done(null, matchingUser))
+      .catch(err => done(err));
   });
 
   for (const [name, strategy] of Object.entries(strategies)) {
@@ -33,12 +37,19 @@ export const configurePassport = (app: express.Application) => {
 
 export const buildContext = ({ req, res }: ExpressContext): Context => {
   return {
-    authenticate: (strategy: AuthStrategies, options: any): Promise<AuthenticationResult> => {
+    authenticate: (
+      strategy: AuthStrategies,
+      options: AuthenticateOptions | AuthenticateOptionsGoogle
+    ): Promise<AuthenticationResult> => {
       return new Promise((resolve, reject) => {
-        passport.authenticate(strategy, options, (err, user, info) => {
-          if (err) reject(err);
-          resolve({ user, info });
-        })(req, res);
+        passport.authenticate(
+          strategy,
+          options as passport.AuthenticateOptions,
+          (err, user, info) => {
+            if (err) reject(err);
+            resolve({ user, info });
+          }
+        )(req, res);
       });
     },
     user: req.user as User,

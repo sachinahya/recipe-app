@@ -1,37 +1,56 @@
-import { LayoutContextType } from 'components/Layout';
-import { css, DefaultTheme, StyledProps } from 'styled-components';
+import { Theme } from '@emotion/react';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
-export type StyleSelector = ({ theme }: StyledProps<Record<string, unknown>>) => string;
+// export type StyleSelector = ({ theme }: StyledProps<Record<string, unknown>>) => string;
 
 const defaultDrawerWidth = 240;
 
-export const getSpacing = (s: number): StyleSelector => ({ theme }) => {
-  return `${theme.spacing(s)}px`;
+const createSelector = (selector: (props: Theme) => string): StyleSelector => {
+  return props => selector('theme' in props ? props.theme : props);
 };
 
-export const getDrawerWidth: StyleSelector = ({ theme }) => {
-  return `${theme.custom?.drawerWidth || defaultDrawerWidth}px`;
+export type StyleSelector = (props: Theme | { theme: Theme }) => string;
+
+export const getSpacing = (s: number): StyleSelector =>
+  createSelector(theme => `${theme.spacing(s)}px`);
+
+export type SpaceValue = string | number;
+
+const parseSpaceValue = (theme: Theme) => (value: string | number | undefined): string => {
+  if (value == null) return '';
+  if (typeof value == 'string') return value;
+  return value < 0 ? `-${theme.spacing(-value)}px` : `${theme.spacing(value)}px`;
 };
 
-export const getBorderRadius: StyleSelector = ({ theme }) => {
-  return `${theme.shape.borderRadius}px`;
-};
-
-export const getClearDrawer = (props: StyledProps<LayoutContextType>) => {
-  return (
-    props.drawerPermanent &&
-    css`
-      width: calc(100% - ${getDrawerWidth});
-    `
+export const spacing = (
+  m1: SpaceValue,
+  m2?: SpaceValue,
+  m3?: SpaceValue,
+  m4?: SpaceValue
+): StyleSelector =>
+  createSelector(theme =>
+    [m1, m2, m3, m4]
+      .map(parseSpaceValue(theme))
+      .filter(m => m !== '')
+      .join(' ')
   );
-};
 
-export const getClearHeaderStyles = (theme: DefaultTheme) => {
-  return {
-    '&::before': {
-      ...theme.mixins.toolbar,
-      content: '""',
-      display: 'block',
-    },
-  };
-};
+export const getDrawerWidth = createSelector(
+  theme => `${theme.custom?.drawerWidth || defaultDrawerWidth}px`
+);
+
+export const getBorderRadius = createSelector(theme => `${theme.shape.borderRadius}px`);
+
+const breakpointQuery = (direction: 'up' | 'down' | 'only') => (breakpoint: Breakpoint) =>
+  createSelector(theme => theme.breakpoints[direction](breakpoint));
+
+export const breakpointDown = breakpointQuery('down');
+export const breakpointUp = breakpointQuery('up');
+
+export const mobileUp = breakpointUp('xs');
+export const mobileDown = breakpointDown('xs');
+export const tabletUp = breakpointUp('sm');
+export const desktopUp = breakpointUp('md');
+
+// Simple alias for describing it better.
+export const drawerShown = desktopUp;

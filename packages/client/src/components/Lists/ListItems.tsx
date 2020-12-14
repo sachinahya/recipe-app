@@ -1,13 +1,9 @@
 import { Divider } from '@material-ui/core';
-import React from 'react';
+import { CSSProperties, ReactElement } from 'react';
 import { FixedSizeList } from 'react-window';
 
 interface ListItemsProps<T> {
-  children: ReactRenderProp<{
-    item: T;
-    index: number;
-    style?: React.CSSProperties;
-  }>;
+  children(props: { item: T; index: number; style?: CSSProperties }): ReactElement;
   items: T[];
   virtualized?: boolean;
   dividers?: boolean;
@@ -24,7 +20,7 @@ const ListItems = <T extends Record<string, unknown>>({
   height,
   itemSize,
   width = '100%',
-}: ListItemsProps<T>): React.ReactElement | null => {
+}: ListItemsProps<T>): ReactElement | null => {
   if (virtualized) {
     if (height == null || itemSize == null)
       throw new Error('Must specify height and itemSize props for virtualized lists.');

@@ -1,7 +1,7 @@
 import { Header } from 'components/Layout';
-import React from 'react';
+import { FC } from 'react';
 
-const BlankScreen: React.FC = () => {
+const BlankScreen: FC = () => {
   return <Header title="" />;
 };
 

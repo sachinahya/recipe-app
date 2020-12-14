@@ -1,14 +1,14 @@
-import { Table as MuiTable, TableBody,TableCell, TableHead, TableRow } from '@material-ui/core';
-import React from 'react';
+import { Table as MuiTable, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { FC } from 'react';
 
 interface TableProps {
-  rows: Dictionary<string | number | null | undefined>[];
+  rows: Record<string, string | number | null | undefined>[];
   primaryColumn?: number;
   dense?: boolean;
   skipRows?: number;
 }
 
-const Table: React.FC<TableProps> = ({ rows: rows2, primaryColumn = 0, dense, skipRows = 0 }) => {
+const Table: FC<TableProps> = ({ rows: rows2, primaryColumn = 0, dense, skipRows = 0 }) => {
   const rows = skipRows ? rows2.filter((_, index) => index >= skipRows) : rows2;
   const columns = Object.keys(rows[0]);
   const primary = columns[primaryColumn];

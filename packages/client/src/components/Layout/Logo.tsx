@@ -1,5 +1,5 @@
 import { styled, useTheme } from '@material-ui/core/styles';
-import React from 'react';
+import { FC } from 'react';
 
 const LogoImage = styled('img')(({ theme }) => ({
   ...theme.mixins.toolbar,
@@ -10,7 +10,7 @@ const LogoImage = styled('img')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-const Logo: React.FC = () => {
+const Logo: FC = () => {
   const theme = useTheme();
   const logo = theme.custom && theme.custom.logo;
   const logoAltText = theme.custom && theme.custom.logoAltText;

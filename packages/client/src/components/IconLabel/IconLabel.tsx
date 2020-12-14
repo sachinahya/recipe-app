@@ -1,30 +1,26 @@
-import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { FC, ReactElement } from 'react';
+import { spacing } from 'styles/styleSelectors';
 
 interface IconLabelProps {
-  icon: React.ReactElement;
+  icon: ReactElement;
 }
 
-const IconLabel: React.FC<IconLabelProps> = ({
-  children,
-  icon,
-
-  ...props
-}) => {
+const IconLabel: FC<IconLabelProps> = ({ children, icon, ...props }) => {
   return (
-    <span {...props}>
+    <span
+      css={theme => ({
+        display: 'inline-flex',
+        marginRight: spacing(3)(theme),
+        svg: {
+          marginRight: spacing(1)(theme),
+        },
+      })}
+      {...props}
+    >
       {icon}
       {children}
     </span>
   );
 };
 
-export default styled(IconLabel)`
-  display: inline-flex;
-  margin-right: ${getSpacing(3)};
-
-  svg {
-    margin-right: ${getSpacing(1)};
-  }
-`;
+export default IconLabel;

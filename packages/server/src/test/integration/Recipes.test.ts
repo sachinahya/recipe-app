@@ -1,18 +1,18 @@
-import ImageMeta from 'entities/ImageMeta';
-import Recipe from 'entities/Recipe';
-import User from 'entities/User';
-import CategoryRepository from 'repositories/CategoryRepository';
-import CuisineRepository from 'repositories/CuisineRepository';
-import RecipeInput from 'resolvers/inputTypes/RecipeInput';
-import { RecipeResolver } from 'resolvers/RecipeResolver';
-import { ResolverContext } from 'resolvers/types';
-import UserDataResolver from 'resolvers/UserDataResolver';
-import CloudImageService from 'services/CloudImageService';
-import { CloudStorageService } from 'services/contracts/CloudStorageService';
-import RecipeService from 'services/RecipeService';
-import UserService from 'services/UserService';
-import { user1Input, user2Input } from 'test/fixtures/users';
-import { connection, createResolverContext } from 'test/utils';
+import ImageMeta from '../../entities/ImageMeta';
+import Recipe from '../../entities/Recipe';
+import User from '../../entities/User';
+import CategoryRepository from '../../repositories/CategoryRepository';
+import CuisineRepository from '../../repositories/CuisineRepository';
+import RecipeInput from '../../resolvers/inputTypes/RecipeInput';
+import { RecipeResolver } from '../../resolvers/RecipeResolver';
+import { ResolverContext } from '../../resolvers/types';
+import UserDataResolver from '../../resolvers/UserDataResolver';
+import CloudImageService from '../../services/CloudImageService';
+import { CloudStorageService } from '../../services/contracts/CloudStorageService';
+import RecipeService from '../../services/RecipeService';
+import UserService from '../../services/UserService';
+import { user1Input, user2Input } from '../fixtures/users';
+import { connection, createResolverContext } from '../utils';
 
 class MockStorageService implements CloudStorageService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -178,7 +178,7 @@ it('adds recipes with images', async () => {
    */
   const editedRecipeImages = ((await editedRecipe.images) || []).sort(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    (img1, img2) => img1.order! - img2.order!
+    (img1, img2) => img1.order - img2.order
   );
 
   expect(editedRecipeImages.length).toEqual(2);

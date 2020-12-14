@@ -9,9 +9,6 @@ packages/server/samples
 packages/server/uploads
 packages/server/ormconfig.*
 
-# VS Code files
-.vscode
-
 # Logs
 logs
 *.log
@@ -92,6 +89,7 @@ web_modules/
 
 # Next.js build output
 .next
+out
 
 # Nuxt.js build / generate output
 .nuxt
@@ -122,8 +120,9 @@ dist
 .vscode-test
 
 # yarn v2
-
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 .pnp.*

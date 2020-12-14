@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { FC } from 'react';
 import { animated, useSpring } from 'react-spring';
 
 import Progress from './Progress';
@@ -33,10 +33,9 @@ interface ProgressOverlayProps {
   fullWidth?: boolean;
   opaque?: boolean;
   size?: number;
-  style?: any;
 }
 
-const ProgressOverlay: React.FC<ProgressOverlayProps> = ({
+const ProgressOverlay: FC<ProgressOverlayProps> = ({
   children,
   show,
   fullWidth = false,
@@ -49,7 +48,7 @@ const ProgressOverlay: React.FC<ProgressOverlayProps> = ({
     opacity: show ? 1 : 0,
   });
   return (
-    <div className={classes.wrapper} {...(restProps as any)}>
+    <div className={classes.wrapper} {...restProps}>
       <div className={classes.children}>{children}</div>
       {show && (
         <animated.div style={props}>

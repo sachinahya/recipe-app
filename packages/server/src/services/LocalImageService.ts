@@ -1,7 +1,7 @@
 import { ReadStream } from 'fs-extra';
 import path from 'path';
 import { Service } from 'typedi';
-import { Repository } from 'typeorm';
+import { FindConditions, Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { v4 as uuid } from 'uuid';
 
@@ -39,7 +39,7 @@ export default class ImageService {
   resolveUrls(images: ImageMeta[]): ImageMeta[] {
     return images.map(img => ({
       ...img,
-      url: img.url ? img.url : this.rootUrl + img.filename,
+      url: img.filename ? this.rootUrl + img.filename : img.url,
     }));
   }
 
@@ -59,7 +59,7 @@ export default class ImageService {
      * entities to the Recipe.
      */
 
-    const conditions: any = [{ recipe: null }];
+    const conditions: FindConditions<ImageMeta>[] = [{ recipe: undefined }];
 
     if (recipeId) {
       conditions.push({ recipe: { id: recipeId } });
@@ -86,7 +86,8 @@ export default class ImageService {
         throw new Error('Cannot pass a stream without specifying a mimetype.');
       }
 
-      filename = id + getExtension(mimetype);
+      const extension = getExtension(mimetype) || '';
+      filename = id + extension;
       /* const imagePath =  */ await this.storageService.save(
         stream,
         path.join(this.rootPath, filename)

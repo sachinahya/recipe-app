@@ -2,19 +2,17 @@ import AddIcon from '@material-ui/icons/Add';
 import StarIcon from '@material-ui/icons/Star';
 import { NavigationLink } from 'components/Navigation';
 import { AnimatedRouter } from 'components/Router';
-import React from 'react';
+import { FC,lazy } from 'react';
 import { Route } from 'react-router-dom';
 import EditRecipeSuspense from 'screens/EditRecipe';
 import RecipeSuspense from 'screens/Recipe';
 import RecipesSuspense from 'screens/Recipes';
 
-const NotFound = React.lazy(() => import('screens/NotFound'));
-const RegisterScreen = React.lazy(() => import('screens/RegisterScreen'));
+const NotFound = lazy(() => import('screens/NotFound'));
 
-const AppRoutes: React.FC = () => (
+const AppRoutes: FC = () => (
   <AnimatedRouter>
     <Route exact path="/" component={RecipesSuspense} />
-    <Route exact path="/register" component={RegisterScreen} />
     <Route exact path="/new" component={EditRecipeSuspense} />
     <Route exact path="/recipe/:id/edit" component={EditRecipeSuspense} />
     <Route exact path="/recipe/:id" component={RecipeSuspense} />

@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import { MenuItem } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -6,9 +7,7 @@ import { Header, HeaderAction } from 'components/Layout';
 import OverflowMenu from 'components/OverflowMenu';
 import { useCurrentUser, useLogout } from 'features/auth/hooks';
 import useOnlineStatus from 'lib/useOnlineStatus';
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-
+import { FC } from 'react';
 import { useRecipesQuery } from './RecipeList.gql';
 
 interface RecipesHeaderProps {
@@ -17,15 +16,23 @@ interface RecipesHeaderProps {
   onLayoutChange?(isGrid: boolean): void;
 }
 
-const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
+const rotateAnim = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const RecipesHeader: FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutChange }) => {
   const isOnline = useOnlineStatus();
-  const { data, refetch, loading } = useRecipesQuery({ notifyOnNetworkStatusChange: true });
+  const [{ data, fetching }, refetch] = useRecipesQuery();
   const loaded = !!data;
 
   const ViewIcon = isGrid ? ViewComfyIcon : ViewListIcon;
   const titleAccess = `Change to ${isGrid ? 'list' : 'grid'} layout`;
-
-  const refresh = () => refetch().catch(console.error);
 
   return (
     <Header
@@ -43,8 +50,12 @@ const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutCh
               )}
               {isOnline && (
                 <HeaderAction
-                  icon={loading ? <RotatingRefreshIcon /> : <RefreshIcon />}
-                  onClick={refresh}
+                  icon={
+                    <RefreshIcon
+                      css={fetching && { animation: `${rotateAnim} 2s linear infinite` }}
+                    />
+                  }
+                  onClick={() => refetch({ requestPolicy: 'network-only' })}
                   aria-label="Refresh recipes"
                 />
               )}
@@ -57,7 +68,7 @@ const RecipesHeader: React.FC<RecipesHeaderProps> = ({ title, isGrid, onLayoutCh
   );
 };
 
-const RecipesHeaderOverflowMenu: React.FC = () => {
+const RecipesHeaderOverflowMenu: FC = () => {
   const [user] = useCurrentUser();
   const [logout] = useLogout();
 
@@ -67,19 +78,5 @@ const RecipesHeaderOverflowMenu: React.FC = () => {
     </OverflowMenu>
   ) : null;
 };
-
-const rotateAnim = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const RotatingRefreshIcon = styled(RefreshIcon)`
-  animation: ${rotateAnim} 2s linear infinite;
-`;
 
 export default RecipesHeader;

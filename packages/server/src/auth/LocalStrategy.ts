@@ -20,7 +20,7 @@ interface AuthenticationInfo {
 type LocalStrategyVerifyCallback = (
   email: string,
   password: string,
-  done: (err: any, user?: User | null, info?: AuthenticationInfo) => void
+  done: (err: Error | null, user?: User | null, info?: AuthenticationInfo) => void
 ) => void;
 
 export default class LocalStrategy extends Strategy {
@@ -28,7 +28,7 @@ export default class LocalStrategy extends Strategy {
     super();
   }
 
-  authenticate(req: express.Request, options: AuthenticateOptions) {
+  authenticate(req: express.Request, options: AuthenticateOptions): void {
     try {
       this.verify(options.email, options.password, (err, user, info) => {
         if (err) return this.error(err);

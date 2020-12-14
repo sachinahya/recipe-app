@@ -23,6 +23,7 @@ export type Cuisine = {
   name: Scalars['String'];
 };
 
+
 export type ImageInput = {
   caption?: Maybe<Scalars['String']>;
   filename?: Maybe<Scalars['String']>;
@@ -71,18 +72,22 @@ export type Mutation = {
   requestUpload: SignedUploadRequest;
 };
 
+
 export type MutationAddRecipeArgs = {
   data: RecipeInput;
 };
+
 
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
+
 export type MutationRegisterArgs = {
   newUser: NewUserInput;
 };
+
 
 export type MutationRequestUploadArgs = {
   mimeType: Scalars['String'];
@@ -126,6 +131,7 @@ export type Query = {
   userCategories: Array<Category>;
   userCuisines: Array<Cuisine>;
 };
+
 
 export type QueryRecipeArgs = {
   id: Scalars['Float'];

@@ -2,9 +2,8 @@ import { Button, Typography } from '@material-ui/core';
 import { useLogin } from 'features/auth/hooks';
 import TextField from 'features/forms/TextField';
 import { Form, Formik } from 'formik';
-import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
+import { FC } from 'react';
+import { spacing } from 'styles/styleSelectors';
 import { object, string } from 'yup';
 
 const schema = object({
@@ -12,19 +11,8 @@ const schema = object({
   password: string().required(),
 });
 
-const LoginField = styled(TextField).attrs({
-  fullWidth: true,
-})`
-  margin-bottom: ${getSpacing(2)};
-`;
-
-const LoginButton = styled(Button)`
-  margin: ${getSpacing(2)} 0;
-  align-self: center;
-`;
-
-const LoginForm: React.FC = () => {
-  const [login, { error, loading }] = useLogin();
+const LoginForm: FC = () => {
+  const [login, { error, fetching }] = useLogin();
 
   return (
     <Formik
@@ -36,8 +24,22 @@ const LoginForm: React.FC = () => {
       validationSchema={schema}
     >
       <Form>
-        <LoginField fullWidth name="email" id="email" label="Email" type="email" />
-        <LoginField fullWidth name="password" id="password" label="Password" type="password" />
+        <TextField
+          css={theme => ({ marginBottom: spacing(2)(theme) })}
+          fullWidth
+          name="email"
+          id="email"
+          label="Email"
+          type="email"
+        />
+        <TextField
+          css={theme => ({ marginBottom: spacing(2)(theme) })}
+          fullWidth
+          name="password"
+          id="password"
+          label="Password"
+          type="password"
+        />
 
         {error && (
           <Typography variant="body2" color="error" align="center" gutterBottom>
@@ -45,9 +47,18 @@ const LoginForm: React.FC = () => {
           </Typography>
         )}
 
-        <LoginButton disabled={loading} size="large" variant="contained" type="submit">
+        <Button
+          css={theme => ({
+            margin: spacing(2, 0)(theme),
+            alignSelf: 'center',
+          })}
+          disabled={fetching}
+          size="large"
+          variant="contained"
+          type="submit"
+        >
           Login
-        </LoginButton>
+        </Button>
       </Form>
     </Formik>
   );

@@ -1,11 +1,11 @@
 import { IconButton, IconButtonProps } from '@material-ui/core';
-import React from 'react';
+import { FC, ReactElement } from 'react';
 
 interface HeaderActionProps extends IconButtonProps {
-  icon?: React.ReactElement;
+  icon?: ReactElement;
 }
 
-const HeaderAction: React.FC<HeaderActionProps> = ({ children, icon = children, ...props }) => {
+const HeaderAction: FC<HeaderActionProps> = ({ children, icon = children, ...props }) => {
   return (
     <IconButton color="inherit" {...props}>
       {icon}

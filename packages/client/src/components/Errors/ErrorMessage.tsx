@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React from 'react';
+import { FC } from 'react';
 
 import { ErrorBoundaryInfo } from './ErrorBoundary.types';
 
@@ -7,7 +7,7 @@ interface ErrorMessageProps extends ErrorBoundaryInfo {
   friendlyMessage?: string;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, errorInfo, friendlyMessage }) => {
+const ErrorMessage: FC<ErrorMessageProps> = ({ error, errorInfo, friendlyMessage }) => {
   const heading = (
     <Typography variant="h3" gutterBottom>
       Something went wrong!

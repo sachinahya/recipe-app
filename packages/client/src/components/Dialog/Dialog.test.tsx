@@ -1,6 +1,4 @@
-import React from 'react';
 import { render, userEvent } from 'test/utils';
-
 import AlertDialog from './AlertDialog';
 import BaseDialog from './BaseDialog';
 
@@ -68,7 +66,7 @@ describe('Alert dialog', () => {
     const button = getByRole('button');
 
     // expect(document.activeElement === button).toBeTruthy();
-    expect(button).toHaveTextContent('Got it!');
+    expect(button.textContent).toEqual('Got it!');
     userEvent.click(button);
     expect(handleClose).toBeCalledTimes(1);
   });

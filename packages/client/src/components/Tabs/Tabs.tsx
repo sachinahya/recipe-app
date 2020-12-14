@@ -1,11 +1,11 @@
 import MuiTabs, { TabsProps as MuiTabsProps } from '@material-ui/core/Tabs';
-import React from 'react';
+import { FC } from 'react';
 
 import { useTabsContext } from './TabsContext';
 
 type TabsProps = Omit<MuiTabsProps, 'value'>;
 
-const Tabs: React.FC<TabsProps> = ({ children, ...props }) => {
+const Tabs: FC<TabsProps> = ({ children, ...props }) => {
   const { enabled, current, setCurrent, getTablistProps } = useTabsContext();
 
   if (!enabled) return null;

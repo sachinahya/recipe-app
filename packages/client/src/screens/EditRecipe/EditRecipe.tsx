@@ -4,17 +4,17 @@ import { TabsProvider } from 'components/Tabs';
 import AuthBoundary from 'features/auth/components/AuthBoundary';
 import RecipeForm from 'features/recipes/components/RecipeForm';
 import { useRecipeIdParam } from 'features/recipes/hooks';
-import React from 'react';
+import { FC,useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import EditRecipeHeader from './components/EditRecipeHeader';
 
-const EditRecipe: React.FC = () => {
+const EditRecipe: FC = () => {
   const id = useRecipeIdParam({ required: false });
   const { goBack } = useHistory();
 
   const isEdit = !!id;
-  const formRef = React.useRef<HTMLFormElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const onSave = () => {
     formRef.current?.dispatchEvent(new Event('submit', { bubbles: true }));
   };

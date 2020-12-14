@@ -1,30 +1,29 @@
 import { Button } from '@material-ui/core';
-import React from 'react';
-import styled from 'styled-components';
+import { ChangeEvent, FC, useRef } from 'react';
 import { getBorderRadius } from 'styles/styleSelectors';
 
 import ImageSelectionCell from './ImageSelectionCell';
 
 export interface AddImageSelectionProps {
-  onChange(evt: React.ChangeEvent): void;
+  onChange(evt: ChangeEvent): void;
 }
 
-const AddImageSelectionCell = styled.div`
-  border: 1px dotted ${props => props.theme.palette.primary.main};
-  border-radius: ${getBorderRadius};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-const AddImageSelection: React.FC<AddImageSelectionProps> = ({ onChange }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+const AddImageSelection: FC<AddImageSelectionProps> = ({ onChange }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => inputRef.current?.click();
 
   return (
     <ImageSelectionCell>
-      <AddImageSelectionCell>
+      <div
+        css={theme => ({
+          border: `1px dotted ${theme.palette.primary.main}`,
+          borderRadius: getBorderRadius(theme),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        })}
+      >
         <input
           type="file"
           id="image-upload"
@@ -39,7 +38,7 @@ const AddImageSelection: React.FC<AddImageSelectionProps> = ({ onChange }) => {
             Add Image
           </Button>
         </label>
-      </AddImageSelectionCell>
+      </div>
     </ImageSelectionCell>
   );
 };

@@ -1,14 +1,14 @@
-import { gql } from '@apollo/client';
 import { Grid, InputAdornment } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 import { ProgressOverlay } from 'components/Progress';
 import { TabPanel } from 'components/Tabs';
 import TextField, { TextFieldProps } from 'features/forms/TextField';
-import React from 'react';
+import gql from 'graphql-tag';
+import { FC } from 'react';
 
 import ImageSelector from '../ImageSelector/ImageSelector';
 import CategoryAutocomplete from './CategoryAutocomplete';
-import { FormSection } from './FormSection';
+import FormSection from './FormSection';
 import { useUserCategoriesQuery, useUserCuisinesQuery } from './InfoPage.gql';
 
 const USER_CATEGORIES_QUERY = gql`
@@ -27,7 +27,7 @@ const USER_CUISINES_QUERY = gql`
   }
 `;
 
-const TimeField: React.FC<TextFieldProps> = props => (
+const TimeField: FC<TextFieldProps> = props => (
   <TextField
     {...props}
     helperText="Minutes"
@@ -41,9 +41,9 @@ const TimeField: React.FC<TextFieldProps> = props => (
   />
 );
 
-const InfoPage: React.FC = () => {
-  const { data: categories, loading: categoriesLoading } = useUserCategoriesQuery();
-  const { data: cuisines, loading: cuisinesLoading } = useUserCuisinesQuery();
+const InfoPage: FC = () => {
+  const [{ data: categories, fetching: categoriesLoading }] = useUserCategoriesQuery();
+  const [{ data: cuisines, fetching: cuisinesLoading }] = useUserCuisinesQuery();
 
   return (
     <TabPanel index={0}>

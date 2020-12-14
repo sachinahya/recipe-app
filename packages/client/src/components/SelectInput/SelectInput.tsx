@@ -1,14 +1,14 @@
 import { Checkbox, ListItemText, MenuItem, TextField } from '@material-ui/core';
 import { ensureArray, invariant } from '@sachinahya/utils';
-import React from 'react';
-import styled from 'styled-components';
-import { getSpacing } from 'styles/styleSelectors';
-
+import { spacing } from 'styles/styleSelectors';
 import { InputItem, SelectBaseProps } from './Select.types';
 
 export type SelectInputProps<T> = SelectBaseProps<T>;
 
-const createItems = (items: any[], formatItem?: (item: any) => InputItem): InputItem[] => {
+const createItems = <T extends unknown>(
+  items: T[],
+  formatItem?: (item: T) => InputItem
+): InputItem[] => {
   const fn =
     typeof items[0] == 'string'
       ? (item: string): InputItem => ({ label: item, value: item })
@@ -16,17 +16,17 @@ const createItems = (items: any[], formatItem?: (item: any) => InputItem): Input
 
   invariant(fn, 'formatItem needs to be specified when items is an array of objects.');
 
-  return items.map(fn);
+  return items.map(fn as (item: T) => InputItem);
 };
 
-const SelectInput = <T extends any>({
+const SelectInput = <T extends unknown>({
   items,
   formatItem,
   value,
   multiple,
   dense,
   ...props
-}: SelectInputProps<T>) => {
+}: SelectInputProps<T>): JSX.Element => {
   invariant(
     (multiple && Array.isArray(items)) || !multiple,
     'items must be an array when multiple is specified.'
@@ -50,6 +50,11 @@ const SelectInput = <T extends any>({
             .join(', ');
         },
       }}
+      css={theme => ({
+        '.MuiOutlinedInput-inputSelect': {
+          paddingRight: spacing(4)(theme),
+        },
+      })}
       {...props}
     >
       {parsedItems.map(item => {
@@ -65,10 +70,4 @@ const SelectInput = <T extends any>({
   );
 };
 
-const StyledSelectInput = styled(SelectInput)`
-  .MuiOutlinedInput-inputSelect {
-    padding-right: ${getSpacing(4)};
-  }
-`;
-
-export default StyledSelectInput;
+export default SelectInput;

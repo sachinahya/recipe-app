@@ -1,26 +1,25 @@
-import { gql } from '@apollo/client';
 import { TabPanels } from 'components/Tabs';
-import { convertToInput } from 'features/recipes/formValues';
+import { convertToInput, schema } from 'features/recipes/formValues';
+import { RecipeFieldsFragment } from 'features/recipes/fragments.gql';
 import { RecipeInput } from 'features/types.gql';
 import { setIn } from 'final-form';
 import arrayMutators from 'final-form-arrays';
-import React from 'react';
+import gql from 'graphql-tag';
+import { FC, forwardRef, RefAttributes } from 'react';
 import { Form } from 'react-final-form';
-import styled from 'styled-components';
 import { Schema, ValidationError } from 'yup';
 
 import { FieldContextProvider } from '../../../forms/FieldContext';
-import { schema } from '../../formValues';
 import InfoPage from './InfoPage';
 import IngredientsPage from './IngredientsPage';
 import {
   SaveRecipeMutation,
-  useRecipeFormDataLazyQuery,
+  useRecipeFormDataQuery,
   useSaveRecipeMutation,
 } from './RecipeForm.gql';
 import StepsPage from './StepsPage';
 
-interface RecipeFormProps extends React.RefAttributes<HTMLFormElement> {
+interface RecipeFormProps extends RefAttributes<HTMLFormElement> {
   id: number;
   onSubmitted?(recipe?: SaveRecipeMutation['addRecipe']): void;
 }
@@ -41,13 +40,6 @@ const RECIPE_FORM_DATA_QUERY = gql`
   }
 `;
 
-const StyledForm = styled('form')`
-  display: inherit;
-  flex-direction: inherit;
-  flex-grow: inherit;
-  overflow: inherit;
-`;
-
 const makeYupValidator = <T extends unknown>(schema: Schema<T>) => (
   values: T
 ): Record<string, string> | undefined => {
@@ -63,27 +55,26 @@ const makeYupValidator = <T extends unknown>(schema: Schema<T>) => (
 
 const validate = makeYupValidator(schema);
 
-const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeForm(
+const RecipeForm: FC<RecipeFormProps> = forwardRef(function RecipeForm(
   { id, onSubmitted, ...props },
   ref
 ) {
-  const [getRecipe, { data }] = useRecipeFormDataLazyQuery({
+  const [{ data: initialData }] = useRecipeFormDataQuery({
     variables: { id },
+    pause: !id,
   });
 
-  React.useEffect(() => {
-    if (id) getRecipe();
-  }, [getRecipe, id]);
-
-  const [addRecipe] = useSaveRecipeMutation();
-  const initialData = convertToInput(data?.recipe);
+  const [, addRecipe] = useSaveRecipeMutation();
+  const { __typename, ...initialRecipe } = initialData?.recipe || ({} as RecipeFieldsFragment);
+  const initialValues = convertToInput(initialRecipe);
 
   const handleSubmit = async (values: RecipeInput) => {
     try {
       const data = schema.validateSync(values);
       console.log(data);
       if (data) {
-        const { data: result } = await addRecipe({ variables: { data } });
+        const { data: result, error } = await addRecipe({ data });
+        if (error) throw error;
         onSubmitted?.(result?.addRecipe);
       }
     } catch (err) {
@@ -91,19 +82,26 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeFo
     }
   };
 
-  console.log('initialData', initialData);
-
   return (
     <Form<RecipeInput>
-      key={initialData?.id || 0}
-      initialValues={initialData}
+      key={initialRecipe.id || 0}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validate={validate}
       mutators={{ ...arrayMutators }}
       {...props}
     >
       {({ handleSubmit }) => (
-        <StyledForm onSubmit={handleSubmit} ref={ref}>
+        <form
+          css={{
+            display: 'inherit',
+            flexDirection: 'inherit',
+            flexGrow: 'inherit',
+            overflow: 'inherit',
+          }}
+          onSubmit={handleSubmit}
+          ref={ref}
+        >
           <FieldContextProvider fullWidth margin="dense">
             <TabPanels>
               <InfoPage />
@@ -111,7 +109,7 @@ const RecipeForm: React.FC<RecipeFormProps> = React.forwardRef(function RecipeFo
               <StepsPage />
             </TabPanels>
           </FieldContextProvider>
-        </StyledForm>
+        </form>
       )}
     </Form>
   );

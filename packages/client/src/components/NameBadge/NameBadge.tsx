@@ -1,5 +1,5 @@
 import { ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
-import React from 'react';
+import { FC } from 'react';
 
 import UserAvatar from '../UserAvatar';
 
@@ -8,7 +8,7 @@ interface NameBadgeProps {
   showAvatar?: boolean;
 }
 
-const NameBadge: React.FC<NameBadgeProps> = ({ name, showAvatar, ...props }) => (
+const NameBadge: FC<NameBadgeProps> = ({ name, showAvatar, ...props }) => (
   <ListItem component="div" disableGutters {...props}>
     {showAvatar && (
       <ListItemAvatar>

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { FC } from 'react';
 
 interface ClearProps {
   header?: boolean;
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Clear: React.FC<ClearProps> = ({ header, tabs, footer }) => {
+const Clear: FC<ClearProps> = ({ header, tabs, footer }) => {
   const { clearHeader, clearTabs, clearFooter } = useStyles();
   return (
     <>
